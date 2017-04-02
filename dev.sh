@@ -15,6 +15,7 @@ YELLOW='\e[0;33m'
 export PROJ_BASE="$(realpath $(dirname ${BASH_SOURCE[0]}))"
 echo $PROJ_BASE
 CD=$(pwd)
+STATIC_DIR=$PROJ_BASE/../evolutio_django/core/static/
 
 
 function devhelp {
@@ -50,7 +51,6 @@ function frontbuild {
 
 function copy2www {
     frontbuild
-    STATIC_DIR=$PROJ_BASE/../evolutio_django/core/static/
     mkdir -p $STATIC_DIR
     cp -Rf dist/* $STATIC_DIR
     return $exitcode

@@ -22,8 +22,8 @@ function authenticate(username, password){
 }
 
 function init(){
-    if(window.EVOLUTIO && window.EVOLUTIO.logged_user){
-        this.logged_user = window.EVOLUTIO.logged_user;
+    if(window.APP && window.APP.logged_user){
+        this.logged_user = window.APP.logged_user;
         this.state = 'LOGGED';
     } else {
         this.state = 'UNKNOWN';
