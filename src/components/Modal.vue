@@ -4,7 +4,7 @@
     <div class="modal-card">
       <header class="modal-card-head">
         <slot name="title">
-          <p class="modal-card-title">a {{title}}</p>
+          <p class="modal-card-title">{{title}}</p>
         </slot>
         <button class="delete" @click="$emit('close')"></button>
       </header>

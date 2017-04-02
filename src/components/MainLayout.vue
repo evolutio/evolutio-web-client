@@ -1,6 +1,6 @@
 <template>
   <div id="main" :class="{'sidebar-active': show_sidebar}">
-    <TopNavbar></TopNavbar>
+    <TopNavbar @menutoggle="toggle_sidebar()"></TopNavbar>
 
     <aside id="sidebar" class="menu app-sidebar animated">
       <p class="menu-label">
@@ -44,12 +44,6 @@ export default {
 </style>
 
 <style scoped lang="scss">
-  .app-navbar {
-      position: fixed;
-      min-width: 100%;
-      z-index: 1024;
-      box-shadow: 0 2px 3px hsla(0,0%,7%,.1),0 0 0 1px hsla(0,0%,7%,.1)
-  }
   .app-main {
       padding-top: 50px;
       margin-left: 180px;
@@ -89,41 +83,4 @@ export default {
       }
   }
 
-  .app-navbar .container {
-      margin: auto 10px
-  }
-
-  .app-navbar .nav-right {
-      -ms-flex-align: stretch;
-      align-items: stretch;
-      -ms-flex: 1;
-      flex: 1;
-      -ms-flex-pack: end;
-      justify-content: flex-end;
-      overflow: hidden;
-      overflow-x: auto;
-      white-space: nowrap
-  }
-
-  .app-sidebar .icon {
-      vertical-align: baseline
-  }
-
-  .app-sidebar .icon.is-angle {
-      position: absolute;
-      right: 10px;
-      transition: transform .377s ease
-  }
-
-  .app-sidebar .menu-label {
-      padding-left: 5px
-  }
-
-  .app-sidebar .menu-list li a[aria-expanded=true] .is-angle {
-      transform: rotate(180deg)
-  }
-
-  .app-sidebar .menu-list li a+ul {
-      margin: 0 10px 0 15px
-  }
 </style>
