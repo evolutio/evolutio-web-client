@@ -2,14 +2,16 @@
 import Vue from 'vue'
 import App from './App.vue'
 import VueRouter from 'vue-router'
-import Todo from './components/Todo.vue'
-import Issues from './components/Issues.vue'
+import Home from 'src/components/home/Home.vue'
+import Course from 'src/components/course/Course.vue'
+import Profile from 'src/components/profile/Profile.vue'
 
 Vue.use(VueRouter);
 const routes = [
-  // { path: '/todo', component: {template: '<div><Todo></Todo></div>'} },
-  { path: '/todo', component: Todo },
-  { path: '/issues', component: Issues },
+  { path: '/', component: Home, name: 'home'},
+  { path: '/curso/:code', component: Course, name: 'course'},
+  { path: '/perfil', component: Profile, name: 'profile'},
+  { path: '*', redirect: '/' }
 ];
 const router = new VueRouter({routes})
 
@@ -17,6 +19,6 @@ const router = new VueRouter({routes})
 new Vue({
   el: '#app',
   router: router,
-  components: {Todo},
+  components: {},
   render: h => h(App)
 })

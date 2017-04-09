@@ -6,22 +6,13 @@
           <a class="nav-item is-hidden-tablet" @click="$emit('menutoggle')">
             <i aria-hidden="true" class="fa fa-bars"></i>
           </a>
-          <router-link class="nav-item" :to="{name: 'home'}">evolutio</router-link>
+          <a href="#" class="nav-item"></a>
         </div>
         <div class="nav-center">
-          <a href="#" class="nav-item">
-            <div aria-label="v0.1.9" class="is-hidden-mobile tooltip tooltip--right tooltip--success tooltip--small tooltip--rounded tooltip--always tooltip--no-animate">
-              <span class="vue">Teste</span>
-              <strong class="admin">Sidebar</strong>
-            </div>
-          </a>
-          <a href="#" class="nav-item">
-            Meio
-          </a>
+          <a href="#" class="nav-item"></a>
         </div> 
         <div class="nav-right is-flex">
-          <a v-if="AuthSvc.state == 'NOT_LOGGED'" href="#" class="nav-item" @click="show_login()">Login</a>
-          <a v-if="AuthSvc.state == 'LOGGED'" href="#" class="nav-item">{{AuthSvc.logged_user.username}}</a>
+          <a href="#" class="nav-item"></a>
         </div>
       </nav>
     </div>
@@ -29,19 +20,13 @@
 </template>
 
 <script>
-import LoginModal from './LoginModal.vue'
-import AuthSvc from 'src/services/AuthSvc.js'
 
 export default {
   data () {
     return {
-      AuthSvc,
     }
   },
   methods: {
-    show_login(){
-      LoginModal.data().show();
-    }
   },
 }
 

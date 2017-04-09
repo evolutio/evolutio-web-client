@@ -1,13 +1,13 @@
 <template>
-  <MainLayout :menuitems="menuitems">
+  <DocsMainLayout :menuitems="menuitems">
     <router-view></router-view>
-  </MainLayout>
+  </DocsMainLayout>
 </template>
 
 <script>
 import VueRouter from 'vue-router'
 import Vue from 'vue'
-import MainLayout from 'src/components/MainLayout.vue'
+import DocsMainLayout from './DocsMainLayout.vue'
 import DocsRegistry from './docs-registry'
 
 export default {
@@ -20,13 +20,14 @@ export default {
       menuitems: [
         {
             icon: 'tachometer', 
-            label: 'Dashboard', 
+            label: 'Components', 
+            expanded: true,
             children: children,
         }
       ],
     }
   },
-  components: {MainLayout}
+  components: {DocsMainLayout}
 }
 </script>
 
