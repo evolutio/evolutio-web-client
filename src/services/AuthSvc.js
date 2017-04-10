@@ -5,6 +5,7 @@ export default {
     logged_user: null,
     init,
     authenticate,
+    logout,
 };
 
 function authenticate(username, password){
@@ -37,4 +38,11 @@ function init(){
             }
         });
     }
+}
+
+function logout(){
+    return AppApi.logout().then(()=>{
+        this.state = 'NOT_LOGGED';
+        this.logged_user = null;
+    });
 }

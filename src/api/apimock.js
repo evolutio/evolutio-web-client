@@ -9,6 +9,7 @@ export default {
     list_courses: _mockasync(list_courses),
     get_course: _mockasync(get_course),
     login: _mockasync(login),
+    logout: _mockasync(logout),
     whoami: _mockasync(whoami),
 };
 
@@ -86,6 +87,11 @@ function login(username, password){
     }
     return logged_user;
 }
+
+function logout(){
+    logged_user = null;
+}
+
 
 function whoami(){
     return logged_user ? {

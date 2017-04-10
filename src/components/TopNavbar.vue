@@ -21,7 +21,17 @@
         </div> 
         <div class="nav-right is-flex">
           <a v-if="AuthSvc.state == 'NOT_LOGGED'" href="#" class="nav-item" @click="show_login()">Login</a>
-          <a v-if="AuthSvc.state == 'LOGGED'" href="#" class="nav-item">{{AuthSvc.logged_user.username}}</a>
+          <div v-if="AuthSvc.state == 'LOGGED'" class="dropdown">
+            <a class="nav-item" @click="toggledrop = !toggledrop">{{AuthSvc.logged_user.username}}</a>
+            <div class="box" :class="{'is-open': toggledrop}">
+              <ul class="menu-list">
+                <li>
+                  <router-link :to="{name: 'profile'}"><span class="icon is-small"><i class="fa fa-user"></i></span> Perfil</router-link>
+                </li>
+                <li><a @click="logout()"><span class="icon is-small"><i class="fa fa-sign-out"></i></span> Logout</a></li>
+              </ul>
+            </div>
+          </div>
         </div>
       </nav>
     </div>
@@ -36,11 +46,15 @@ export default {
   data () {
     return {
       AuthSvc,
+      toggledrop: false,
     }
   },
   methods: {
     show_login(){
       LoginModal.data().show();
+    },
+    logout(){
+      AuthSvc.logout();
     }
   },
 }
@@ -66,5 +80,24 @@ export default {
       overflow: hidden;
       overflow-x: auto;
       white-space: nowrap
+  }
+
+  .dropdown {
+    // position: relative;
+    // display: inline-block;
+
+    .box{
+      box-shadow: 0 0 8px #777;
+      display: none;
+      left: 0;
+      position: absolute;
+      top: 100%;
+      z-index: 9999;
+
+      &.is-open {
+        display: block;
+      }
+    }
+
   }
 </style>
