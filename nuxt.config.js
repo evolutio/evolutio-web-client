@@ -7,7 +7,8 @@ module.exports = {
   },
   plugins: ['~plugins/vuetify.js'],
   css: [
-    { src: join(__dirname, 'css/app.styl'), lang: 'styl' }
+    { src: join(__dirname, 'css/app.styl'), lang: 'styl' },
+    'assets/main.css'
   ],
   head: {
     link: [

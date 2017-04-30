@@ -11,9 +11,11 @@
 import axios from 'axios';
 
 export default {
-  name: 'GithubProfile',
   asyncData (context) {
-    console.log('asyncData!')
+
+    //TODO: Esse github aqui nao tem nada a ver
+    //TODO: Implementar autenticacao direito. Investigar o middleware do nuxt.
+
     return axios.get('https://api.github.com/users/tonylampada').then((response) => {
         return {user: response.data}
     });
