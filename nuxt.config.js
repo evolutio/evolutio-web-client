@@ -3,7 +3,12 @@ const { join } = require('path')
 
 module.exports = {
   build: {
-    vendor: ['vuetify']
+    vendor: ['vuetify'],
+    // analyze: true,
+    extend (config, context){
+      home = config.resolve.alias['~']
+      config.resolve.alias['~apijs'] = home + '/components/api/' + (context.dev ? 'apimock.js' : 'api.js');
+    }
   },
   plugins: ['~plugins/vuetify.js'],
   css: [

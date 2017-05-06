@@ -3,13 +3,11 @@
     <v-content>
       <v-container fluid>
 
-
         <v-card class="ma-5">
           <v-card-text>
             <h2>Evolutio - descubra o poder da programação.</h2>
           </v-card-text>
         </v-card>
-
 
         <v-card id="course-list" class="ma-5">
           <v-toolbar class="light-blue">
@@ -30,14 +28,6 @@
           </v-list>
         </v-card>
 
-<!--         <div class="title">
-          <h2>Main content</h2>
-          <router-link :to="'/profile'">AAA profile</router-link>
-          <v-btn primary>Primary button</v-btn>
-          <v-btn secondary>Secondary button</v-btn>
-          <v-btn success>Success button</v-btn>
-        </div>
- -->      
       </v-container>
     </v-content>
   </main>
@@ -45,8 +35,7 @@
 
 <script>
 
-//TODO: importar isso aqui de um alias sem ../../../../../..
-import AppApi from '../components/api/apimock.js'
+import AppApi from '~apijs'
 
 export default {
   asyncData(ctx) {

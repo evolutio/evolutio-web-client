@@ -14,8 +14,7 @@
 
 <script>
 
-//TODO: importar isso aqui de um alias sem ../../../../../..
-import AppApi from '../../../components/api/apimock.js'
+import AppApi from '~apijs'
 
 export default {
   asyncData (context) {

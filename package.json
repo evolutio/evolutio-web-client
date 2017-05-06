@@ -8,6 +8,7 @@
   "scripts": {
     "dev": "nuxt",
     "build": "nuxt build",
+    "analyze": "nuxt build --analyze",
     "start": "nuxt start"
   },
   "devDependencies": {
