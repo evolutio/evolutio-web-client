@@ -7,6 +7,7 @@
         <h3>{{course.description}}</h3>
       </v-card-text>
     </v-card>
+    <button @click=go()>Go</button>
 
 
   </main>
@@ -26,5 +27,12 @@ export default {
     return {
     };
   },
+  methods: {
+    go(){
+      AppApi.list_courses().then((response) => {
+        console.log(response);
+      });
+    }
+  }
 }
 </script>

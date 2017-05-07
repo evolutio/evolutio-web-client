@@ -45,7 +45,8 @@ export default {
   },
   data(){
     return {
-    }      
+      courses: [],
+    }
   },
   methods: {
     go_to_course(course){
