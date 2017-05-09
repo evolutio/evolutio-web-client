@@ -9,6 +9,9 @@ module.exports = {
       config.resolve.alias['~apijs'] = home + '/components/api/' + (context.dev ? 'apimock.js' : 'api.js');
     }
   },
+  router: {
+    middleware: 'auth',
+  },
   plugins: ['~plugins/vuetify.js'],
   css: [
     { src: join(__dirname, 'css/app.styl'), lang: 'styl' },

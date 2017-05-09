@@ -8,6 +8,7 @@
       </v-card-text>
     </v-card>
     <button @click=go()>Go</button>
+    <button @click=g()>G</button>
 
 
   </main>
@@ -16,6 +17,7 @@
 <script>
 
 import AppApi from '~apijs'
+import Vuex from 'vuex'
 
 export default {
   asyncData (context) {
@@ -27,11 +29,17 @@ export default {
     return {
     };
   },
+  computed: Vuex.mapGetters([
+    'r'
+  ]),
   methods: {
     go(){
       AppApi.list_courses().then((response) => {
         console.log(response);
       });
+    },
+    g(){
+      console.log(this.r)
     }
   }
 }
