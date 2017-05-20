@@ -5,12 +5,13 @@ module.exports = {
   build: {
     vendor: ['vuetify'],
     extend (config, context){
-      home = config.resolve.alias['~']
-      config.resolve.alias['~apijs'] = home + '/components/api/' + (context.dev ? 'apimock.js' : 'api.js');
+      home = config.resolve.alias['~'];
+      // config.resolve.alias['~apijs'] = home + '/components/api/' + (context.dev ? 'apimock.js' : 'api.js');
+      config.resolve.alias['~apijs'] = home + '/components/api/' + (context.dev ? 'api.js' : 'api.js');
     }
   },
   router: {
-    middleware: 'auth',
+    middleware: ['fwdcookies', 'auth'],
   },
   plugins: ['~plugins/vuetify.js'],
   css: [

@@ -30,7 +30,7 @@ export default {
     };
   },
   computed: Vuex.mapGetters([
-    'r'
+    'logged_user'
   ]),
   methods: {
     go(){
@@ -39,7 +39,7 @@ export default {
       });
     },
     g(){
-      console.log(this.r)
+      console.log(this.logged_user)
     }
   }
 }

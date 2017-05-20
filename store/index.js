@@ -1,15 +1,15 @@
 export const state = {
-  r: null
+    logged_user: {}
 }
 
 export const mutations = {
-  SET_R (state, r) {
-    state.r = r
-  }
+    SET_LOGGED_USER (state, logged_user) {
+        state.logged_user = logged_user
+    }
 }
 
 export const getters = {
-  r (state) {
-    return state.r
+  logged_user (state) {
+    return state.logged_user
   },
 }
