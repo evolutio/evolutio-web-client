@@ -6,8 +6,8 @@ module.exports = {
     vendor: ['vuetify'],
     extend (config, context){
       home = config.resolve.alias['~'];
-      // config.resolve.alias['~apijs'] = home + '/components/api/' + (context.dev ? 'apimock.js' : 'api.js');
-      config.resolve.alias['~apijs'] = home + '/components/api/' + (context.dev ? 'api.js' : 'api.js');
+      config.resolve.alias['~apijs'] = home + '/components/api/' + (context.dev ? 'apimock.js' : 'api.js');
+      // config.resolve.alias['~apijs'] = home + '/components/api/' + (context.dev ? 'api.js' : 'api.js');
     }
   },
   router: {

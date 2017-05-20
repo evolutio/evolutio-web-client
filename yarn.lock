@@ -3891,9 +3891,9 @@ vue@^2.2.0, vue@^2.2.6:
   version "2.2.6"
   resolved "https://registry.yarnpkg.com/vue/-/vue-2.2.6.tgz#451714b394dd6d4eae7b773c40c2034a59621aed"
 
-vuetify@0.9.4:
-  version "0.9.4"
-  resolved "https://registry.yarnpkg.com/vuetify/-/vuetify-0.9.4.tgz#10e3ad8fa4e6ef7b5f9e9eafb26846a067792b16"
+vuetify@0.11.1:
+  version "0.11.1"
+  resolved "https://registry.yarnpkg.com/vuetify/-/vuetify-0.11.1.tgz#6dc73fee09e8da676f4c8f815f0b89a5a1f95c01"
   dependencies:
     vue "^2.2.0"
 

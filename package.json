@@ -3,7 +3,7 @@
   "dependencies": {
     "axios": "^0.16.1",
     "nuxt": "0.10",
-    "vuetify": "0.9.4"
+    "vuetify": "0.11.1"
   },
   "scripts": {
     "dev": "nuxt",
