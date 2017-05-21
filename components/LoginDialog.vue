@@ -1,0 +1,71 @@
+<template>
+  <div>
+    <button @click="go()">GO</button>
+    <v-dialog v-model="visible">
+      <v-card>
+        <v-card-row>
+          <v-card-title>Log in</v-card-title>
+        </v-card-row>
+        <v-card-row>
+          <v-card-text>
+            <v-container fluid>
+              <v-text-field label="Username" required v-model="username"/>
+              <v-text-field label="Password" type="password" required v-model="password" @keyup.native.enter="login()"/>
+              <small style="color: red;" v-if="error">Usuário ou senha inválido</small>
+            </v-container>
+          </v-card-text>
+        </v-card-row>
+        <v-card-row actions>
+          <v-btn class="blue--text darken-1" flat @click.native="close()">Cancelar</v-btn>
+          <v-btn class="blue--text darken-1" flat @click.native="login()" :loading="loading" :disabled="loading">Login</v-btn>
+        </v-card-row>
+      </v-card>
+    </v-dialog>
+  </div>
+</template>
+
+<script>
+
+import AppApi from '~apijs'
+
+export default {
+  data () {
+    console.log('data');
+    return {
+      visible: false,
+      loading: false,
+      username: '',
+      password: '',
+      error: false,
+    };
+  },
+  methods: {
+    open(){
+      this.visible = true;
+      console.log('Open');
+    },
+    close(){
+      this.visible = false;
+      console.log('Close');
+    },
+    login(){
+      this.loading = true;
+      this.error = false;
+      AppApi.login(this.username, this.password).then((result)=>{
+        var user = result.data;
+        if(user){
+          this.$store.commit('SET_LOGGED_USER', user);
+          this.visible = false;
+          console.log('logged')
+        } else {
+          this.error = true;
+        }
+        this.loading = false;
+      });
+    },
+    go(){
+      console.log(this.visible)
+    }
+  },
+}
+</script>
