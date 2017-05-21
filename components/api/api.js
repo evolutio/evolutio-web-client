@@ -5,6 +5,7 @@ axios.defaults.xsrfCookieName = "csrftoken";
 
 export default {
     login: login,
+    logout: logout,
     whoami: whoami,
     list_courses: list_courses,
     get_course: get_course,
@@ -12,6 +13,10 @@ export default {
 
 function login(username, password){
     return post('/api/login', {username: username, password: password});
+}
+
+function logout(){
+    return post('/api/logout');
 }
 
 function whoami(){
@@ -32,6 +37,7 @@ function get(url, params){
 
 function post(url, params){
     var fd = new FormData();
+    params = params || {}
     Object.keys(params).map((k) => {
         fd.append(k, params[k]);
     })
