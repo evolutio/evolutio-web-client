@@ -1,6 +1,5 @@
 <template>
   <div>
-    <button @click="go()">GO</button>
     <v-dialog v-model="visible">
       <v-card>
         <v-card-row>

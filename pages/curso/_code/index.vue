@@ -1,16 +1,45 @@
 <template>
   <main>
+    <v-content>
+      <v-container fluid>
 
-    <v-card class="ma-5">
-      <v-card-text>
-        <h2>{{course.name}}</h2>
-        <h3>{{course.description}}</h3>
-      </v-card-text>
-    </v-card>
-    <button @click=go()>Go</button>
-    <button @click=g()>G</button>
+        <v-card class="mx-5">
+          <v-card-media src="/images/desert.jpg" height="200px">
+          </v-card-media>
+          <v-card-title primary-title>
+            <div>
+              <h3 class="headline mb-0">{{course.name}}</h3>
+              <div>{{course.description}}</div>
+            </div>
+          </v-card-title>
+          <!-- <v-card-actions>
+            <v-btn flat class="orange--text">Share</v-btn>
+            <v-btn flat class="orange--text">Explore</v-btn>
+          </v-card-actions> -->
+        </v-card>
 
+        <v-card id="content-list" class="mx-5 ma-3">
+          <v-toolbar class="light-blue">
+            <v-toolbar-title>Conteúdo</v-toolbar-title>
+          </v-toolbar>
+          <v-list two-line subheader>
+            <v-list-item v-for="content in course.contents" :key="content.id">
+              <v-list-tile avatar>
+                <v-list-tile-avatar>
+                  <v-icon class="grey white--text">ondemand_video</v-icon>
+                </v-list-tile-avatar>
+                <v-list-tile-content>
+                  <v-list-tile-title @click="open_content(content, $event)">{{ content.name }}</v-list-tile-title>
+                  <!-- <v-list-tile-sub-title>{{ course.description }}</v-list-tile-sub-title> -->
+                </v-list-tile-content>
+              </v-list-tile>
+            </v-list-item>
+          </v-list>
+        </v-card>
 
+      </v-container>
+    </v-content>
+    <YoutubeDialog></YoutubeDialog>
   </main>
 </template>
 
@@ -18,6 +47,7 @@
 
 import AppApi from '~apijs'
 import Vuex from 'vuex'
+import YoutubeDialog from '~components/YoutubeDialog.vue'
 
 export default {
   asyncData (context) {
@@ -33,14 +63,11 @@ export default {
     'logged_user'
   ]),
   methods: {
-    go(){
-      AppApi.list_courses().then((response) => {
-        console.log(response);
-      });
+    open_content(content, evt){
+      YoutubeDialog.data().open(content);
+      evt.stopPropagation();
     },
-    g(){
-      console.log(this.logged_user)
-    }
-  }
+  },
+  components: {YoutubeDialog},
 }
 </script>
