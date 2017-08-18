@@ -40,6 +40,7 @@
       </v-container>
     </v-content>
     <YoutubeDialog></YoutubeDialog>
+    <FacebookComments></FacebookComments>
   </main>
 </template>
 
@@ -48,6 +49,7 @@
 import AppApi from '~apijs'
 import Vuex from 'vuex'
 import YoutubeDialog from '~components/YoutubeDialog.vue'
+import FacebookComments from '~components/FacebookComments.vue'
 
 export default {
   asyncData (context) {
@@ -60,7 +62,7 @@ export default {
     };
   },
   computed: Vuex.mapGetters([
-    'logged_user'
+    'logged_user',
   ]),
   methods: {
     open_content(content, evt){
@@ -68,6 +70,6 @@ export default {
       evt.stopPropagation();
     },
   },
-  components: {YoutubeDialog},
+  components: {YoutubeDialog, FacebookComments},
 }
 </script>

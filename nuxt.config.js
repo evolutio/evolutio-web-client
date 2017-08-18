@@ -11,9 +11,12 @@ module.exports = {
     }
   },
   router: {
-    middleware: ['fwdcookies', 'auth'],
+    middleware: ['fwdcookies', 'auth', 'ctxdata'],
   },
-  plugins: ['~plugins/vuetify.js'],
+  plugins: [
+    '~plugins/vuetify.js', 
+    {src: '~plugins/fb-sdk.js', ssr: false},
+  ],
   css: [
     { src: join(__dirname, 'css/app.styl'), lang: 'styl' },
     'assets/main.css'

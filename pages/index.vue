@@ -30,12 +30,14 @@
 
       </v-container>
     </v-content>
+    <FacebookComments></FacebookComments>
   </main>
 </template>
 
 <script>
 
 import AppApi from '~apijs'
+import FacebookComments from '~components/FacebookComments.vue'
 
 export default {
   asyncData(ctx) {
@@ -52,7 +54,8 @@ export default {
     go_to_course(course){
       // this.
     }
-  }
+  },
+  components: {FacebookComments},
 }
 </script>
 
