@@ -37,7 +37,7 @@
 <script>
 
 import AppApi from '~apijs'
-import FacebookComments from '~components/FacebookComments.vue'
+import FacebookComments from '~/components/FacebookComments.vue'
 
 export default {
   asyncData(ctx) {

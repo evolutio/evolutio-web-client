@@ -48,8 +48,8 @@
 
 import AppApi from '~apijs'
 import Vuex from 'vuex'
-import YoutubeDialog from '~components/YoutubeDialog.vue'
-import FacebookComments from '~components/FacebookComments.vue'
+import YoutubeDialog from '~/components/YoutubeDialog.vue'
+import FacebookComments from '~/components/FacebookComments.vue'
 
 export default {
   asyncData (context) {

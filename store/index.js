@@ -1,15 +1,20 @@
-export const state = {
-    logged_user: {},
-}
+import Vuex from 'vuex'
 
-export const mutations = {
-    SET_LOGGED_USER (state, logged_user) {
-        state.logged_user = logged_user
-    },
-}
+const store = () => new Vuex.Store({
 
-export const getters = {
-  logged_user (state) {
-    return state.logged_user
+  state: {
+    logged_user: {}
   },
-}
+  mutations: {
+    SET_LOGGED_USER(state, logged_user) {
+      state.logged_user = logged_user
+    }
+  },
+  getters: {
+    logged_user(state) {
+      return state.logged_user
+    }
+  }
+})
+
+export default store

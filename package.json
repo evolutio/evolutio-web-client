@@ -2,7 +2,7 @@
   "name": "with-vuetify",
   "dependencies": {
     "axios": "^0.16.1",
-    "nuxt": "0.10.6",
+    "nuxt": "1.0.0-rc4",
     "vue": "^2.3.4",
     "vuetify": "0.14.3"
   },

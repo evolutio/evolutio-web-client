@@ -32,7 +32,7 @@
 
 import Vuex from 'vuex'
 import AppApi from '~apijs'
-import LoginDialog from '~components/LoginDialog.vue'
+import LoginDialog from '~/components/LoginDialog.vue'
 
 export default {
   computed: Vuex.mapGetters([
