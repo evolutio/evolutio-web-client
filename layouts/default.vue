@@ -1,9 +1,9 @@
 <template>
   <v-app>
     <v-toolbar>
-      <v-toolbar-title @click="go_home()">evolutio.io</v-toolbar-title>
+      <v-toolbar-title @click="go_home()">evolutio</v-toolbar-title>
       <v-toolbar-items>
-        <v-btn flat dark ripple v-if="!logged_user" @click.native="open_login_dialog($event)">Login</v-btn>
+        <!-- <v-btn flat dark ripple v-if="!logged_user" @click="open_login_dialog($event)">Login</v-btn> -->
         <v-menu v-if="logged_user" bottom left offset-y origin="top right" transition="v-slide-y-transition">
           <v-btn flat dark ripple slot="activator">
             {{logged_user.username}}
@@ -15,7 +15,7 @@
               </v-list-tile>
             </v-list-item>
             <v-list-item>
-              <v-list-tile @click.native="logoff()">
+              <v-list-tile @click="logoff()">
                 <v-list-tile-title v-text="'Log off'"></v-list-tile-title>
               </v-list-tile>
             </v-list-item>

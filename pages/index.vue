@@ -15,7 +15,7 @@
           </v-toolbar>
           <v-list two-line subheader>
             <v-list-item v-for="course in courses" :key="course.code">
-              <v-list-tile avatar :router="true" :href="{name: 'curso-code', params:{code: course.code}}">
+              <v-list-tile avatar :router="true" :to="{name: 'curso-code', params:{code: course.code}}">
                 <v-list-tile-avatar>
                   <v-icon class="grey white--text">folder</v-icon>
                 </v-list-tile-avatar>

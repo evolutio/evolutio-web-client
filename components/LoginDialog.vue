@@ -9,14 +9,14 @@
           <v-card-text>
             <v-container fluid>
               <v-text-field label="Username" required v-model="username"/>
-              <v-text-field label="Password" type="password" required v-model="password" @keyup.native.enter="login()"/>
+              <v-text-field label="Password" type="password" required v-model="password" @keyup.enter="login()"/>
               <small style="color: red;" v-if="error">Usuário ou senha inválido</small>
             </v-container>
           </v-card-text>
         </v-card-row>
         <v-card-row actions>
-          <v-btn class="blue--text darken-1" flat @click.native="close()">Cancelar</v-btn>
-          <v-btn class="blue--text darken-1" flat @click.native="login()" :loading="loading" :disabled="loading">Login</v-btn>
+          <v-btn class="blue--text darken-1" flat @click="close()">Cancelar</v-btn>
+          <v-btn class="blue--text darken-1" flat @click="login()" :loading="loading" :disabled="loading">Login</v-btn>
         </v-card-row>
       </v-card>
     </v-dialog>
