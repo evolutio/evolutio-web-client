@@ -6,7 +6,7 @@
           <v-card-title>{{content.name}}</v-card-title>
         </v-card-row>
         <v-card-text>
-          <iframe id="ytplayer" :src="iframe_src" width="640" height="480" frameborder="0"/></iframe>
+          <iframe id="ytplayer" :src="iframe_src" width="640" height="480" frameborder="0" allowfullscreen="allowfullscreen"/></iframe>
         </v-card-text>
        
       </v-card>

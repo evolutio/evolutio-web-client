@@ -1,9 +1,8 @@
 <template>
   <main>
-    <v-content>
-      <v-container fluid>
-
-        <v-card class="mx-5">
+    <!-- <v-content> -->
+      <v-container fluid class="main-content">
+        <v-card>
           <v-card-media src="/images/desert.jpg" height="200px">
           </v-card-media>
           <v-card-title primary-title>
@@ -12,35 +11,42 @@
               <div>{{course.description}}</div>
             </div>
           </v-card-title>
-          <!-- <v-card-actions>
-            <v-btn flat class="orange--text">Share</v-btn>
-            <v-btn flat class="orange--text">Explore</v-btn>
-          </v-card-actions> -->
         </v-card>
 
-        <v-card id="content-list" class="mx-5 ma-3">
-          <v-toolbar class="light-blue">
-            <v-toolbar-title>Conteúdo</v-toolbar-title>
-          </v-toolbar>
-          <v-list two-line subheader>
-            <v-list-item v-for="content in course.contents" :key="content.id">
-              <v-list-tile avatar>
-                <v-list-tile-avatar>
-                  <v-icon class="grey white--text">ondemand_video</v-icon>
-                </v-list-tile-avatar>
-                <v-list-tile-content>
-                  <v-list-tile-title @click="open_content(content, $event)">{{ content.name }}</v-list-tile-title>
-                  <!-- <v-list-tile-sub-title>{{ course.description }}</v-list-tile-sub-title> -->
-                </v-list-tile-content>
-              </v-list-tile>
-            </v-list-item>
-          </v-list>
-        </v-card>
-
+        <v-tabs v-model="active" class="my-3">
+          <v-tabs-bar slot="activators" class="tabs-bar">
+            <v-tabs-item key="material" href="#material" ripple>
+              Material
+            </v-tabs-item>
+            <v-tabs-item key="discussao" href="#discussao" ripple>
+              Discussão
+            </v-tabs-item>
+            <v-tabs-slider class="red"></v-tabs-slider>
+          </v-tabs-bar>
+          <!-- <v-card class="my-3"> -->
+            <v-tabs-content key="material" id="material">
+              <v-list two-line subheader>
+                <v-list-item v-for="content in course.contents" :key="content.id">
+                  <v-list-tile avatar>
+                    <v-list-tile-avatar>
+                      <v-icon class="grey white--text">ondemand_video</v-icon>
+                    </v-list-tile-avatar>
+                    <v-list-tile-content>
+                      <v-list-tile-title @click="open_content(content, $event)">{{ content.name }}</v-list-tile-title>
+                      <!-- <v-list-tile-sub-title>{{ course.description }}</v-list-tile-sub-title> -->
+                    </v-list-tile-content>
+                  </v-list-tile>
+                </v-list-item>
+              </v-list>
+            </v-tabs-content>
+          <!-- </v-card> -->
+          <v-tabs-content key="discussao" id="discussao">
+            <FacebookComments></FacebookComments>
+          </v-tabs-content>
+        </v-tabs>
       </v-container>
-    </v-content>
+    <!-- </v-content> -->
     <YoutubeDialog></YoutubeDialog>
-    <FacebookComments></FacebookComments>
   </main>
 </template>
 
@@ -59,6 +65,7 @@ export default {
   },
   data () {
     return {
+      active: 'material',
     };
   },
   computed: Vuex.mapGetters([
@@ -73,3 +80,13 @@ export default {
   components: {YoutubeDialog, FacebookComments},
 }
 </script>
+
+<style scoped >
+  .main-content{
+    max-width: 900px
+  }
+  .tabs-bar{
+    background-color: white;
+  }
+
+</style>

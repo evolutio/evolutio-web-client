@@ -1,7 +1,7 @@
 <template>
   <v-app>
     <v-toolbar>
-      <v-toolbar-title @click="go_home()">evolutio</v-toolbar-title>
+      <v-toolbar-title @click="go_home()" class="toolbar-title">evolutio</v-toolbar-title>
       <v-toolbar-items>
         <!-- <v-btn flat dark ripple v-if="!logged_user" @click="open_login_dialog($event)">Login</v-btn> -->
         <v-menu v-if="logged_user" bottom left offset-y origin="top right" transition="v-slide-y-transition">
@@ -59,3 +59,12 @@ export default {
   }
 }
 </script>
+
+<style scoped lanc="scss">
+  .toolbar-title {
+    font-family: arial;
+    font-size: 28px;
+    font-weight: bold;
+    color: #006fcf;
+  }
+</style>

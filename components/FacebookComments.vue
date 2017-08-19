@@ -23,11 +23,9 @@ export default {
   },
   methods: {
     onFBReady() {
-    debugger
       this.initializefb();
     },
     initializefb(){
-      debugger;
       if(Vue.FB && !this.ready){
         console.log('initializefb')
         window.FB = Vue.FB;
