@@ -8,14 +8,26 @@ import Vuex from 'vuex'
 import Vue from 'vue'
 
 export default {
-  computed: Vuex.mapGetters([
-    'location',
-  ]),
+  // computed: Vuex.mapGetters([
+  //   'location',
+  // ]),
+  // computed: {
+  //   location(){
+  //     var s = window.location.host+this.$nuxt.$route.fullPath; 
+  //     console.log('location = '+s);
+  //     return s;
+  //   }
+  // },
   data: function () {
-    return {ready: false}
+    return {
+      ready: false,
+      location: '',
+    }
   },
   mounted: function () {
     debugger
+    this.location = window.location.host+this.$nuxt.$route.fullPath; 
+    console.log('location = '+this.location);
     this.initializefb();
     window.addEventListener('fb-sdk-ready', this.onFBReady);
   },
