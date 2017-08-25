@@ -26,6 +26,8 @@ function _coursedb(){
             name: 'ng-masters - AngularJS na prática',
             teachers: 'Tony Lâmpada',
             description: 'Este curso vai mostrar ao aluno através de exemplos práticos que é possível criar aplicações complexas usando código simples e modularizado.',
+            icon: '/images/angular.jpg',
+            banner: '/images/angular_banner.png',
             contents: [
                 { kind: 'youtube', ref: '-gL0Hbk74i4', name: 'Step 1'},
                 { kind: 'youtube', ref: 'CqUkoLKQ0dY', name: 'Steps 2 e 3'},
@@ -41,6 +43,7 @@ function _coursedb(){
             name: 'CSS - agora vai!',
             teachers: 'Luiz Otávio',
             description: 'Supere a barreira inicial do CSS criando layouts bonitos, funcionais e responsivos.',
+            icon: '/images/css.png',
             contents: [
                 { kind: 'youtube', ref: '-gL0Hbk74i4', name: 'Step 1'},
                 { kind: 'youtube', ref: 'CqUkoLKQ0dY', name: 'Steps 2 e 3'},
@@ -56,6 +59,7 @@ function _coursedb(){
             name: 'Python para Zumbis',
             teachers: 'Prof. Masanori',
             description: 'Descubra o poder da programação mergulhando no mundo desta linguagem simples e poderosa.',
+            icon: '/images/python.png',
             contents: [
                 { kind: 'youtube', ref: '-gL0Hbk74i4', name: 'Step 1'},
                 { kind: 'youtube', ref: 'CqUkoLKQ0dY', name: 'Steps 2 e 3'},

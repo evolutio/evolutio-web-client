@@ -3,7 +3,7 @@
     <!-- <v-content> -->
       <v-container fluid class="main-content">
         <v-card>
-          <v-card-media src="/images/desert.jpg" height="200px">
+          <v-card-media :src="bannersrc" height="200px">
           </v-card-media>
           <v-card-title primary-title>
             <div>
@@ -68,9 +68,13 @@ export default {
       active: 'material',
     };
   },
-  computed: Vuex.mapGetters([
+  computed: Object.assign({
+    bannersrc(){
+      return this.course.banner || '/images/desert.jpg';
+    }
+  }, Vuex.mapGetters([
     'logged_user',
-  ]),
+  ])),
   methods: {
     open_content(content, evt){
       YoutubeDialog.data().open(content);

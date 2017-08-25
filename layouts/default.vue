@@ -1,5 +1,5 @@
 <template>
-  <v-app>
+  <v-app class="app">
     <v-toolbar>
       <v-toolbar-title @click="go_home()" class="toolbar-title">evolutio</v-toolbar-title>
       <v-toolbar-items>
@@ -66,5 +66,8 @@ export default {
     font-size: 28px;
     font-weight: bold;
     color: #006fcf;
+  }
+  .app {
+    /*max-width: 900px;*/
   }
 </style>
