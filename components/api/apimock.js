@@ -44,6 +44,7 @@ function _coursedb(){
             teachers: 'Luiz Otávio',
             description: 'Supere a barreira inicial do CSS criando layouts bonitos, funcionais e responsivos.',
             icon: '/images/css.png',
+            banner: '/images/css_banner.jpg',
             contents: [
                 { kind: 'youtube', ref: '-gL0Hbk74i4', name: 'Step 1'},
                 { kind: 'youtube', ref: 'CqUkoLKQ0dY', name: 'Steps 2 e 3'},
@@ -60,6 +61,7 @@ function _coursedb(){
             teachers: 'Prof. Masanori',
             description: 'Descubra o poder da programação mergulhando no mundo desta linguagem simples e poderosa.',
             icon: '/images/python.png',
+            banner: '/images/python_banner.jpg',
             contents: [
                 { kind: 'youtube', ref: '-gL0Hbk74i4', name: 'Step 1'},
                 { kind: 'youtube', ref: 'CqUkoLKQ0dY', name: 'Steps 2 e 3'},
