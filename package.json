@@ -4,7 +4,7 @@
     "axios": "^0.16.1",
     "nuxt": "1.0.0-rc4",
     "vue": "^2.3.4",
-    "vuetify": "0.14.3"
+    "vuetify": "0.15.2"
   },
   "scripts": {
     "dev": "nuxt",
