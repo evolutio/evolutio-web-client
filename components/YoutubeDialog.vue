@@ -43,10 +43,11 @@ export default {
       return 'http://www.youtube.com/embed/'+this.content.ref+'?autoplay=1';
     },
     sizes(){
+      var w = Math.min(670, parseInt(.9 * this.$vuetify.breakpoint.width))
       return {
-        ifrw: this.$vuetify.breakpoint.mdAndUp ? 640 : this.$vuetify.breakpoint.smAndUp ? 320 : 160,
-        ifrh: this.$vuetify.breakpoint.mdAndUp ? 480 : this.$vuetify.breakpoint.smAndUp ? 240 : 120,
-        diaw: this.$vuetify.breakpoint.mdAndUp ? 670 : this.$vuetify.breakpoint.smAndUp ? 350 : 190,
+        ifrw: w - 30,
+        ifrh: parseInt(.75 * (w - 30)),
+        diaw: w,
       }
     }
   },

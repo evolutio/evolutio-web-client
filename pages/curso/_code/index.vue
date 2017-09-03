@@ -14,7 +14,7 @@
         </v-card>
 
         <v-tabs v-model="active" class="my-3">
-          <v-tabs-bar slot="activators" class="tabs-bar">
+          <v-tabs-bar class="tabs-bar">
             <v-tabs-item key="material" href="#material" ripple>
               Material
             </v-tabs-item>
@@ -44,6 +44,7 @@
             <FacebookComments></FacebookComments>
           </v-tabs-content>
         </v-tabs>
+
       </v-container>
     <!-- </v-content> -->
     <YoutubeDialog></YoutubeDialog>
@@ -66,6 +67,9 @@ export default {
   data () {
     return {
       active: 'material',
+      tabs: ['tab-1', 'tab-2', 'tab-3'],
+      nactive: null,
+      text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.'
     };
   },
   computed: Object.assign({
