@@ -2,9 +2,11 @@
   <v-app class="app">
     <v-toolbar>
       <v-toolbar-title ><router-link class="toolbar-title" to="/">evolutio</router-link></v-toolbar-title>
+      <v-spacer></v-spacer>
       <v-toolbar-items>
-        <!-- <v-btn flat dark ripple v-if="!logged_user" @click="open_login_dialog($event)">Login</v-btn> -->
-        <!-- <v-menu v-if="logged_user" bottom left offset-y origin="top right" transition="v-slide-y-transition">
+
+        <v-btn flat dark ripple v-if="!logged_user" @click="open_login_dialog($event)">Login</v-btn>
+        <v-menu v-if="logged_user" bottom left offset-y origin="top right" transition="v-slide-y-transition">
           <v-btn flat dark ripple slot="activator">
             {{logged_user.username}}
           </v-btn>
@@ -20,10 +22,10 @@
               </v-list-tile>
             </v-list-item>
           </v-list>
-        </v-menu> -->
+        </v-menu>
       </v-toolbar-items>
     </v-toolbar>
-    <LoginDialog ref="login_dialog"></LoginDialog>
+    <LoginDialogSocial ref="login_dialog"></LoginDialogSocial>
     <nuxt></nuxt>
   </v-app>
 </template>
@@ -32,13 +34,13 @@
 
 import Vuex from 'vuex'
 import AppApi from '~apijs'
-import LoginDialog from '~/components/LoginDialog.vue'
+import LoginDialogSocial from '~/components/LoginDialogSocial.vue'
 
 export default {
   computed: Vuex.mapGetters([
     'logged_user'
   ]),
-  components: {LoginDialog},
+  components: {LoginDialogSocial},
   data(){
     return {
     }
