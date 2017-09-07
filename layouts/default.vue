@@ -1,10 +1,10 @@
 <template>
   <v-app class="app">
     <v-toolbar>
-      <v-toolbar-title @click="go_home()" class="toolbar-title">evolutio</v-toolbar-title>
+      <v-toolbar-title ><router-link class="toolbar-title" to="/">evolutio</router-link></v-toolbar-title>
       <v-toolbar-items>
         <!-- <v-btn flat dark ripple v-if="!logged_user" @click="open_login_dialog($event)">Login</v-btn> -->
-        <v-menu v-if="logged_user" bottom left offset-y origin="top right" transition="v-slide-y-transition">
+        <!-- <v-menu v-if="logged_user" bottom left offset-y origin="top right" transition="v-slide-y-transition">
           <v-btn flat dark ripple slot="activator">
             {{logged_user.username}}
           </v-btn>
@@ -20,7 +20,7 @@
               </v-list-tile>
             </v-list-item>
           </v-list>
-        </v-menu>
+        </v-menu> -->
       </v-toolbar-items>
     </v-toolbar>
     <LoginDialog ref="login_dialog"></LoginDialog>
@@ -45,7 +45,8 @@ export default {
   },
   methods: {
     go_home(){
-      this.$router.go({name: 'index'});
+      this.$router.go('/');
+      console.log('yo')
     },
     open_login_dialog(evt){
       this.$refs.login_dialog.open();
@@ -66,6 +67,7 @@ export default {
     font-size: 28px;
     font-weight: bold;
     color: #006fcf;
+    text-decoration: initial;
   }
   .app {
     /*max-width: 900px;*/
