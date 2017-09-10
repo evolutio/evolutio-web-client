@@ -4,11 +4,12 @@ var logged_user = null;
 var _COURSEDB = _coursedb();
 
 export default {
-    list_courses: _mockasync(list_courses),
-    get_course: _mockasync(get_course),
     login: _mockasync(login),
     logout: _mockasync(logout),
     whoami: _mockasync(whoami),
+    list_courses: _mockasync(list_courses),
+    get_course: _mockasync(get_course),
+    save_perfil: _mockasync(save_perfil),
 };
 
 function list_courses(){
@@ -79,7 +80,9 @@ function login(username, password){
     if(password){
         logged_user = {
             username: username,
-            name: username,
+            first_name: 'João',
+            email: 'my@email.com',
+            notifications_enabled: true,
             permissions:{
                 ADMIN: false,
                 STAFF: false,
@@ -99,6 +102,11 @@ function whoami(){
         authenticated: true,
         user: logged_user,
     } : {authenticated: false};
+}
+
+function save_perfil(user2save){
+    Object.assign(logged_user, user2save);
+    return logged_user;
 }
 
 function _mockasync(f){

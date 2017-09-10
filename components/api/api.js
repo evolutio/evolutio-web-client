@@ -4,15 +4,27 @@ axios.defaults.xsrfHeaderName = "X-CSRFToken";
 axios.defaults.xsrfCookieName = "csrftoken";
 
 export default {
-    login: login,
-    logout: logout,
-    whoami: whoami,
-    list_courses: list_courses,
-    get_course: get_course,
+    login,
+    logout,
+    whoami,
+    list_courses,
+    get_course,
+    save_perfil,
 };
 
 function login(username, password){
     return post('/api/login', {username: username, password: password});
+}
+
+function social_login(provider){
+    var url = {
+        'google': '/login/google-oauth2',
+        'facebook': '/login/facebook',
+        'github': '/login/github',
+    }[provider]
+    if(url){
+        window.location = url
+    }
 }
 
 function logout(){
@@ -30,6 +42,11 @@ function list_courses(){
 function get_course(code){
     return get('/api/get_course', {code: code});
 }
+
+function save_perfil(user){
+    return post('/api/save_perfil', {user: JSON.stringify(user)});
+}
+
 
 function get(url, params){
     return axios.get(url, {params: params});

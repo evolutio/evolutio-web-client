@@ -12,7 +12,7 @@
           </v-btn>
           <v-list>
             <v-list-item >
-              <v-list-tile :router="true" :href="{name: 'perfil'}">
+              <v-list-tile :router="true" :to="{name: 'perfil'}">
                 <v-list-tile-title v-text="'Perfil'"></v-list-tile-title>
               </v-list-tile>
             </v-list-item>
@@ -25,7 +25,9 @@
         </v-menu>
       </v-toolbar-items>
     </v-toolbar>
-    <LoginDialogSocial ref="login_dialog"></LoginDialogSocial>
+    <LoginDialogSocial ref="login_dialog_social"></LoginDialogSocial>
+    <LoginDialog ref="login_dialog"></LoginDialog>
+    <v-snackbar bottom right v-model="toasts_model.visible" :timeout="toasts_model.timeout">{{toasts_model.text}}</v-snackbar>
     <nuxt></nuxt>
   </v-app>
 </template>
@@ -35,12 +37,21 @@
 import Vuex from 'vuex'
 import AppApi from '~apijs'
 import LoginDialogSocial from '~/components/LoginDialogSocial.vue'
+import LoginDialog from '~/components/LoginDialog.vue'
+import Toasts from '~/components/Toasts.js'
 
 export default {
-  computed: Vuex.mapGetters([
-    'logged_user'
-  ]),
-  components: {LoginDialogSocial},
+  computed: Object.assign(
+    {
+      toasts_model() {
+        return Toasts.model
+      },
+    },
+    Vuex.mapGetters([
+      'logged_user'
+    ])
+  ),
+  components: {LoginDialogSocial, LoginDialog},
   data(){
     return {
     }
@@ -51,7 +62,11 @@ export default {
       console.log('yo')
     },
     open_login_dialog(evt){
-      this.$refs.login_dialog.open();
+      if(process.env.NODE_ENV == 'production'){
+        this.$refs.login_dialog_social.open();
+      } else {
+        this.$refs.login_dialog.open();
+      }
       evt.stopPropagation();
     },
     logoff(){

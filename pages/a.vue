@@ -41,6 +41,12 @@ export default {
   },
   methods: {
     pau(){
+      console.log(process.env);
+      debugger
+      console.log(process.env.PIPOCA);
+      console.log(process.env.BASE_URL);
+      console.log(process.env.PATH);
+      console.log(process.env.NODE_ENV);
       throw new Error('deu pau');
     }
   }

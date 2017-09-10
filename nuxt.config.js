@@ -1,12 +1,20 @@
 
 const { join } = require('path')
 
+function _apijs(context){
+  var mock = context.dev;
+  if('API_MOCK' in process.env){
+    mock = process.env.API_MOCK == '1';
+  }
+  return mock ? 'apimock.js' : 'api.js';
+}
+
 module.exports = {
   build: {
     vendor: ['vuetify'],
     extend (config, context){
       home = config.resolve.alias['~'];
-      config.resolve.alias['~apijs'] = home + '/components/api/' + (context.dev ? 'apimock.js' : 'api.js');
+      config.resolve.alias['~apijs'] = home + '/components/api/' + _apijs(context);
     }
   },
   router: {
@@ -36,5 +44,8 @@ module.exports = {
       { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css?family=Roboto' },
       { rel: 'stylesheet', href: 'https://fonts.googleapis.com/icon?family=Material+Icons' }
     ]
+  },
+  env: {
+    PIPOCA: process.env.PATH,
   }
 }

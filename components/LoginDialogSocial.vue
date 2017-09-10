@@ -40,24 +40,6 @@ export default {
       this.visible = false;
       console.log('Close');
     },
-    login(){
-      this.loading = true;
-      this.error = false;
-      AppApi.login(this.username, this.password).then((result)=>{
-        var user = result.data;
-        if(user){
-          this.$store.commit('SET_LOGGED_USER', user);
-          this.visible = false;
-          console.log('logged')
-        } else {
-          this.error = true;
-        }
-        this.loading = false;
-      });
-    },
-    go(){
-      console.log(this.visible)
-    }
   },
 }
 </script>
