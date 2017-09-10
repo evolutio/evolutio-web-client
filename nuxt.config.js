@@ -1,20 +1,17 @@
 
 const { join } = require('path')
 
-function _apijs(context){
-  var mock = context.dev;
-  if('API_MOCK' in process.env){
-    mock = process.env.API_MOCK == '1';
-  }
-  return mock ? 'apimock.js' : 'api.js';
-}
+const _apimock = process.env.API_MOCK == '1' || (process.env.API_MOCK == undefined && process.env.npm_lifecycle_event == 'dev')
+const _apijs = _apimock ? 'apimock.js' : 'api.js';
+
+console.log('_apimock = '+_apimock)
 
 module.exports = {
   build: {
     vendor: ['vuetify'],
     extend (config, context){
       home = config.resolve.alias['~'];
-      config.resolve.alias['~apijs'] = home + '/components/api/' + _apijs(context);
+      config.resolve.alias['~apijs'] = home + '/components/api/' + _apijs;
     }
   },
   router: {
@@ -46,6 +43,7 @@ module.exports = {
     ]
   },
   env: {
-    PIPOCA: process.env.PATH,
+    API_MOCK: _apimock ? '1' : '0',
+    PIPOCA: 'ajhhhh'
   }
 }

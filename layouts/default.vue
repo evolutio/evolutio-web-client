@@ -62,10 +62,10 @@ export default {
       console.log('yo')
     },
     open_login_dialog(evt){
-      if(process.env.NODE_ENV == 'production'){
-        this.$refs.login_dialog_social.open();
-      } else {
+      if(process.env.API_MOCK == '1'){  // nao adianta inspecionar process.env no debug. so dando print
         this.$refs.login_dialog.open();
+      } else {
+        this.$refs.login_dialog_social.open();
       }
       evt.stopPropagation();
     },
