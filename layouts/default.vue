@@ -8,7 +8,7 @@
         <v-btn flat dark ripple v-if="!logged_user" @click="open_login_dialog($event)">Login</v-btn>
         <v-menu v-if="logged_user" bottom left offset-y origin="top right" transition="v-slide-y-transition">
           <v-btn flat dark ripple slot="activator">
-            {{logged_user.username}}
+            {{logged_user.first_name}}
           </v-btn>
           <v-list>
             <v-list-item >
