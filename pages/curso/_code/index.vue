@@ -85,6 +85,17 @@ export default {
       evt.stopPropagation();
     },
   },
+  head(){
+    return {
+      meta: [
+        {property: 'og:url', content: 'http://evolutio.io/curso/'+this.course.code},
+        {property: 'og:type', content: 'video.tv_show'},
+        {property: 'og:title', content: this.course.name},
+        {property: 'og:description', content: this.course.description},
+        {property: 'og:image', content: 'http://evolutio.io'+this.bannersrc},
+      ]
+    }
+  },
   components: {YoutubeDialog, FacebookComments},
 }
 </script>

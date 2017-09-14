@@ -52,6 +52,17 @@ export default {
   },
   methods: {
   },
+  head(){
+    return {
+      meta: [
+        {property: 'og:url', content: 'http://evolutio.io/'},
+        {property: 'og:type', content: 'website'},
+        {property: 'og:title', content: 'evolutio - Aprenda tudo o que você vai usar no mundo real'},
+        {property: 'og:description', content: 'O conteúdo com a qualidade que você precisa, em um só lugar.'},
+        {property: 'og:image', content: 'http://evolutio.io/images/minecraft.png'},
+      ]
+    }
+  },
 }
 </script>
 
