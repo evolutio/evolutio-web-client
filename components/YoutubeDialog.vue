@@ -2,9 +2,7 @@
   <div>
     <v-dialog lazy v-model="visible" :width="sizes.diaw">
       <v-card v-if="visible && content">
-        <v-card-row>
-          <v-card-title>{{content.name}}</v-card-title>
-        </v-card-row>
+        <v-card-title>{{content.name}}</v-card-title>
         <v-card-text>
           <iframe id="ytplayer" :src="iframe_src" :width="sizes.ifrw" :height="sizes.ifrh" frameborder="0" allowfullscreen="allowfullscreen"/></iframe>
         </v-card-text>

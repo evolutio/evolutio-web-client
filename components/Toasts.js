@@ -9,6 +9,7 @@ function show(text, options){
     model.text = text;
     Object.assign(model, options);
     model.visible = true;
+    console.log('show toast');
 }
 
 export default {

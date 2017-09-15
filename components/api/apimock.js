@@ -10,6 +10,7 @@ export default {
     list_courses: _mockasync(list_courses),
     get_course: _mockasync(get_course),
     save_perfil: _mockasync(save_perfil),
+    admin_send_mail: _mockasync(admin_send_mail),
 };
 
 function list_courses(){
@@ -107,6 +108,10 @@ function whoami(){
 function save_perfil(user2save){
     Object.assign(logged_user, user2save);
     return logged_user;
+}
+
+function admin_send_mail(subject, body){
+    return {};
 }
 
 function _mockasync(f){

@@ -1,7 +1,5 @@
 <template>
   <main>
-
-
     <v-layout row wrap>
       <v-flex xs12 sm8 offset-sm2 class="px-2 pt-5">
         <v-card>
@@ -15,9 +13,7 @@
               <v-switch label="Receber novidades sobre o conteúdo da evolutio" v-model="user.notifications_enabled"/>
             </v-container>
           </v-card-text>
-          <v-card-row actions>
-            <v-btn class="blue--text darken-1" flat @click="save()" :loading="saving" :disabled="saving">Salvar</v-btn>
-          </v-card-row>
+          <v-btn class="blue--text darken-1" flat @click="save()" :loading="saving" :disabled="saving">Salvar</v-btn>
         </v-card>
       </v-flex>
     </v-layout>
@@ -41,7 +37,6 @@ export default {
         notifications_enabled: false,
       },
       saving: false,
-      show_toast: false,
     };
   },
   methods: {
@@ -63,7 +58,6 @@ export default {
     }
   },
   mounted(){
-    debugger;
     this.user = Object.assign({}, this.$store.getters.logged_user)
   }
 }

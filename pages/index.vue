@@ -15,8 +15,7 @@
               <v-toolbar-title>Cursos</v-toolbar-title>
             </v-toolbar>
             <v-list three-line subheader>
-              <v-list-item v-for="course in courses" :key="course.code">
-                <v-list-tile avatar :router="true" :to="{name: 'curso-code', params:{code: course.code}}">
+                <v-list-tile v-for="course in courses" :key="course.code" :router="true" :to="{name: 'curso-code', params:{code: course.code}}">
                   <v-list-tile-avatar>
                     <img v-if="course.icon" :src="course.icon">
                     <v-icon v-if="!course.icon" class="grey white--text">folder</v-icon>
@@ -26,7 +25,6 @@
                     <v-list-tile-sub-title>{{ course.description }}</v-list-tile-sub-title>
                   </v-list-tile-content>
                 </v-list-tile>
-              </v-list-item>
             </v-list>
           </v-card>
         </v-flex>
@@ -55,7 +53,7 @@ export default {
   head(){
     return {
       meta: [
-        {property: 'og:url', content: 'http://evolutio.io/'},
+        {property: 'og:url', content: 'http://evolutio.io'},
         {property: 'og:type', content: 'website'},
         {property: 'og:title', content: 'evolutio - Aprenda tudo o que você vai usar no mundo real'},
         {property: 'og:description', content: 'O conteúdo com a qualidade que você precisa, em um só lugar.'},

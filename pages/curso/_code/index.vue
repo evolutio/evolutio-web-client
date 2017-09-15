@@ -26,17 +26,15 @@
           <!-- <v-card class="my-3"> -->
             <v-tabs-content key="material" id="material">
               <v-list two-line subheader>
-                <v-list-item v-for="content in course.contents" :key="content.id">
-                  <v-list-tile avatar>
-                    <v-list-tile-avatar>
-                      <v-icon class="grey white--text">ondemand_video</v-icon>
-                    </v-list-tile-avatar>
-                    <v-list-tile-content>
-                      <v-list-tile-title @click="open_content(content, $event)">{{ content.name }}</v-list-tile-title>
-                      <!-- <v-list-tile-sub-title>{{ course.description }}</v-list-tile-sub-title> -->
-                    </v-list-tile-content>
-                  </v-list-tile>
-                </v-list-item>
+                <v-list-tile v-for="content in course.contents" :key="content.id">
+                  <v-list-tile-avatar>
+                    <v-icon class="grey white--text">ondemand_video</v-icon>
+                  </v-list-tile-avatar>
+                  <v-list-tile-content>
+                    <v-list-tile-title @click="open_content(content, $event)">{{ content.name }}</v-list-tile-title>
+                    <!-- <v-list-tile-sub-title>{{ course.description }}</v-list-tile-sub-title> -->
+                  </v-list-tile-content>
+                </v-list-tile>
               </v-list>
             </v-tabs-content>
           <!-- </v-card> -->

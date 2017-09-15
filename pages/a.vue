@@ -1,32 +1,7 @@
 <template>
   <main>
-    <button @click="pau()">AAAAAAA</button>
-    <!-- <v-container fluid class="main-content"> -->
-      <v-tabs dark v-model="active">
-        <v-tabs-bar class="cyan">
-          <v-tabs-item
-            v-for="tab in tabs"
-            :key="tab"
-            :href="'#' + tab"
-            ripple
-          >
-            Item {{ tab.slice(-1) }}
-          </v-tabs-item>
-          <v-tabs-slider class="yellow"></v-tabs-slider>
-        </v-tabs-bar>
-        <v-tabs-items>
-          <v-tabs-content
-            v-for="tab in tabs"
-            :key="tab"
-            :id="tab"
-          >
-            <v-card flat>
-              <v-card-text>{{ text }}</v-card-text>
-            </v-card>
-          </v-tabs-content>
-        </v-tabs-items>
-      </v-tabs>
-    <!-- </v-container> -->
+    <input type="text" v-model="code">
+    <button @click="vai()">AAAAAAA</button>
   </main>
 </template>
 
@@ -34,20 +9,25 @@
 export default {
   data () {
     return {
-      tabs: ['tab-1', 'tab-2', 'tab-3'],
-      active: null,
-      text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.'
+      code: '',
     }
   },
   methods: {
-    pau(){
-      console.log(process.env);
-      debugger
-      console.log(process.env.PIPOCA);
-      console.log(process.env.BASE_URL);
-      console.log(process.env.PATH);
-      console.log(process.env.NODE_ENV);
-      throw new Error('deu pau');
+    vai(){
+      var isOpenLightbox = PagSeguroLightbox({
+          code: this.code
+      }, {
+          success : function(transactionCode) {
+              alert("success - " + transactionCode);
+          },
+          abort : function() {
+              alert("abort");
+          }
+      });
+      // Redirecionando o cliente caso o navegador não tenha suporte ao Lightbox
+      if (!isOpenLightbox){
+          window.location.href="https://pagseguro.uol.com.br/v2/checkout/payment.html?code="+code;
+      }
     }
   }
 }

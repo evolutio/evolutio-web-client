@@ -10,6 +10,7 @@ export default {
     list_courses,
     get_course,
     save_perfil,
+    admin_send_mail,
 };
 
 function login(username, password){
@@ -47,6 +48,9 @@ function save_perfil(user){
     return post('/api/save_perfil', {user: JSON.stringify(user)});
 }
 
+function admin_send_mail(subject, body){
+    return post('/api/admin_send_mail', {subject: subject, body: body});
+}
 
 function get(url, params){
     return axios.get(url, {params: params});

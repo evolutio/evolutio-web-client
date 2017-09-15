@@ -11,16 +11,12 @@
             {{logged_user.first_name}}
           </v-btn>
           <v-list>
-            <v-list-item >
-              <v-list-tile :router="true" :to="{name: 'perfil'}">
-                <v-list-tile-title v-text="'Perfil'"></v-list-tile-title>
-              </v-list-tile>
-            </v-list-item>
-            <v-list-item>
-              <v-list-tile @click="logoff()">
-                <v-list-tile-title v-text="'Log off'"></v-list-tile-title>
-              </v-list-tile>
-            </v-list-item>
+            <v-list-tile :router="true" :to="{name: 'perfil'}">
+              <v-list-tile-title v-text="'Perfil'"></v-list-tile-title>
+            </v-list-tile>
+            <v-list-tile @click="logoff()">
+              <v-list-tile-title v-text="'Log off'"></v-list-tile-title>
+            </v-list-tile>
           </v-list>
         </v-menu>
       </v-toolbar-items>
@@ -28,6 +24,7 @@
     <LoginDialogSocial ref="login_dialog_social"></LoginDialogSocial>
     <LoginDialog ref="login_dialog"></LoginDialog>
     <v-snackbar bottom right v-model="toasts_model.visible" :timeout="toasts_model.timeout">{{toasts_model.text}}</v-snackbar>
+    <span></span>
     <nuxt></nuxt>
   </v-app>
 </template>
