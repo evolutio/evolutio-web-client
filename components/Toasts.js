@@ -1,18 +1,11 @@
-var model = {
-    text: '',
-    visible: false,
-    timeout: 1000,
-};
+import Events from '~/components/Events.js'
 
 function show(text, options){
     options = options || {};
-    model.text = text;
-    Object.assign(model, options);
-    model.visible = true;
-    console.log('show toast');
+    options.text = text;
+    Events.publish('toast', options)
 }
 
 export default {
-    model,
     show,
 }

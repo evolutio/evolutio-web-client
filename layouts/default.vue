@@ -24,7 +24,6 @@
     <LoginDialogSocial ref="login_dialog_social"></LoginDialogSocial>
     <LoginDialog ref="login_dialog"></LoginDialog>
     <v-snackbar bottom right v-model="toasts_model.visible" :timeout="toasts_model.timeout">{{toasts_model.text}}</v-snackbar>
-    <span></span>
     <nuxt></nuxt>
   </v-app>
 </template>
@@ -35,15 +34,11 @@ import Vuex from 'vuex'
 import AppApi from '~apijs'
 import LoginDialogSocial from '~/components/LoginDialogSocial.vue'
 import LoginDialog from '~/components/LoginDialog.vue'
-import Toasts from '~/components/Toasts.js'
+import Events from '~/components/Events.js'
 
 export default {
   computed: Object.assign(
-    {
-      toasts_model() {
-        return Toasts.model
-      },
-    },
+    {},
     Vuex.mapGetters([
       'logged_user'
     ])
@@ -51,7 +46,17 @@ export default {
   components: {LoginDialogSocial, LoginDialog},
   data(){
     return {
+      toasts_model: {
+        visible: false,
+        text: '',
+        timeout: 1000,
+      }
     }
+  },
+  mounted(){
+    Events.subscribe('toast', (data)=>{
+      this.show_toast(data);
+    })
   },
   methods: {
     go_home(){
@@ -70,6 +75,12 @@ export default {
       AppApi.logout().then(()=>{
         this.$store.commit('SET_LOGGED_USER', null);
       });
+    },
+    show_toast(data){
+      this.toasts_model.text = data.text;
+      this.toasts_model.timeout = data.timeout;
+      this.toasts_model.visible = true;
+      console.log('show toast event');
     }
   }
 }
