@@ -2,6 +2,7 @@
   <main>
     <v-layout row wrap>
       <v-flex xs12 sm8 offset-sm2 class="px-2 pt-5">
+        <v-text-field label="Para" v-model="to"/>
         <v-text-field label="assunto" v-model="subject"/>
         <v-text-field class="body" label="mensagem" multi-line v-model="body"/>
         <v-btn block primary @click="send()">Vai</v-btn>
@@ -18,6 +19,7 @@ import Toasts from '~/components/Toasts.js'
 export default {
   data () {
     return {
+      to: '',
       subject: '',
       body: '',
     };
@@ -25,7 +27,7 @@ export default {
   methods: {
     send(){
       console.log('sending')
-      AppApi.admin_send_mail(this.subject, this.body).then((result)=>{
+      AppApi.admin_send_mail(this.to, this.subject, this.body).then((result)=>{
         console.log('sent')
         Toasts.show('Emails enfileirados com sucesso', {timeout: 3000});
       });

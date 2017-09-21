@@ -110,7 +110,7 @@ function save_perfil(user2save){
     return logged_user;
 }
 
-function admin_send_mail(subject, body){
+function admin_send_mail(to, subject, body){
     return {};
 }
 

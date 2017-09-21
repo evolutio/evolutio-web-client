@@ -48,8 +48,8 @@ function save_perfil(user){
     return post('/api/save_perfil', {user: JSON.stringify(user)});
 }
 
-function admin_send_mail(subject, body){
-    return post('/api/admin_send_mail', {subject: subject, body: body});
+function admin_send_mail(to, subject, body){
+    return post('/api/admin_send_mail', {to: to, subject: subject, body: body});
 }
 
 function get(url, params){
