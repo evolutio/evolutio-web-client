@@ -3,8 +3,8 @@
     <!-- <v-container fluid class="main-content"> -->
       <v-layout row wrap>
         <v-flex xs12 sm4 offset-sm2 class="px-2 pt-5">
-          <h5 class="pt-5">Aprenda tudo o que você vai usar no mundo real</h5>
-          <p>O conteúdo com a qualidade que você precisa, em um só lugar.</p>
+          <h5 class="pt-5">A tecnologia evolui.</h5>
+          <p>A gente te ajuda a evoluir junto.</p>
         </v-flex>
         <v-flex xs12 sm4>
           <p class="text-sm-right"><img src="/images/minecraft.png" ></p>
@@ -52,6 +52,7 @@ export default {
   },
   head(){
     return {
+      title: "evolutio - A tecnologia evolui. A gente te ajuda a evoluir junto.",
       meta: [
         {property: 'og:url', content: 'http://evolutio.io'},
         {property: 'og:type', content: 'website'},

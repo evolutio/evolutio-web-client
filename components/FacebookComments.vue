@@ -10,11 +10,17 @@ export default {
   data: function () {
     return {
       ready: false,
-      location: '',
+      baseurl: '',
+    }
+  },
+  props: ['path'],
+  computed: {
+    location(){
+      return this.baseurl + this.path;
     }
   },
   mounted: function () {
-    this.location = window.location.host+this.$nuxt.$route.fullPath; 
+    this.baseurl = window.location.protocol+"//"+window.location.host; 
     this.initializefb();
     window.addEventListener('fb-sdk-ready', this.onFBReady);
   },

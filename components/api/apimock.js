@@ -11,6 +11,7 @@ export default {
     get_course: _mockasync(get_course),
     save_perfil: _mockasync(save_perfil),
     admin_send_mail: _mockasync(admin_send_mail),
+    get_paycode: _mockasync(get_paycode),
 };
 
 function list_courses(){
@@ -35,9 +36,9 @@ function _coursedb(){
                 { kind: 'youtube', ref: 'CqUkoLKQ0dY', name: 'Steps 2 e 3'},
                 { kind: 'youtube', ref: 'iPtSNdriyM4', name: 'Step 4'},
                 { kind: 'youtube', ref: 'dp_k331UwPg', name: 'Step 5'},
-                { kind: 'youtube', ref: '6JmbY7fhBpA', name: 'Step 6'},
-                { kind: 'youtube', ref: 'wLrjdwhww0E', name: 'Step 7'},
-                { kind: 'youtube', ref: 'QnbsV5CJKrY', name: 'Step 8'},
+                { kind: 'vimeo', ref: '235220559', name: 'Step 6'},
+                { kind: 'RESTRICTED', name: 'Step 7'},
+                { kind: 'RESTRICTED', name: 'Step 8'},
             ],
         },
         {
@@ -112,6 +113,15 @@ function save_perfil(user2save){
 
 function admin_send_mail(to, subject, body){
     return {};
+}
+
+function get_paycode(course_code){
+    return {
+        "checkout": {
+            "code": "B4B2DD9B141408CDD492CF123CB32E0A", 
+            "date": "2017-09-24T09:24:37.000-03:00"
+        }
+    };
 }
 
 function _mockasync(f){

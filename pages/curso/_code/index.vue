@@ -28,24 +28,26 @@
               <v-list two-line subheader>
                 <v-list-tile v-for="content in course.contents" :key="content.id">
                   <v-list-tile-avatar>
-                    <v-icon class="grey white--text">ondemand_video</v-icon>
+                    <v-icon v-if="content.kind == 'youtube' || content.kind == 'vimeo'" class="grey white--text">ondemand_video</v-icon>
+                    <v-icon v-if="content.kind == 'RESTRICTED'" class="grey white--text">https</v-icon>
                   </v-list-tile-avatar>
                   <v-list-tile-content>
-                    <v-list-tile-title class="video-link" @click="open_content(content, $event)" href>{{ content.name }}</v-list-tile-title>
-                    <!-- <v-list-tile-sub-title>{{ course.description }}</v-list-tile-sub-title> -->
+                    <v-list-tile-title v-if="content.kind != 'RESTRICTED'" class="video-link" @click="open_content(content, $event)">{{ content.name }}</v-list-tile-title>
+                    <v-list-tile-title v-if="content.kind == 'RESTRICTED'" >{{ content.name }}</v-list-tile-title>
                   </v-list-tile-content>
                 </v-list-tile>
               </v-list>
             </v-tabs-content>
           <!-- </v-card> -->
           <v-tabs-content key="discussao" id="discussao">
-            <FacebookComments></FacebookComments>
+            <FacebookComments :path="'/curso/'+course.code"></FacebookComments>
           </v-tabs-content>
         </v-tabs>
 
       </v-container>
     <!-- </v-content> -->
     <YoutubeDialog></YoutubeDialog>
+    <VimeoDialog></VimeoDialog>
   </main>
 </template>
 
@@ -54,6 +56,7 @@
 import AppApi from '~apijs'
 import Vuex from 'vuex'
 import YoutubeDialog from '~/components/YoutubeDialog.vue'
+import VimeoDialog from '~/components/VimeoDialog.vue'
 import FacebookComments from '~/components/FacebookComments.vue'
 
 export default {
@@ -79,12 +82,18 @@ export default {
   ])),
   methods: {
     open_content(content, evt){
-      YoutubeDialog.data().open(content);
+      debugger
+      if(content.kind == 'youtube'){
+        YoutubeDialog.data().open(content);
+      } else if(content.kind == 'vimeo'){
+        VimeoDialog.data().open(content);
+      }
       evt.stopPropagation();
     },
   },
   head(){
     return {
+      title: "evolutio - "+this.course.name,
       meta: [
         {property: 'og:url', content: 'http://evolutio.io/curso/'+this.course.code},
         {property: 'og:type', content: 'video.tv_show'},
@@ -94,7 +103,7 @@ export default {
       ]
     }
   },
-  components: {YoutubeDialog, FacebookComments},
+  components: {YoutubeDialog, VimeoDialog, FacebookComments},
 }
 </script>
 

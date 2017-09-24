@@ -11,6 +11,7 @@ export default {
     get_course,
     save_perfil,
     admin_send_mail,
+    get_paycode,
 };
 
 function login(username, password){
@@ -50,6 +51,10 @@ function save_perfil(user){
 
 function admin_send_mail(to, subject, body){
     return post('/api/admin_send_mail', {to: to, subject: subject, body: body});
+}
+
+function get_paycode(course_code){
+    return get('/api/get_paycode', {course_code: course_code});
 }
 
 function get(url, params){

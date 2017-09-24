@@ -4,7 +4,7 @@
       <v-card v-if="visible && content">
         <v-card-title>{{content.name}}</v-card-title>
         <v-card-text>
-          <iframe id="ytplayer" :src="iframe_src" :width="sizes.ifrw" :height="sizes.ifrh" frameborder="0" allowfullscreen="allowfullscreen"/></iframe>
+          <iframe :src="iframe_src" :width="sizes.ifrw" :height="sizes.ifrh" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
         </v-card-text>
        
       </v-card>
@@ -33,7 +33,7 @@ export default {
   },
   computed: {
     iframe_src(){
-      return 'http://www.youtube.com/embed/'+this.content.ref+'?autoplay=1';
+      return 'https://player.vimeo.com/video/'+this.content.ref;
     },
     sizes(){
       var w = Math.min(670, parseInt(.9 * this.$vuetify.breakpoint.width))
