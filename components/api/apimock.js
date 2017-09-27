@@ -31,6 +31,7 @@ function _coursedb(){
             description: 'Este curso vai mostrar ao aluno através de exemplos práticos que é possível criar aplicações complexas usando código simples e modularizado.',
             icon: '/images/angular.jpg',
             banner: '/images/angular_banner.png',
+            price: 29.90,
             contents: [
                 { kind: 'youtube', ref: '-gL0Hbk74i4', name: 'Step 1'},
                 { kind: 'youtube', ref: 'CqUkoLKQ0dY', name: 'Steps 2 e 3'},

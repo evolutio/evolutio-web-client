@@ -18,7 +18,8 @@ module.exports = {
     middleware: ['fwdcookies', 'auth'],
   },
   plugins: [
-    '~plugins/vuetify.js', 
+    '~plugins/vuetify.js',
+    {src: '~plugins/vue2-filters', ssr: false},
     {src: '~plugins/fb-sdk.js', ssr: false},
     {src: '~plugins/ga.js', ssr: false },
     {src: '~plugins/sentry.js', ssr: false }
@@ -31,7 +32,7 @@ module.exports = {
     script: [
       // {src: 'https://cdn.jsdelivr.net/vue/2.0.0-rc/vue.min.js'},
       {src: 'https://cdn.ravenjs.com/3.17.0/vue/raven.min.js', crossorigin: 'anonymous'},
-      //{src: 'https://stc.sandbox.pagseguro.uol.com.br/pagseguro/api/v2/checkout/pagseguro.lightbox.js'},
+      {src: 'https://stc.sandbox.pagseguro.uol.com.br/pagseguro/api/v2/checkout/pagseguro.lightbox.js'},
     ],
     meta: [
       { charset: 'utf-8' },
@@ -45,6 +46,5 @@ module.exports = {
   },
   env: {
     API_MOCK: _apimock ? '1' : '0',
-    PIPOCA: 'ajhhhh'
   }
 }
