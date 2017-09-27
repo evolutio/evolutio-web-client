@@ -9,13 +9,18 @@
             <h3 class="headline mb-0">{{course.name}}</h3>
             <div>{{course.description}}</div>
             <div v-if="course.price > 0 && !course.owned">
-              <v-chip class="orange white--text" >
-                Este é um curso com conteúdo exclusivo
+              <v-chip small class="orange white--text" >
+                Conteúdo exclusivo
                 <v-icon right>star</v-icon>
               </v-chip>
-              <v-btn round primary dark @click.native="iniciar_compra($event)">Comprar acesso completo ({{course.price | currency('R$')}})</v-btn>
+              <v-btn round small primary dark @click.native="iniciar_compra($event)">Acesso completo ({{course.price | currency('R$')}})</v-btn>
             </div>
-            
+            <div v-if="course.price > 0 && course.owned">
+              <v-chip small dark class="green white--text" >
+                Conteúdo exclusivo
+                <v-icon right>star</v-icon>
+              </v-chip>
+            </div>
           </div>
         </v-card-title>
       </v-card>
@@ -39,8 +44,7 @@
                   <v-icon v-if="content.kind == 'RESTRICTED'" class="grey white--text">https</v-icon>
                 </v-list-tile-avatar>
                 <v-list-tile-content>
-                  <v-list-tile-title v-if="content.kind != 'RESTRICTED'" class="video-link" @click="open_content(content, $event)">{{ content.name }}</v-list-tile-title>
-                  <v-list-tile-title v-if="content.kind == 'RESTRICTED'" >{{ content.name }}</v-list-tile-title>
+                  <v-list-tile-title class="video-link" @click="open_content(content, $event)">{{ content.name }}</v-list-tile-title>
                 </v-list-tile-content>
               </v-list-tile>
             </v-list>
@@ -59,12 +63,28 @@
         </v-card-title>
         <v-card-text>
           <p>Comprando o acesso completo a este curso, você terá acesso ao conteúdo exclusivo por pelo menos 6 meses.</p>
-          <p>Nós vamos te direcionar para o PagSeguro e assim que a gente confirmar o pagamento, a gente te manda um email, e daí o conteúdo fica liberado pra vc</p>
+          <p>Vamos te direcionar para o PagSeguro e logo que a transação for confirmada o conteúdo fica liberado pra você.</p>
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn class="green--text darken-1" flat="flat" @click.native="compra_pagseguro()">Vamos nessa</v-btn>
-          <v-btn class="green--text darken-1" flat="flat" @click.native="dialog_precompra = false">Deixa pra lá</v-btn>
+          <v-btn primary dark @click.native="compra_pagseguro()">Vamos nessa</v-btn>
+          <v-btn normal dark @click.native="dialog_precompra = false">Agora não</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+    <v-dialog v-model="dialog_restrito" lazy absolute>
+      <v-card>
+        <v-card-title>
+          <div class="headline">Este é um conteúdo exclusivo</div>
+        </v-card-title>
+        <v-card-text>
+          <p>Comprando o acesso completo a este curso, você terá acesso ao conteúdo exclusivo por pelo menos 6 meses.</p>
+          <p>Vamos te direcionar para o PagSeguro e logo que a transação for confirmada o conteúdo fica liberado pra você.</p>
+        </v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn primary dark @click.native="compra_pagseguro()">Comprar ({{course.price | currency('R$')}})</v-btn>
+          <v-btn normal dark @click.native="dialog_restrito = false">Agora não</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -79,7 +99,7 @@
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn class="green--text darken-1" flat="flat" @click.native="dialog_precompra = false">Fechar</v-btn>
+          <v-btn normal dark @click.native="dialog_precompra = false">Fechar</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -111,6 +131,7 @@ export default {
       nactive: null,
       text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
       dialog_precompra: false,
+      dialog_restrito: false,
       dialog_poscompra: false,
     };
   },
@@ -123,11 +144,12 @@ export default {
   ])),
   methods: {
     open_content(content, evt){
-      debugger
       if(content.kind == 'youtube'){
         YoutubeDialog.data().open(content);
       } else if(content.kind == 'vimeo'){
         VimeoDialog.data().open(content);
+      } else if(content.kind == 'RESTRICTED'){
+        this.dialog_restrito = true;
       }
       evt.stopPropagation();
     },
@@ -137,10 +159,13 @@ export default {
     },
     compra_pagseguro(){
       AppApi.get_paycode(this.course.code).then((response) => {
+        this.dialog_precompra = false;
+        this.dialog_restrito = false;
         var code = response.data.checkout.code;
         var suporta_lightbox = PagSeguroLightbox({code: code}, {success : onsuccess, abort : onabort});
         function onsuccess(transactionCode) {
           this.dialog_poscompra = true;
+          console.log('pagseguro success');
         }
         function onabort(){
           Toasts.show('Compra cancelada', {timeout: 3000});

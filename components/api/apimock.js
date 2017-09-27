@@ -32,6 +32,7 @@ function _coursedb(){
             icon: '/images/angular.jpg',
             banner: '/images/angular_banner.png',
             price: 29.90,
+            owned: true,
             contents: [
                 { kind: 'youtube', ref: '-gL0Hbk74i4', name: 'Step 1'},
                 { kind: 'youtube', ref: 'CqUkoLKQ0dY', name: 'Steps 2 e 3'},

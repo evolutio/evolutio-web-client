@@ -30,7 +30,6 @@ module.exports = {
   ],
   head: {
     script: [
-      // {src: 'https://cdn.jsdelivr.net/vue/2.0.0-rc/vue.min.js'},
       {src: 'https://cdn.ravenjs.com/3.17.0/vue/raven.min.js', crossorigin: 'anonymous'},
       {src: 'https://stc.sandbox.pagseguro.uol.com.br/pagseguro/api/v2/checkout/pagseguro.lightbox.js'},
     ],
