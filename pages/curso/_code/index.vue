@@ -67,24 +67,8 @@
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn primary dark @click.native="compra_pagseguro()">Vamos nessa</v-btn>
+          <v-btn primary dark @click.native="compra_pagseguro()" :loading="loading_pagseguro">Vamos nessa</v-btn>
           <v-btn normal dark @click.native="dialog_precompra = false">Agora não</v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
-    <v-dialog v-model="dialog_restrito" lazy absolute>
-      <v-card>
-        <v-card-title>
-          <div class="headline">Este é um conteúdo exclusivo</div>
-        </v-card-title>
-        <v-card-text>
-          <p>Comprando o acesso completo a este curso, você terá acesso ao conteúdo exclusivo por pelo menos 6 meses.</p>
-          <p>Vamos te direcionar para o PagSeguro e logo que a transação for confirmada o conteúdo fica liberado pra você.</p>
-        </v-card-text>
-        <v-card-actions>
-          <v-spacer></v-spacer>
-          <v-btn primary dark @click.native="compra_pagseguro()">Comprar ({{course.price | currency('R$')}})</v-btn>
-          <v-btn normal dark @click.native="dialog_restrito = false">Agora não</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -131,8 +115,8 @@ export default {
       nactive: null,
       text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
       dialog_precompra: false,
-      dialog_restrito: false,
       dialog_poscompra: false,
+      loading_pagseguro: false,
     };
   },
   computed: Object.assign({
@@ -149,7 +133,7 @@ export default {
       } else if(content.kind == 'vimeo'){
         VimeoDialog.data().open(content);
       } else if(content.kind == 'RESTRICTED'){
-        this.dialog_restrito = true;
+        this.iniciar_compra(evt);
       }
       evt.stopPropagation();
     },
@@ -158,9 +142,18 @@ export default {
       evt.stopPropagation();
     },
     compra_pagseguro(){
+      if(!this.$store.state.logged_user){
+        Toasts.show('Você precisa fazer login antes!', {timeout: 3000});
+        return;
+      }
+      if(!this.$store.state.logged_user.last_name){
+        Toasts.show('Antes de fazer esta compra, você precisa completar as informações do seu perfil', {timeout: 5000});
+        return;
+      }
+      this.loading_pagseguro = true;
       AppApi.get_paycode(this.course.code).then((response) => {
+        this.loading_pagseguro = false;
         this.dialog_precompra = false;
-        this.dialog_restrito = false;
         var code = response.data.checkout.code;
         var suporta_lightbox = PagSeguroLightbox({code: code}, {success : onsuccess, abort : onabort});
         function onsuccess(transactionCode) {

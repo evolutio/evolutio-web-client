@@ -9,6 +9,7 @@
           <v-card-text>
             <v-container fluid>
               <v-text-field label="Primeiro nome" required v-model="user.first_name"/>
+              <v-text-field label="Último nome" required v-model="user.last_name"/>
               <v-text-field label="Email" type="email" required v-model="user.email"/>
               <v-switch label="Receber novidades sobre o conteúdo da evolutio" v-model="user.notifications_enabled"/>
             </v-container>
@@ -43,6 +44,7 @@ export default {
     save(){
       var user2save = {
         first_name: this.user.first_name,
+        last_name: this.user.last_name,
         email: this.user.email,
         notifications_enabled: this.user.notifications_enabled,
       };

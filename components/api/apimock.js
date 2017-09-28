@@ -32,7 +32,7 @@ function _coursedb(){
             icon: '/images/angular.jpg',
             banner: '/images/angular_banner.png',
             price: 29.90,
-            owned: true,
+            owned: false,
             contents: [
                 { kind: 'youtube', ref: '-gL0Hbk74i4', name: 'Step 1'},
                 { kind: 'youtube', ref: 'CqUkoLKQ0dY', name: 'Steps 2 e 3'},
@@ -85,6 +85,7 @@ function login(username, password){
         logged_user = {
             username: username,
             first_name: 'João',
+            last_name: 'Silva',
             email: 'my@email.com',
             notifications_enabled: true,
             permissions:{
