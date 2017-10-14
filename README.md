@@ -1,4 +1,6 @@
-# Using Vuetify.js with Nuxt.js
+# Setup
 
-https://nuxtjs.org/examples/with-vuetify<br>
-https://vuetifyjs.com/
+```bash
+npm install  # Ou yarn
+npm run dev
+```
