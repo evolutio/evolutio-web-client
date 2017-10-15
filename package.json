@@ -3,7 +3,7 @@
   "dependencies": {
     "axios": "^0.16.1",
     "nuxt": "1.0.0-rc11",
-    "vue": "^2.3.4",
+    "vue-markdown": "^2.2.4",
     "vue2-filters": "0.1.9",
     "vuetify": "0.15.2"
   },

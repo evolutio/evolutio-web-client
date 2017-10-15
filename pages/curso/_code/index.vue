@@ -103,6 +103,18 @@ import FacebookComments from '~/components/FacebookComments.vue'
 import Toasts from '~/components/Toasts.js'
 
 export default {
+  head(){
+    return {
+      title: "evolutio - "+this.course.name,
+      meta: [
+        {property: 'og:url', content: 'http://evolutio.io/curso/'+this.course.code},
+        {property: 'og:type', content: 'video.tv_show'},
+        {property: 'og:title', content: this.course.name},
+        {property: 'og:description', content: this.course.description},
+        {property: 'og:image', content: 'http://evolutio.io'+this.bannersrc},
+      ]
+    }
+  },
   asyncData (context) {
     return AppApi.get_course(context.params.code).then((response) => {
       return {course: response.data}
@@ -111,9 +123,6 @@ export default {
   data () {
     return {
       active: 'material',
-      tabs: ['tab-1', 'tab-2', 'tab-3'],
-      nactive: null,
-      text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
       dialog_precompra: false,
       dialog_poscompra: false,
       loading_pagseguro: false,
@@ -167,18 +176,6 @@ export default {
           throw new Error('nao suporta light box do pagseguro')
         }
       });
-    }
-  },
-  head(){
-    return {
-      title: "evolutio - "+this.course.name,
-      meta: [
-        {property: 'og:url', content: 'http://evolutio.io/curso/'+this.course.code},
-        {property: 'og:type', content: 'video.tv_show'},
-        {property: 'og:title', content: this.course.name},
-        {property: 'og:description', content: this.course.description},
-        {property: 'og:image', content: 'http://evolutio.io'+this.bannersrc},
-      ]
     }
   },
   components: {YoutubeDialog, VimeoDialog, FacebookComments},

@@ -1,12 +1,25 @@
 <template>
   <div>
-    <v-dialog lazy v-model="visible" :width="sizes.diaw">
+    <v-dialog fullscreen lazy v-model="visible" :width="sizes.diaw">
       <v-card v-if="visible && content">
-        <v-card-title>{{content.name}}</v-card-title>
+        <v-toolbar dark color="primary">
+          <v-btn icon @click.native="visible = false" dark>
+            <v-icon>close</v-icon>
+          </v-btn>
+          <v-toolbar-title>{{content.name}}</v-toolbar-title>
+        </v-toolbar>
         <v-card-text>
-          <iframe :src="iframe_src" :width="sizes.ifrw" :height="sizes.ifrh" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+          <v-layout row wrap>
+            <v-flex xs12 sm8 offset-sm2>
+              <iframe :src="iframe_src" 
+                style="width: 100%" :height="sizes.ifrh" 
+                frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+            </v-flex>
+            <v-flex xs12 sm8 offset-sm2>
+              <vue-markdown>{{content.md}}</vue-markdown>
+            </v-flex>
+          </v-layout>
         </v-card-text>
-       
       </v-card>
     </v-dialog>
   </div>

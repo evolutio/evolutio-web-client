@@ -2,11 +2,11 @@
   <main>
     <!-- <v-container fluid class="main-content"> -->
       <v-layout row wrap>
-        <v-flex xs12 sm4 offset-sm2 class="px-2 pt-5">
-          <h5 class="pt-5">A tecnologia evolui.</h5>
-          <p>A gente te ajuda a evoluir junto.</p>
+        <v-flex xs12 sm8 md4 offset-sm2 class="px-2" :class="{'pt-5': $vuetify.breakpoint.mdAndUp, 'pt-3': $vuetify.breakpoint.smAndDown}">
+          <h3>A tecnologia evolui.</h3>
+          <h5>A gente te ajuda a evoluir junto.</h5>
         </v-flex>
-        <v-flex xs12 sm4>
+        <v-flex xs12 md4 v-if="$vuetify.breakpoint.mdAndUp">
           <p class="text-sm-right"><img src="/images/minecraft.png" ></p>
         </v-flex>
         <v-flex xs12 sm8 offset-sm2 d-flex>
