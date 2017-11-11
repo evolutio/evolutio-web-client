@@ -2,8 +2,7 @@
 
 import AppApi from '~apijs'
 import Vuex from 'vuex'
-import YoutubeDialog from '~/components/YoutubeDialog.vue'
-import VimeoDialog from '~/components/VimeoDialog.vue'
+import VideoDialog from '~/components/VideoDialog.vue'
 import FacebookComments from '~/components/FacebookComments.vue'
 import Toasts from '~/components/Toasts.js'
 
@@ -26,12 +25,10 @@ export default {
   ])),
   methods: {
     open_content(content, evt){
-      if(content.kind == 'youtube'){
-        YoutubeDialog.data().open(content);
-      } else if(content.kind == 'vimeo'){
-        VimeoDialog.data().open(content);
-      } else if(content.kind == 'RESTRICTED'){
+      if(content.kind == 'RESTRICTED'){
         this.iniciar_compra(evt);
+      } else {
+        this.$refs.video_dialog.open(content)
       }
       evt.stopPropagation();
     },
@@ -67,7 +64,7 @@ export default {
       });
     }
   },
-  components: {YoutubeDialog, VimeoDialog, FacebookComments},
+  components: {VideoDialog, FacebookComments},
 }
 </script>
 
@@ -174,8 +171,6 @@ export default {
         </v-card-actions>
       </v-card>
     </v-dialog>
-    <YoutubeDialog></YoutubeDialog>
-    <VimeoDialog></VimeoDialog>
-
+    <VideoDialog ref="video_dialog"></VideoDialog>
   </main>
 </template>
