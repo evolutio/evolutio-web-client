@@ -12,6 +12,7 @@ export default {
     save_perfil,
     admin_send_mail,
     get_paycode,
+    save_content,
 };
 
 function login(username, password){
@@ -55,6 +56,16 @@ function admin_send_mail(to, subject, body){
 
 function get_paycode(course_code){
     return get('/api/get_paycode', {course_code: course_code});
+}
+
+function save_content(course_code, content){
+    const _content = {
+        kind: content.kind,
+        ref: content.ref,
+        name: content.name,
+        md: content.md,
+    };
+    return post('/api/save_content', {course_code: course_code, content: JSON.stringify(_content)});
 }
 
 function get(url, params){

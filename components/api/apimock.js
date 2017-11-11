@@ -12,6 +12,7 @@ export default {
     save_perfil: _mockasync(save_perfil),
     admin_send_mail: _mockasync(admin_send_mail),
     get_paycode: _mockasync(get_paycode),
+    save_content: _mockasync(save_content),
 };
 
 function list_courses(){
@@ -90,8 +91,8 @@ function login(username, password){
             email: 'my@email.com',
             notifications_enabled: true,
             permissions:{
-                ADMIN: false,
-                STAFF: false,
+                ADMIN: username == 'admin',
+                STAFF: username == 'admin',
             }
         };
     }
@@ -126,6 +127,11 @@ function get_paycode(course_code){
             "date": "2017-09-24T09:24:37.000-03:00"
         }
     };
+}
+
+function save_content(course_code, _content){
+    const content = _COURSEDB.filter((course) => (course.code == course_code))[0].contents.filter(content => content.kind == _content.kind && content.ref == _content.ref)[0];
+    content.md = _content.md;
 }
 
 function _mockasync(f){

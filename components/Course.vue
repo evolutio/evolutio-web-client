@@ -171,6 +171,6 @@ export default {
         </v-card-actions>
       </v-card>
     </v-dialog>
-    <VideoDialog ref="video_dialog"></VideoDialog>
+    <VideoDialog :course="course" ref="video_dialog"></VideoDialog>
   </main>
 </template>
