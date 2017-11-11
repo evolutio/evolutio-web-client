@@ -12,8 +12,7 @@
           <v-layout row wrap>
             <v-flex xs12 sm8 offset-sm2>
               <iframe id="ytplayer" :src="iframe_src" 
-                style="width: 100%" 
-                :height="sizes.ifrh"
+                style="width: 100%" :height="sizes.ifrh"
                 frameborder="0" allowfullscreen="allowfullscreen"/></iframe>
             </v-flex>
             <v-flex xs12 sm8 offset-sm2>
