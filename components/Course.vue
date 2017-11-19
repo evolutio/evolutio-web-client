@@ -13,6 +13,7 @@ export default {
       active: 'material',
       dialog_precompra: false,
       dialog_poscompra: false,
+      dialog_breve: false,
       loading_pagseguro: false,
     };
   },
@@ -27,6 +28,8 @@ export default {
     open_content(content, evt){
       if(content.kind == 'RESTRICTED'){
         this.iniciar_compra(evt);
+      } else if(content.kind == 'SOON'){
+        this.dialog_breve = true;
       } else {
         this.$refs.video_dialog.open(content)
       }
@@ -126,6 +129,7 @@ export default {
                 <v-list-tile-avatar>
                   <v-icon v-if="content.kind == 'youtube' || content.kind == 'vimeo'" class="grey white--text">ondemand_video</v-icon>
                   <v-icon v-if="content.kind == 'RESTRICTED'" class="grey white--text">https</v-icon>
+                  <v-icon v-if="content.kind == 'SOON'" class="grey white--text">personal_video</v-icon>
                 </v-list-tile-avatar>
                 <v-list-tile-content>
                   <v-list-tile-title class="video-link" @click="open_content(content, $event)">{{ content.name }}</v-list-tile-title>
@@ -168,6 +172,21 @@ export default {
         <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn normal dark @click.native="dialog_precompra = false">Fechar</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+    <v-dialog v-model="dialog_breve" lazy absolute>
+      <v-card>
+        <v-card-title>
+          <div class="headline">Em breve!</div>
+        </v-card-title>
+        <v-card-text>
+          <p>Esse conteúdo ainda não está disponível.</p>
+          <p>Faça login pra receber nossas atualizações de conteúdo.</p>
+        </v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn normal dark @click.native="dialog_breve = false">Fechar</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>

@@ -43,6 +43,7 @@ function _coursedb(){
                 { kind: 'vimeo', ref: '235220559', name: 'Step 6'},
                 { kind: 'RESTRICTED', name: 'Step 7'},
                 { kind: 'RESTRICTED', name: 'Step 8'},
+                { kind: 'SOON', name: 'Step 9'},
             ],
         },
         {
