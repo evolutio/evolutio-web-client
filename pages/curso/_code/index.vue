@@ -26,6 +26,11 @@ export default {
     return {
     };
   },
+  computed: {
+    bannersrc(){
+      return this.course.banner || '/images/desert.jpg';
+    },
+  },
 }
 </script>
 
