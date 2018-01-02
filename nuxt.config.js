@@ -22,7 +22,8 @@ module.exports = {
     {src: '~plugins/vue2-filters', ssr: false},
     {src: '~plugins/fb-sdk.js', ssr: false},
     {src: '~plugins/ga.js', ssr: false },
-    {src: '~plugins/sentry.js', ssr: false }
+    {src: '~plugins/sentry.js', ssr: false },
+    {src: '~plugins/pagseguro_lightbox.js', ssr: false },
   ],
   css: [
     { src: join(__dirname, 'css/app.styl'), lang: 'styl' },
@@ -30,8 +31,8 @@ module.exports = {
   ],
   head: {
     script: [
-      {src: 'https://cdn.ravenjs.com/3.17.0/vue/raven.min.js', crossorigin: 'anonymous'},
-      {src: 'https://stc.pagseguro.uol.com.br/pagseguro/api/v2/checkout/pagseguro.lightbox.js'},
+      // {src: 'https://cdn.ravenjs.com/3.17.0/vue/raven.min.js', crossorigin: 'anonymous'},
+      // {src: 'https://stc.pagseguro.uol.com.br/pagseguro/api/v2/checkout/pagseguro.lightbox.js'},
     ],
     meta: [
       { charset: 'utf-8' },

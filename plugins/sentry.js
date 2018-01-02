@@ -1,3 +1,6 @@
+import Vue from 'vue';
+import Raven from 'raven-js';
+import RavenVue from 'raven-js/plugins/vue';
 
 export default ({ app }) => {
   if (process.env.NODE_ENV !== 'production') return

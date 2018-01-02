@@ -3,7 +3,7 @@ import Vuex from 'vuex'
 const store = () => new Vuex.Store({
 
   state: {
-    logged_user: {}
+    logged_user: undefined,
   },
   mutations: {
     SET_LOGGED_USER(state, logged_user) {
