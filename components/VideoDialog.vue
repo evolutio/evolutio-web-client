@@ -17,7 +17,7 @@
     computed: {
       iframe_src(){
         if(this.content.kind == 'youtube'){
-          return 'http://www.youtube.com/embed/'+this.content.ref+'?autoplay=1';
+          return 'https://www.youtube.com/embed/'+this.content.ref+'?autoplay=1';
         } else if(this.content.kind == 'vimeo'){
           return 'https://player.vimeo.com/video/'+this.content.ref;
         }
