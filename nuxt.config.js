@@ -19,6 +19,7 @@ module.exports = {
   },
   plugins: [
     '~plugins/vuetify.js',
+    '~plugins/element.js',
     {src: '~plugins/vue2-filters', ssr: false},
     {src: '~plugins/fb-sdk.js', ssr: false},
     {src: '~plugins/ga.js', ssr: false },

@@ -28,7 +28,7 @@ function _coursedb(){
     return [
         {
             code: 'ng-masters',
-            name: 'ng-masters - AngularJS na prática',
+            name: 'AngularJS na prática',
             teachers: 'Tony Lâmpada',
             description: 'Este curso vai mostrar ao aluno através de exemplos práticos que é possível criar aplicações complexas usando código simples e modularizado.',
             icon: '/images/angular.jpg',

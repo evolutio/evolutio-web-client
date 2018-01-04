@@ -1,37 +1,73 @@
 <template>
-  <main>
-    <!-- <v-container fluid class="main-content"> -->
-      <v-layout row wrap>
-        <v-flex xs12 sm8 md4 offset-sm2 class="px-2" :class="{'pt-5': $vuetify.breakpoint.mdAndUp, 'pt-3': $vuetify.breakpoint.smAndDown}">
-          <h3>A tecnologia evolui.</h3>
-          <h5>A gente te ajuda a evoluir junto.</h5>
-        </v-flex>
-        <v-flex xs12 md4 v-if="$vuetify.breakpoint.mdAndUp">
-          <p class="text-sm-right"><img src="/images/minecraft.png" ></p>
-        </v-flex>
-        <v-flex xs12 sm8 offset-sm2 d-flex>
-          <v-card id="course-list">
-            <v-toolbar class="light-blue">
-              <v-toolbar-title>Cursos</v-toolbar-title>
-            </v-toolbar>
-            <v-list three-line subheader>
-                <v-list-tile v-for="course in courses" :key="course.code" :router="true" :to="{name: 'curso-code', params:{code: course.code}}">
-                  <v-list-tile-avatar>
-                    <img v-if="course.icon" :src="course.icon">
-                    <v-icon v-if="!course.icon" class="grey white--text">folder</v-icon>
-                  </v-list-tile-avatar>
-                  <v-list-tile-content>
-                    <v-list-tile-title>{{ course.name }}, com <strong>{{ course.teachers }}</strong></v-list-tile-title>
-                    <v-list-tile-sub-title>{{ course.description }}</v-list-tile-sub-title>
-                  </v-list-tile-content>
-                </v-list-tile>
-            </v-list>
-          </v-card>
-        </v-flex>
-      </v-layout>
-    <!-- </v-container> -->
-  </main>
+  <el-main class="main"> 
+    <div class="hero">
+      <h2>A tecnologia evolui.</h2>
+      <h3>A gente te ajuda a evoluir junto.</h3>
+      <p>Evolutio oferece a você cursos de tecnologia para o mundo real</p>
+
+      <el-button type="warning">Crie sua conta grátis</el-button>
+    </div>
+
+    <div class="content">
+      <div class="section">
+        <h4 class="section--title">Cursos</h4>
+
+        <el-row type="flex" gutter="20" justify="center">
+          <el-col :key="course.code" v-for="course in courses" :router="true" :to="{name: 'curso-code', params:{code: course.code}}">
+            <el-card class="box-card">
+              <div slot="header">
+                <img v-if="course.icon" :src="course.icon" width="30">
+                <div>
+                  <h5>{{ course.name }}</h5>
+                  <small>{{ course.teachers }}</small>
+                </div>
+              </div>
+              
+              <p>{{ course.description }}</p>
+              <el-button type="text" class="button">Começar</el-button>
+            </el-card>
+          </el-col>
+        </el-row> 
+      </div>
+    </div>
+  </el-main>
 </template>
+
+
+<style scoped>
+  .main {
+    padding: 0;
+    
+  }
+
+  .hero {
+    text-align: center;
+    color: #fff;
+    height: 500px;
+    padding-top: 150px;
+    background-image: linear-gradient(140deg, rgba(2, 89, 210, .8) 0%,rgba(1, 67, 167, .9) 100%), url("/images/hero-bg-1.jpeg");
+    background-size: cover;
+  }
+
+  .content {
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+
+  .section {
+    padding: 60px 0;
+  }
+
+  .section--title {
+    text-align: center;
+    margin-bottom: 30px;
+  }
+
+  .box-card {
+    height: 300px;
+  }
+</style>
+
 
 <script>
 
@@ -64,12 +100,3 @@ export default {
   },
 }
 </script>
-
-<style scoped>
-  /*.title {
-    padding-left: 20px;
-  }
-  .main-content{
-    max-width: 900px
-  }*/
-</style>

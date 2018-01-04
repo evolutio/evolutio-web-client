@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="165px" height="22px" viewBox="0 0 165 22" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 47.1 (45422) - http://www.bohemiancoding.com/sketch -->
+    <title>logo</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <linearGradient x1="66.5051095%" y1="37.6612878%" x2="86.2917154%" y2="-16.2647217%" id="linearGradient-1">
+            <stop stop-color="#FFFFFF" offset="0%"></stop>
+            <stop stop-color="#FFFFFF" stop-opacity="0.543563179" offset="58.9786895%"></stop>
+            <stop stop-color="#FFFFFF" stop-opacity="0" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="App" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Desktop-HD-Copy" transform="translate(-360.000000, -28.000000)">
+            <g id="header">
+                <g id="logo" transform="translate(357.000000, 23.000000)">
+                    <text id="EVOLUTIO" font-family="HelveticaNeue-Medium, Helvetica Neue" font-size="26" font-weight="400" letter-spacing="0.649999976" fill="#FFFFFF">
+                        <tspan x="36" y="25">EVOLUTIO</tspan>
+                    </text>
+                    <path d="M9.37056052,26 C10.3235696,21.5045949 12.1852099,19.7482995 15.5360372,19.7482995 C22.5976123,19.7482995 26.9295294,15.0568357 28,6.94160193 L21.0134368,6 C20.3752062,10.8384234 18.7266692,12.6237881 15.5360372,12.6237881 C8.63465726,12.6237881 3.61004271,17.3582735 2,24.9529485 L9.37056052,26 Z" id="Path-11-Copy" fill="url(#linearGradient-1)" fill-rule="nonzero" transform="translate(15.000000, 16.000000) rotate(-8.000000) translate(-15.000000, -16.000000) "></path>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
