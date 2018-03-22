@@ -3,7 +3,7 @@
 import AppApi from '~apijs'
 import Vuex from 'vuex'
 import VideoDialog from '~/components/VideoDialog.vue'
-import FacebookComments from '~/components/FacebookComments.vue'
+import Comments from '~/components/Comments.vue'
 import Toasts from '~/components/Toasts.js'
 
 export default {
@@ -17,13 +17,14 @@ export default {
       loading_pagseguro: false,
     };
   },
-  computed: Object.assign({
+  computed: {
+    ...Vuex.mapGetters([
+      'logged_user',
+    ]),
     bannersrc(){
       return this.course.banner || '/images/desert.jpg';
     }
-  }, Vuex.mapGetters([
-    'logged_user',
-  ])),
+  },
   methods: {
     open_content(content, evt){
       if(content.kind == 'RESTRICTED'){
@@ -67,7 +68,7 @@ export default {
       });
     }
   },
-  components: {VideoDialog, FacebookComments},
+  components: {VideoDialog, Comments},
 }
 </script>
 
@@ -118,7 +119,7 @@ export default {
             Material
           </v-tabs-item>
           <v-tabs-item key="discussao" href="#discussao" ripple>
-            Discussão
+            Discussão ({{course.comments.length}})
           </v-tabs-item>
           <v-tabs-slider class="red"></v-tabs-slider>
         </v-tabs-bar>
@@ -139,7 +140,7 @@ export default {
           </v-tabs-content>
         <!-- </v-card> -->
         <v-tabs-content key="discussao" id="discussao">
-          <FacebookComments :path="'/curso/'+course.code"></FacebookComments>
+          <Comments :comments="course.comments"></Comments>
         </v-tabs-content>
       </v-tabs>
 

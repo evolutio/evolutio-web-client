@@ -13,6 +13,7 @@ export default {
     admin_send_mail: _mockasync(admin_send_mail),
     get_paycode: _mockasync(get_paycode),
     save_content: _mockasync(save_content),
+    send_comment: _mockasync(send_comment),
 };
 
 function list_courses(){
@@ -20,7 +21,15 @@ function list_courses(){
 }
 
 function get_course(code){
-    return Vue.util.extend({}, _COURSEDB.filter((course) => (course.code == code))[0]);
+    const course = Vue.util.extend({}, _COURSEDB.filter((course) => (course.code == code))[0]);
+    course.comments = [
+        {
+            ...commentZuck,
+            replies: [commentZuck, commentZuck]
+        },
+        commentZuck,
+    ];
+    return course;
 }
 
 function _coursedb(){
@@ -91,6 +100,7 @@ function login(username, password){
             last_name: 'Silva',
             email: 'my@email.com',
             notifications_enabled: true,
+            img: fotogates,
             permissions:{
                 ADMIN: username == 'admin',
                 STAFF: username == 'admin',
@@ -135,6 +145,15 @@ function save_content(course_code, _content){
     content.md = _content.md;
 }
 
+function send_comment(text){
+    return {
+        author: logged_user.first_name,
+        author_img: logged_user.img,
+        created_at: '2 minutes ago',
+        text: text,
+    }
+}
+
 function _mockasync(f){
     function mocked(){
         var res = f.apply(this, arguments);
@@ -145,4 +164,14 @@ function _mockasync(f){
         });
     }
     return mocked;
+}
+
+const fotozuck = 'https://scontent.fsjk1-1.fna.fbcdn.net/v/t34.0-1/p160x160/16176889_112685309244626_578204711_n.jpg?oh=2d355ba14ad569e1757e86987f113646&oe=5AB56B63';
+const fotogates = 'https://scontent.fsjk1-1.fna.fbcdn.net/v/t1.0-9/23473074_10155031875776961_8482140412038626648_n.jpg?oh=fb8a80b2f0fcd3f02e1eba3dce825cb3&oe=5B408A06';
+const yadayada = 'Ao contrário da crença popular, Lipsum (Lorem Ipsum abreviado) não é simplesmente um texto qualquer com um monte de letras. Ela tem raízes numa peça clássica da literatura latina de 45 A.C., fazendo com que este famoso texto tenha mais de 2000 anos de idade.\n\n Richard McClintock, um professor de Latim na Hampden-Sydney College na Virginia, pesquisou uma das mais obscuras palavras em Latim, "consectetur", da passagem de Lipsum, e indo a fundo nas citações da literatura clássica descobriu de uma fonte segura que Lipsum vem das seções 1.10.32 e 1.10.33 do "de Finibus Bonorum et Malorum" (Os Extremos do Bem e do Mal) escrito por Cícero em 45 A.C.. Este livro trata da teoria de ética, muito popular durante a Renascença. A primeira linha de Lipsum, "Lorem ipsum dolor sit amet...", pode ser lida na seção 1.10.32.[1]';
+const commentZuck = {
+  author: 'Mark Zuckerberg',
+  author_img: fotozuck,
+  created_at: '2 minutes ago',
+  text: yadayada,
 }
