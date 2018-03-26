@@ -2,6 +2,7 @@
   "name": "with-vuetify",
   "dependencies": {
     "axios": "^0.16.1",
+    "moment": "^2.21.0",
     "nuxt": "1.0.0-rc11",
     "raven-js": "^3.20.1",
     "vue-markdown": "^2.2.4",
@@ -12,9 +13,15 @@
     "dev": "nuxt",
     "build": "nuxt build",
     "analyze": "nuxt build --analyze",
+    "lint": "eslint --ext .js,.vue --ignore-path .gitignore .",
     "start": "nuxt start"
   },
   "devDependencies": {
+    "babel-eslint": "^8.2.1",
+    "eslint": "^4.15.0",
+    "eslint-friendly-formatter": "^3.0.0",
+    "eslint-loader": "^1.7.1",
+    "eslint-plugin-vue": "^4.0.0",
     "stylus": "^0.54.5",
     "stylus-loader": "^3.0.1"
   }

@@ -140,7 +140,7 @@ export default {
           </v-tabs-content>
         <!-- </v-card> -->
         <v-tabs-content key="discussao" id="discussao">
-          <Comments :comments="course.comments"></Comments>
+          <Comments :forum_id="course.id" :comments="course.comments"></Comments>
         </v-tabs-content>
       </v-tabs>
 
