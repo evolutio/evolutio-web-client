@@ -92,7 +92,8 @@ export default {
     send(){
       this.sending = true;
       AppApi.send_comment(this.forum_id, null, this.text).then(response => {
-        this.comments.push(response.data)
+        const newcomment = {...response.data, replies: []};
+        this.comments.push(newcomment);
         this.sending = false;
         this.text = '';
         setTimeout(()=>{

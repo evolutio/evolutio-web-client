@@ -60,7 +60,11 @@ function get_paycode(course_code){
 }
 
 function send_comment(forum_id, parent_id, text){
-    return post('/api/send_comment', {forum_id, parent_id, text});
+    const data = {forum_id, text};
+    if(parent_id){
+        data.parent_id = parent_id;
+    }
+    return post('/api/send_comment', data);
 }
 
 function save_content(course_code, content){
