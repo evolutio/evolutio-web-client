@@ -13,6 +13,7 @@ export default {
     admin_send_mail,
     get_paycode,
     save_content,
+    send_comment,
 };
 
 function login(username, password){
@@ -56,6 +57,10 @@ function admin_send_mail(to, subject, body){
 
 function get_paycode(course_code){
     return get('/api/get_paycode', {course_code: course_code});
+}
+
+function send_comment(forum_id, parent_id, text){
+    return post('/api/send_comment', {forum_id, parent_id, text});
 }
 
 function save_content(course_code, content){
