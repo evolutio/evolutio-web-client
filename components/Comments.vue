@@ -25,7 +25,7 @@
           <strong>{{comment.author}}</strong>,
           <span v-tooltip:top="{ html: asdatetime(comment.created_at) }">{{comment.created_at | fromnow}}</span>
         </p>
-        <p class="mb-1">{{comment.text}}</p>
+        <vue-markdown class="comment-text" :source="comment.text"/>
         <p class="mb-1"><a class="link" @click="openreply(comment)">Responder</a></p>
       </v-flex>
       <template v-for="(reply, rindex) in comment.replies">
@@ -40,7 +40,7 @@
             <strong>{{reply.author}}</strong>, 
             <span v-tooltip:top="{ html: asdatetime(comment.created_at) }">{{reply.created_at | fromnow}}</span>
           </p>
-          <p class="mb-1">{{reply.text}}</p>
+          <vue-markdown class="comment-text" :source="reply.text"/>
           <p v-if="rindex == comment.replies.length-1"><a class="link" @click="openreply(comment)">Responder</a></p>
         </v-flex>
       </template>
@@ -72,8 +72,10 @@ import Vuex from 'vuex'
 import AppApi from '~apijs'
 import Toasts from '~/components/Toasts.js'
 import moment from 'moment'
+import VueMarkdown from 'vue-markdown'
 
 export default {
+  components: {VueMarkdown},
   props: ['comments', 'forum_id'],
   data: function () {
     return {
@@ -145,4 +147,29 @@ export default {
     text-decoration: underline;
     cursor: pointer;
   }
+</style>
+
+<style lang="scss">
+  .comment-text {
+    word-wrap: break-word;
+    > h1 {
+      font-size: 36px;
+    }
+    > h2 {
+      font-size: 30px;
+    }
+    > h3 {
+      font-size: 24px;
+    }
+    > h4 {
+      font-size: 18px;
+    }
+    > h5 {
+      font-size: 14px;
+    }
+    > h6 {
+      font-size: 12px;
+    }
+  }
+
 </style>
