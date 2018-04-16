@@ -152,22 +152,25 @@ export default {
 <style lang="scss">
   .comment-text {
     word-wrap: break-word;
-    > h1 {
+    img {
+      max-width: 100%;
+    }
+    h1 {
       font-size: 36px;
     }
-    > h2 {
+    h2 {
       font-size: 30px;
     }
-    > h3 {
+    h3 {
       font-size: 24px;
     }
-    > h4 {
+    h4 {
       font-size: 18px;
     }
-    > h5 {
+    h5 {
       font-size: 14px;
     }
-    > h6 {
+    h6 {
       font-size: 12px;
     }
   }
