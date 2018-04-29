@@ -14,6 +14,7 @@ export default {
     get_paycode,
     save_content,
     send_comment,
+    follow_course_by_email,
 };
 
 function login(username, password){
@@ -65,6 +66,10 @@ function send_comment(forum_id, parent_id, text){
         data.parent_id = parent_id;
     }
     return post('/api/send_comment', data);
+}
+
+function follow_course_by_email(course_id, follow){
+    return post('/api/follow_course_by_email', {course_id, follow});
 }
 
 function save_content(course_code, content){

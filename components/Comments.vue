@@ -1,5 +1,8 @@
 <template>
   <v-layout row wrap class="my-2">
+    <v-flex xs12 class="ml-3">
+    <v-switch label="Acompanhar por email" v-model="forum.notify_email" @change="toggle_follow()"/>
+    </v-flex>
     <template v-if="logged_user">
       <v-flex xs2 sm1 class="mt-3">
         <v-avatar size="48px">
@@ -14,7 +17,7 @@
         <p v-if="editing || sending" class="text-xs-right"><v-btn @click="send" :loading="sending" primary>Enviar</v-btn></p>
       </v-flex>
     </template>
-    <template v-if="!loading" v-for="comment in comments">
+    <template v-if="!loading" v-for="comment in forum.comments">
       <v-flex xs2 sm1 class="mt-3">
         <v-avatar size="48px">
           <img :src="comment.author_img" alt="">
@@ -76,7 +79,7 @@ import VueMarkdown from 'vue-markdown'
 
 export default {
   components: {VueMarkdown},
-  props: ['comments', 'forum_id'],
+  props: ['forum'],
   data: function () {
     return {
       text: '',
@@ -93,9 +96,9 @@ export default {
   methods: {
     send(){
       this.sending = true;
-      AppApi.send_comment(this.forum_id, null, this.text).then(response => {
+      AppApi.send_comment(this.forum.id, null, this.text).then(response => {
         const newcomment = {...response.data, replies: []};
-        this.comments.push(newcomment);
+        this.forum.comments.push(newcomment);
         this.sending = false;
         this.text = '';
         setTimeout(()=>{
@@ -105,7 +108,7 @@ export default {
     },
     send_reply(comment){
       Vue.set(comment, 'sending_reply', true);
-      AppApi.send_comment(this.forum_id, comment.id, comment.reply_text).then(response => {
+      AppApi.send_comment(this.forum.id, comment.id, comment.reply_text).then(response => {
         comment.replies.push(response.data)
         comment.sending_reply = false
         comment.reply_text = '';
@@ -129,6 +132,20 @@ export default {
         }, 1)
       } else {
         Toasts.show('Faça login para responder', {timeout: 3000});
+      }
+    },
+    toggle_follow () {
+      if (this.logged_user) {
+        AppApi.follow_course_by_email(this.forum.id, this.forum.notify_email).then(() => {
+          if(this.forum.notify_email){
+            Toasts.show('Você vai receber emails sempre que alguém adicionar um comentário', {timeout: 3000});
+          } else {
+            Toasts.show('Você não vai mais receber emails com comentários nesta conversa', {timeout: 3000});
+          }
+        })
+      } else {
+        Toasts.show('Você precisa fazer login primeiro!', {timeout: 3000});
+        this.forum.notify_email = false
       }
     },
     asdatetime (d) {

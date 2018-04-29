@@ -11,7 +11,7 @@
               <v-text-field label="Primeiro nome" required v-model="user.first_name"/>
               <v-text-field label="Último nome" required v-model="user.last_name"/>
               <v-text-field label="Email" type="email" required v-model="user.email"/>
-              <v-switch label="Receber novidades sobre o conteúdo da evolutio" v-model="user.notifications_enabled"/>
+              <v-switch label="Permitir envio de emails" v-model="user.notifications_enabled"/>
             </v-container>
           </v-card-text>
           <v-btn class="blue--text darken-1" flat @click="save()" :loading="saving" :disabled="saving">Salvar</v-btn>

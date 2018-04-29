@@ -15,6 +15,7 @@ export default {
     get_paycode: _mockasync(get_paycode),
     save_content: _mockasync(save_content),
     send_comment: _mockasync(send_comment),
+    follow_course_by_email: _mockasync(follow_course_by_email),
 };
 
 function list_courses(){
@@ -39,6 +40,7 @@ function _coursedb(){
             banner: '/images/angular_banner.png',
             price: 29.90,
             owned: false,
+            notify_email: false,
             contents: [
                 { kind: 'youtube', ref: '-gL0Hbk74i4', name: 'Step 1', md: A_MD_DESCRIPTION},
                 { kind: 'youtube', ref: 'CqUkoLKQ0dY', name: 'Steps 2 e 3'},
@@ -57,6 +59,7 @@ function _coursedb(){
             description: 'Supere a barreira inicial do CSS criando layouts bonitos, funcionais e responsivos.',
             icon: '/images/css.png',
             banner: '/images/css_banner.jpg',
+            notify_email: false,
             contents: [
                 { kind: 'youtube', ref: '-gL0Hbk74i4', name: 'Step 1'},
                 { kind: 'youtube', ref: 'CqUkoLKQ0dY', name: 'Steps 2 e 3'},
@@ -74,6 +77,7 @@ function _coursedb(){
             description: 'Descubra o poder da programação mergulhando no mundo desta linguagem simples e poderosa.',
             icon: '/images/python.png',
             banner: '/images/python_banner.jpg',
+            notify_email: false,
             contents: [
                 { kind: 'youtube', ref: '-gL0Hbk74i4', name: 'Step 1'},
                 { kind: 'youtube', ref: 'CqUkoLKQ0dY', name: 'Steps 2 e 3'},
@@ -148,6 +152,10 @@ function send_comment(forum_id, parent_id, text){
         created_at: '2018-03-26T19:40:46.480877',
         text: text,
     }
+}
+
+function follow_course_by_email(course_code, follow){
+    return {}
 }
 
 function _mockasync(f){
