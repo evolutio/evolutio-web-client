@@ -4,17 +4,14 @@
     <v-switch label="Acompanhar por email" v-model="forum.notify_email" @change="toggle_follow()"/>
     </v-flex>
     <template v-if="logged_user">
-      <v-flex xs2 sm1 class="mt-3">
+      <v-flex xs2 sm1 class="mt">
         <v-avatar size="48px">
           <img v-if="logged_user.img" :src="logged_user.img">
           <v-icon v-else x-large>account_circle</v-icon>
         </v-avatar>
       </v-flex>
       <v-flex xs10 sm11>
-        <v-text-field v-model="text" auto-grow rows="2" multi-line label="Adicione um comentário" 
-          @focus="editing=true" @blur="losefocus" @keyup.ctrl.enter="send"
-           hint="Ctrl+Enter para enviar" persistent-hint></v-text-field>
-        <p v-if="editing || sending" class="text-xs-right"><v-btn @click="send" :loading="sending" primary>Enviar</v-btn></p>
+        <v-btn primary block @click="gocomment($event)">Adicione um comentário</v-btn>
       </v-flex>
     </template>
     <template v-if="!loading" v-for="comment in forum.comments">
@@ -29,7 +26,10 @@
           <span v-tooltip:top="{ html: asdatetime(comment.created_at) }">{{comment.created_at | fromnow}}</span>
         </p>
         <vue-markdown class="comment-text" :source="comment.text"/>
-        <p class="mb-1"><a class="link" @click="openreply(comment)">Responder</a></p>
+        <p class="mb-1">
+          <a class="link" @click="goreply(comment, $event)">Responder</a>
+          <a class="link" v-if="logged_user && comment.author_id == logged_user.id"> Editar</a>
+        </p>
       </v-flex>
       <template v-for="(reply, rindex) in comment.replies">
         <v-flex xs1></v-flex>
@@ -44,27 +44,27 @@
             <span v-tooltip:top="{ html: asdatetime(comment.created_at) }">{{reply.created_at | fromnow}}</span>
           </p>
           <vue-markdown class="comment-text" :source="reply.text"/>
-          <p v-if="rindex == comment.replies.length-1"><a class="link" @click="openreply(comment)">Responder</a></p>
+          <p>
+            <a v-if="rindex == comment.replies.length-1" class="link" @click="goreply(comment, $event)">Responder</a>
+            <a class="link" v-if="logged_user && reply.author_id == logged_user.id" @click="goedit(reply, $event)"> Editar</a>
+          </p>
         </v-flex>
       </template>
       <div :ref="'end_'+comment.id"></div>
-      <template v-if="comment.showreply">
-        <v-flex xs1></v-flex>
-        <v-flex xs1 sm1 class="mt-3">
-          <v-avatar size="48px">
-            <img v-if="logged_user.img" :src="logged_user.img">
-            <v-icon v-else x-large>account_circle</v-icon>
-          </v-avatar>
-        </v-flex>
-        <v-flex xs9 sm10>
-          <v-text-field v-model="comment.reply_text" auto-grow rows="2" multi-line label="Adicione uma resposta" 
-            @focus="editing=true" @blur="losefocus" @keyup.ctrl.enter="send_reply(comment)"
-             hint="Ctrl+Enter para enviar" persistent-hint></v-text-field>
-          <p class="text-xs-right"><v-btn @click="send_reply(comment)" :loading="comment.sending_reply" primary>Enviar</v-btn></p>
-        </v-flex>
-      </template>
+    </template>
+    <template v-if="logged_user">
+      <v-flex xs2 sm1 class="mt">
+        <v-avatar size="48px">
+          <img v-if="logged_user.img" :src="logged_user.img">
+          <v-icon v-else x-large>account_circle</v-icon>
+        </v-avatar>
+      </v-flex>
+      <v-flex xs10 sm11>
+        <v-btn primary block @click="gocomment($event)">Adicione um comentário</v-btn>
+      </v-flex>
     </template>
     <div ref="end"></div>
+    <textarea-dialog ref="commentdialog"></textarea-dialog>
   </v-layout>
 </template>
 
@@ -74,11 +74,12 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import AppApi from '~apijs'
 import Toasts from '~/components/Toasts.js'
+import TextareaDialog from '~/components/TextareaDialog.vue'
 import moment from 'moment'
 import VueMarkdown from 'vue-markdown'
 
 export default {
-  components: {VueMarkdown},
+  components: {VueMarkdown, TextareaDialog},
   props: ['forum'],
   data: function () {
     return {
@@ -94,44 +95,84 @@ export default {
     ]),
   },
   methods: {
-    send(){
-      this.sending = true;
-      AppApi.send_comment(this.forum.id, null, this.text).then(response => {
-        const newcomment = {...response.data, replies: []};
-        this.forum.comments.push(newcomment);
-        this.sending = false;
-        this.text = '';
-        setTimeout(()=>{
-          this.$refs.end.scrollIntoView()
-        }, 1)
-      });
-    },
-    send_reply(comment){
-      Vue.set(comment, 'sending_reply', true);
-      AppApi.send_comment(this.forum.id, comment.id, comment.reply_text).then(response => {
-        comment.replies.push(response.data)
-        comment.sending_reply = false
-        comment.reply_text = '';
-        comment.showreply = false
-        setTimeout(()=>{
-          this.$refs['end_'+comment.id][0].scrollIntoView()
-        }, 1)
-      });
-    },
+    // send(){
+    //   this.sending = true;
+    //   AppApi.send_comment(this.forum.id, null, this.text).then(response => {
+    //     const newcomment = {...response.data, replies: []};
+    //     this.forum.comments.push(newcomment);
+    //     this.sending = false;
+    //     this.text = '';
+    //     setTimeout(()=>{
+    //       this.$refs.end.scrollIntoView()
+    //     }, 1)
+    //   });
+    // },
     losefocus(){
       window.setTimeout(()=>{
         this.editing = false;
       }, 500)
     },
-    openreply(comment) {
+    gocomment (evt) {
       if (this.logged_user) {
-        Vue.set(comment, 'showreply', true);
-        Vue.set(comment, 'reply_text', '');
-        setTimeout(()=>{
-          this.$refs['end_'+comment.id][0].scrollIntoView()
-        }, 1)
+        this.$refs.commentdialog.open({
+          title: 'Adicione um comentário',
+          label: 'Comentário',
+          value: '',
+          action: 'Enviar',
+          actionFunc: value => {
+            return AppApi.send_comment(this.forum.id, null, value).then(response => {
+              const newcomment = {...response.data, replies: []};
+              this.forum.comments.push(newcomment);
+              setTimeout(()=>{
+                this.$refs.end.scrollIntoView()
+              }, 1)
+            })
+          }
+        })
+        if (evt) {
+          evt.stopPropagation()
+        }
+      } else {
+        Toasts.show('Faça login para comentar', {timeout: 3000});
+      }
+    },
+    goreply (comment, evt) {
+      if (this.logged_user) {
+        this.$refs.commentdialog.open({
+          title: 'Responder',
+          label: 'Resposta',
+          value: '',
+          action: 'Enviar',
+          actionFunc: value => {
+            return AppApi.send_comment(this.forum.id, comment.id, value).then(response => {
+              comment.replies.push(response.data)
+              setTimeout(()=>{
+                this.$refs['end_'+comment.id][0].scrollIntoView()
+              }, 1)
+            })
+          }
+        })
+        if (evt) {
+          evt.stopPropagation()
+        }
       } else {
         Toasts.show('Faça login para responder', {timeout: 3000});
+      }
+    },
+    goedit (comment, evt) {
+      this.$refs.commentdialog.open({
+        title: 'Editar resposta',
+        label: 'Resposta',
+        value: comment.text,
+        action: 'Enviar',
+        actionFunc: value => {
+          return AppApi.edit_comment(comment.id, value).then(response => {
+            comment.text = response.data.text
+          })
+        }
+      })
+      if (evt) {
+        evt.stopPropagation()
       }
     },
     toggle_follow () {

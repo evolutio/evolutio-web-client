@@ -15,6 +15,7 @@ export default {
     get_paycode: _mockasync(get_paycode),
     save_content: _mockasync(save_content),
     send_comment: _mockasync(send_comment),
+    edit_comment: _mockasync(edit_comment),
     follow_course_by_email: _mockasync(follow_course_by_email),
 };
 
@@ -94,6 +95,7 @@ function _coursedb(){
 function login(username, password){
     if(password){
         logged_user = {
+            id: 1,
             username: username,
             first_name: 'João',
             last_name: 'Silva',
@@ -154,6 +156,13 @@ function send_comment(forum_id, parent_id, text){
     }
 }
 
+function edit_comment(comment_id, text){
+    return {
+        id: comment_id, 
+        text: text,
+    }
+}
+
 function follow_course_by_email(course_code, follow){
     return {}
 }
@@ -174,6 +183,7 @@ const fotozuck = 'https://graph.facebook.com/4/picture?width=300&height=300';
 const fotogates = 'https://graph.facebook.com/216311481960/picture?width=300&height=300';
 const yadayada = 'Ao contrário da crença popular, Lipsum (Lorem Ipsum abreviado) não é simplesmente um texto qualquer com um monte de letras. Ela tem raízes numa peça clássica da literatura latina de 45 A.C., fazendo com que este famoso texto tenha mais de 2000 anos de idade.\n\n Richard McClintock, um professor de Latim na Hampden-Sydney College na Virginia, pesquisou uma das mais obscuras palavras em Latim, "consectetur", da passagem de Lipsum, e indo a fundo nas citações da literatura clássica descobriu de uma fonte segura que Lipsum vem das seções 1.10.32 e 1.10.33 do "de Finibus Bonorum et Malorum" (Os Extremos do Bem e do Mal) escrito por Cícero em 45 A.C.. Este livro trata da teoria de ética, muito popular durante a Renascença. A primeira linha de Lipsum, "Lorem ipsum dolor sit amet...", pode ser lida na seção 1.10.32.[1]';
 const commentZuck = {
+  author_id: 1,
   author: 'Mark Zuckerberg',
   author_img: fotozuck,
   created_at: '2018-03-26T19:40:46.480877',
