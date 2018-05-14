@@ -52,7 +52,7 @@
       </template>
       <div :ref="'end_'+comment.id"></div>
     </template>
-    <template v-if="logged_user">
+    <template v-if="logged_user && forum.comments.length > 0">
       <v-flex xs2 sm1 class="mt">
         <v-avatar size="48px">
           <img v-if="logged_user.img" :src="logged_user.img">
@@ -85,8 +85,6 @@ export default {
     return {
       text: '',
       loading: false,
-      editing: false,
-      sending: false,
     }
   },
   computed: {
@@ -95,23 +93,6 @@ export default {
     ]),
   },
   methods: {
-    // send(){
-    //   this.sending = true;
-    //   AppApi.send_comment(this.forum.id, null, this.text).then(response => {
-    //     const newcomment = {...response.data, replies: []};
-    //     this.forum.comments.push(newcomment);
-    //     this.sending = false;
-    //     this.text = '';
-    //     setTimeout(()=>{
-    //       this.$refs.end.scrollIntoView()
-    //     }, 1)
-    //   });
-    // },
-    losefocus(){
-      window.setTimeout(()=>{
-        this.editing = false;
-      }, 500)
-    },
     gocomment (evt) {
       if (this.logged_user) {
         this.$refs.commentdialog.open({

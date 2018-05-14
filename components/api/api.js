@@ -68,6 +68,10 @@ function send_comment(forum_id, parent_id, text){
     return post('/api/send_comment', data);
 }
 
+function edit_comment(comment_id, text){
+    return post('/api/edit_comment', {comment_id, text});
+}
+
 function follow_course_by_email(course_id, follow){
     return post('/api/follow_course_by_email', {course_id, follow});
 }
