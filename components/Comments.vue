@@ -28,7 +28,7 @@
         <vue-markdown class="comment-text" :source="comment.text"/>
         <p class="mb-1">
           <a class="link" @click="goreply(comment, $event)">Responder</a>
-          <a class="link" v-if="logged_user && comment.author_id == logged_user.id"> Editar</a>
+          <a class="link" v-if="logged_user && comment.author_id == logged_user.id" @click="goedit(comment, $event)"> Editar</a>
         </p>
       </v-flex>
       <template v-for="(reply, rindex) in comment.replies">
@@ -83,7 +83,6 @@ export default {
   props: ['forum'],
   data: function () {
     return {
-      text: '',
       loading: false,
     }
   },

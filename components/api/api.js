@@ -14,6 +14,7 @@ export default {
     get_paycode,
     save_content,
     send_comment,
+    edit_comment,
     follow_course_by_email,
 };
 
