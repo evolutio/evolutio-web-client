@@ -145,7 +145,7 @@ export default {
       </v-tabs>
 
     </v-container>
-    <v-dialog v-model="dialog_precompra" lazy absolute>
+    <v-dialog v-model="dialog_precompra" lazy absolute max-width="500px">
       <v-card>
         <v-card-title>
           <div class="headline">Comprar acesso completo</div>
@@ -161,7 +161,7 @@ export default {
         </v-card-actions>
       </v-card>
     </v-dialog>
-    <v-dialog v-model="dialog_poscompra" lazy absolute>
+    <v-dialog v-model="dialog_poscompra" lazy absolute max-width="500px">
       <v-card>
         <v-card-title>
           <div class="headline">Obrigado pela compra</div>
@@ -176,7 +176,7 @@ export default {
         </v-card-actions>
       </v-card>
     </v-dialog>
-    <v-dialog v-model="dialog_breve" lazy absolute>
+    <v-dialog v-model="dialog_breve" lazy absolute max-width="500px">
       <v-card>
         <v-card-title>
           <div class="headline">Em breve!</div>

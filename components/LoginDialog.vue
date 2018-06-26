@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-dialog v-model="visible">
+    <v-dialog v-model="visible" max-width="400px">
       <v-card>
           <v-card-title>Log in</v-card-title>
           <v-card-text>

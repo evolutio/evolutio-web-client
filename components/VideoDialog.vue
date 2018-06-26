@@ -89,23 +89,20 @@
             <v-flex xs12 sm8 offset-sm2>
               <v-btn v-if="editable" @click="edit($event)">Editar</v-btn>
               <vue-markdown v-if="!editing" :source="content.md"></vue-markdown>
-              <v-tabs v-if="editing" v-model="tab_active" class="my-3">
-                <v-tabs-bar class="tabs-bar">
-                  <v-tabs-item key="descricao" href="#descricao" ripple>
-                    Descrição
-                  </v-tabs-item>
-                  <v-tabs-item key="preview" href="#preview" ripple>
-                    Preview
-                  </v-tabs-item>
-                  <v-tabs-slider class="red"></v-tabs-slider>
-                </v-tabs-bar>
-                <v-tabs-content key="descricao" id="descricao">
+              <v-tabs v-if="editing" v-model="tab_active" class="my-3" slider-color="red">
+                <v-tab key="descricao" href="#descricao" ripple>
+                  Descrição
+                </v-tab>
+                <v-tab key="preview" href="#preview" ripple>
+                  Preview
+                </v-tab>
+                <v-tab-item key="descricao" id="descricao">
                   <v-text-field label="Descrição" v-model="md_temp" multi-line></v-text-field>
                   <v-btn @click="save($event)" :loading="saving">Salvar</v-btn>
-                </v-tabs-content>
-                <v-tabs-content key="preview" id="preview">
+                </v-tab-item>
+                <v-tab-item key="preview" id="preview">
                   <vue-markdown :source="md_temp"></vue-markdown>
-                </v-tabs-content>
+                </v-tab-item>
               </v-tabs>
             </v-flex>
           </v-layout>
