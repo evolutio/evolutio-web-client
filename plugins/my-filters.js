@@ -10,3 +10,7 @@ Vue.filter('datetime', value => {
   if (!value) return
   return moment(value).format('DD/MM/YYYY HH:mm')
 })
+
+Vue.filter('seconds2minutes', value => {
+  return parseInt(parseInt(value)/60)
+})

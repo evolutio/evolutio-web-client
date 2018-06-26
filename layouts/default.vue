@@ -5,7 +5,7 @@
       <v-spacer></v-spacer>
       <v-toolbar-items>
 
-        <v-btn flat dark ripple v-if="!logged_user" @click="open_login_dialog($event)">Login</v-btn>
+        <v-btn flat ripple v-if="!logged_user" @click="open_login_dialog($event)">Login</v-btn>
         <v-menu v-if="logged_user" bottom left offset-y origin="top right" transition="v-slide-y-transition">
           <v-btn flat dark ripple slot="activator">
             <v-avatar v-if="logged_user.img" size="36px">

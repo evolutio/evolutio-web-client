@@ -23,7 +23,11 @@
       <v-flex xs10 sm11 class="grey lighten-2 mt-3 px-3 pt-3 pb-1 rounded">
         <p>
           <strong>{{comment.author}}</strong>,
-          <span v-tooltip:top="{ html: asdatetime(comment.created_at) }">{{comment.created_at | fromnow}}</span>
+          <!-- <span v-tooltip:top="{ html: asdatetime(comment.created_at) }">{{comment.created_at | fromnow}}</span> -->
+          <v-tooltip top>
+            <span slot="activator">{{comment.created_at | fromnow}}</span>
+            <span>{{asdatetime(comment.created_at)}}</span>
+          </v-tooltip>
         </p>
         <vue-markdown class="comment-text" :source="comment.text"/>
         <p class="mb-1">
@@ -41,7 +45,10 @@
         <v-flex xs9 sm10 class="grey lighten-2 mt-3 px-3 pt-3 pb-1 rounded">
           <p>
             <strong>{{reply.author}}</strong>, 
-            <span v-tooltip:top="{ html: asdatetime(comment.created_at) }">{{reply.created_at | fromnow}}</span>
+            <v-tooltip top>
+              <span slot="activator">{{reply.created_at | fromnow}}</span>
+              <span>{{asdatetime(comment.created_at)}}</span>
+            </v-tooltip>
           </p>
           <vue-markdown class="comment-text" :source="reply.text"/>
           <p>

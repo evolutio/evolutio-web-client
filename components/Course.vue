@@ -5,6 +5,7 @@ import Vuex from 'vuex'
 import VideoDialog from '~/components/VideoDialog.vue'
 import Comments from '~/components/Comments.vue'
 import Toasts from '~/components/Toasts.js'
+import moment from 'moment'
 
 export default {
   props: ['course'],
@@ -24,6 +25,9 @@ export default {
     bannersrc(){
       return this.course.banner || '/images/desert.jpg';
     }
+  },
+  mounted () {
+    window.moment = moment
   },
   methods: {
     open_content(content, evt){
@@ -101,7 +105,7 @@ export default {
                 Conteúdo exclusivo
                 <v-icon right>star</v-icon>
               </v-chip>
-              <v-btn round small primary dark @click.native="iniciar_compra($event)">Acesso completo ({{course.price | currency('R$')}})</v-btn>
+              <v-btn round small primary color="primary" @click.native="iniciar_compra($event)">Acesso completo ({{course.price | currency('R$')}})</v-btn>
             </div>
             <div v-if="course.price > 0 && course.owned">
               <v-chip small dark class="green white--text" >
@@ -113,35 +117,31 @@ export default {
         </v-card-title>
       </v-card>
 
-      <v-tabs v-model="active" class="my-3">
-        <v-tabs-bar class="tabs-bar">
-          <v-tabs-item key="material" href="#material" ripple>
-            Material
-          </v-tabs-item>
-          <v-tabs-item key="discussao" href="#discussao" ripple>
-            Discussão ({{course.comments.length}})
-          </v-tabs-item>
-          <v-tabs-slider class="red"></v-tabs-slider>
-        </v-tabs-bar>
-        <!-- <v-card class="my-3"> -->
-          <v-tabs-content key="material" id="material">
-            <v-list two-line subheader>
-              <v-list-tile v-for="content in course.contents" :key="content.id">
-                <v-list-tile-avatar>
-                  <v-icon v-if="content.kind == 'youtube' || content.kind == 'vimeo'" class="grey white--text">ondemand_video</v-icon>
-                  <v-icon v-if="content.kind == 'RESTRICTED'" class="grey white--text">https</v-icon>
-                  <v-icon v-if="content.kind == 'SOON'" class="grey white--text">personal_video</v-icon>
-                </v-list-tile-avatar>
-                <v-list-tile-content>
-                  <v-list-tile-title class="video-link" @click="open_content(content, $event)">{{ content.name }}</v-list-tile-title>
-                </v-list-tile-content>
-              </v-list-tile>
-            </v-list>
-          </v-tabs-content>
-        <!-- </v-card> -->
-        <v-tabs-content key="discussao" id="discussao">
+      <v-tabs v-model="active" slider-color="red" class="my-3">
+        <v-tab key="material" href="#material" ripple>
+          Material
+        </v-tab>
+        <v-tab key="discussao" href="#discussao" ripple>
+          Discussão ({{course.comments.length}})
+        </v-tab>
+        <v-tab-item key="material" id="material">
+          <v-list two-line subheader>
+            <v-list-tile v-for="content in course.contents" :key="content.id">
+              <v-list-tile-avatar>
+                <v-icon v-if="content.kind == 'youtube' || content.kind == 'vimeo'" class="grey white--text">ondemand_video</v-icon>
+                <v-icon v-if="content.kind == 'RESTRICTED'" class="grey white--text">https</v-icon>
+                <v-icon v-if="content.kind == 'SOON'" class="grey white--text">personal_video</v-icon>
+              </v-list-tile-avatar>
+              <v-list-tile-content>
+                <v-list-tile-title class="video-link" @click="open_content(content, $event)">{{ content.name }}</v-list-tile-title>
+                <v-list-tile-sub-title v-if="content.duration">{{ content.duration | seconds2minutes }} min</v-list-tile-sub-title>
+              </v-list-tile-content>
+            </v-list-tile>
+          </v-list>
+        </v-tab-item>
+        <v-tab-item key="discussao" id="discussao">
           <Comments :forum="course"></Comments>
-        </v-tabs-content>
+        </v-tab-item>
       </v-tabs>
 
     </v-container>
