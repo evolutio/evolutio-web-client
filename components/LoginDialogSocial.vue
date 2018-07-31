@@ -6,8 +6,8 @@
           <v-card-text>
             <p>Faça login usando um dos serviços abaixo</p>
             <v-layout row wrap>
-              <v-flex xs12><v-btn block round error href="/login/google-oauth2">Google</v-btn></v-flex>
-              <v-flex xs12><v-btn block round primary href="/login/facebook">Facebook</v-btn></v-flex>
+              <v-flex xs12><v-btn block round color="error" href="/login/google-oauth2">Google</v-btn></v-flex>
+              <v-flex xs12><v-btn block round color="info" href="/login/facebook">Facebook</v-btn></v-flex>
               <v-flex xs12><v-btn block round dark href="/login/github">Github</v-btn></v-flex>
             </v-layout>
           </v-card-text>

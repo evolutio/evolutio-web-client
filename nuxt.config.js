@@ -14,6 +14,11 @@ module.exports = {
       config.resolve.alias['~apijs'] = home + '/components/api/' + _apijs;
     }
   },
+  generate: {
+    minify: {
+      collapseWhitespace: false
+    }
+  },
   router: {
     middleware: ['fwdcookies', 'auth'],
   },

@@ -83,6 +83,9 @@ export default {
   .tabs-bar{
     background-color: white;
   }
+  .video-link{
+    color: #1976d2
+  }
   .video-link:hover{
     cursor: pointer;
     text-decoration: underline;
@@ -128,12 +131,12 @@ export default {
           <v-list two-line subheader>
             <v-list-tile v-for="content in course.contents" :key="content.id">
               <v-list-tile-avatar>
-                <v-icon v-if="content.kind == 'youtube' || content.kind == 'vimeo'" class="grey white--text">ondemand_video</v-icon>
+                <v-icon v-if="content.kind == 'youtube' || content.kind == 'vimeo'" class="blue white--text" >ondemand_video</v-icon>
                 <v-icon v-if="content.kind == 'RESTRICTED'" class="grey white--text">https</v-icon>
-                <v-icon v-if="content.kind == 'SOON'" class="grey white--text">personal_video</v-icon>
+                <v-icon v-if="content.kind == 'SOON'" class="blue white--text">personal_video</v-icon>
               </v-list-tile-avatar>
               <v-list-tile-content>
-                <v-list-tile-title class="video-link" @click="open_content(content, $event)">{{ content.name }}</v-list-tile-title>
+                <v-list-tile-title :class="{'video-link': content.kind != 'RESTRICTED'}" @click="open_content(content, $event)">{{ content.name }}</v-list-tile-title>
                 <v-list-tile-sub-title v-if="content.duration">{{ content.duration | seconds2minutes }} min</v-list-tile-sub-title>
               </v-list-tile-content>
             </v-list-tile>
