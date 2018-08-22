@@ -11,6 +11,7 @@ $color-alert: #c8ae13;
 $color-error: #c6504e;
 $color-success: #239f28;
 $color-dark: #444444;
+$color-gray: #777777;
 
 $colours:
   "light" $color-light,
@@ -22,7 +23,8 @@ $colours:
   "error" $color-error,
   "success" $color-success,
   "dark" $color-dark,
-  "white" $color-white;
+  "white" $color-white,
+  "gray" $color-gray;
 
 //Gerando as classes de cores
 @each $i in $colours {

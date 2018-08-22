@@ -40,3 +40,12 @@ Vue.filter('trim', (text, size, breakWord = false) => {
   }
   return shortText
 })
+
+Vue.filter('reais', value => {
+  if (value === undefined || value === null) return
+  const signal = value < 0 ? '- ' : ''
+  const currency = 'R$'
+  let values = Number(Math.abs(value)).toFixed(2).split('.')
+  const currencyValue = [values[0].toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.'), values[1]].filter(Boolean).join()
+  return `${signal}${currency} ${currencyValue}`
+})
