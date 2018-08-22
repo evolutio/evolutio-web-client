@@ -1,0 +1,228 @@
+/*--------------------
+  colors
+--------------------*/
+$color-white: #ffffff;
+$color-super-light: #f5f5f6;
+$color-light: #f1f1f1;
+$color-primary: #33495F;
+$color-secondary: #3AB982;
+$color-inactive: #888888;
+$color-alert: #c8ae13;
+$color-error: #c6504e;
+$color-success: #239f28;
+$color-dark: #444444;
+
+$colours:
+  "light" $color-light,
+  "super-light" $color-super-light,
+  "primary" $color-primary,
+  "secondary" $color-secondary,
+  "inactive" $color-inactive,
+  "alert" $color-alert,
+  "error" $color-error,
+  "success" $color-success,
+  "dark" $color-dark,
+  "white" $color-white;
+
+//Gerando as classes de cores
+@each $i in $colours {
+  //Textos
+  .text-#{nth($i, 1)} {
+    color: nth($i, 2) !important;
+  }
+
+  //Backgrounds
+  .bg-#{nth($i, 1)} {
+    background-color: nth($i, 2) !important;
+  }
+}
+
+
+/*--------------------
+  font-sizing
+--------------------*/
+$fs-xxs: 10px;
+$fs-xs:  12px;
+$fs-s:   14px;
+$fs-sm:  16px;
+$fs-m:   18px;
+$fs-ml:  22px;
+$fs-l:   26px;
+$fs-xl:  32px;
+$fs-xxl: 48px;
+
+$font-sizes:
+  "xxs" $fs-xxs,
+  "xs" $fs-xs,
+  "s" $fs-s,
+  "sm" $fs-sm,
+  "m" $fs-m,
+  "ml" $fs-ml,
+  "l" $fs-l,
+  "xl" $fs-xl,
+  "xxl" $fs-xxl;
+
+//Gerando as classes de font-size
+@each $i in $font-sizes {
+  .fs-#{nth($i, 1)} {
+    font-size: nth($i, 2) !important;
+  }
+}
+
+
+/*--------------------
+  font-weighting
+--------------------*/
+$fw-light: 200;
+$fw-normal: 400;
+$fw-semi-bold: 500;
+$fw-bold: 600;
+
+$font-weights:
+  "light" $fw-light,
+  "normal" $fw-normal,
+  "semi-bold" $fw-semi-bold,
+  "bold" $fw-bold,
+  "strong" $fw-bold;
+
+@each $i in $font-weights {
+  .fw-#{nth($i, 1)} {
+    font-weight: nth($i, 2) !important;
+  }
+}
+
+
+//mixins
+@mixin border-radius($radius) {
+  -webkit-border-radius: $radius;
+     -moz-border-radius: $radius;
+      -ms-border-radius: $radius;
+          border-radius: $radius;
+}
+
+.hidden {
+  width: 0;
+  height: 0;
+  overflow: hidden;
+}
+
+.clickable {
+  cursor: pointer;
+  user-select: none;
+}
+
+.inline-block {
+  display: inline-block;
+}
+
+.no-select {
+  user-select: none;
+}
+
+.crossed {
+  color: $color-inactive !important;
+  text-decoration: line-through !important;
+}
+
+.strong {
+  font-weight: $fw-bold;
+}
+
+.label {
+  @include border-radius(3px);
+  margin: 0;
+  padding: 2px 8px;
+  color: $color-light;
+  background-color: $color-dark;
+  display: inline-block;
+  border: none;
+  text-decoration: none;
+  text-transform: uppercase;
+  font-weight: $fw-bold;
+  font-size: $fs-xs;
+}
+
+.fill-card-top {
+  left: 0;
+  bottom: 0;
+  padding: 0;
+  width: calc(100% + 64px);
+  margin: -32px 0 0 -32px;
+  @media screen and (min-width: 960px) {
+    width: calc(100% + 128px);
+    margin: -64px 0 0 -64px;
+  }
+}
+
+.full-width {
+  width: 100% !important;
+}
+
+.full-height {
+  height: 100% !important;
+}
+
+a {
+  text-decoration: none;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: $color-primary;
+}
+
+p, div, span {
+  // color: $color-dark;
+}
+
+h1, .h1 {
+  font-size: $fs-xl;
+  font-weight: $fw-bold;
+  @media screen and (max-width: 600px) {
+    font-size: $fs-ml;
+  }
+}
+
+h2, .h2 {
+  font-size: $fs-l;
+  font-weight: $fw-bold;
+  @media screen and (max-width: 600px) {
+    font-size: $fs-m;
+  }
+}
+
+h3, .h3 {
+  font-size: $fs-ml;
+  font-weight: $fw-bold;
+  @media screen and (max-width: 600px) {
+    font-size: $fs-m;
+  }
+}
+
+h4, .h4 {
+  font-size: $fs-m;
+  font-weight: $fw-bold;
+  @media screen and (max-width: 600px) {
+    font-size: $fs-sm;
+  }
+}
+
+.btn__content {
+  font-weight: bold;
+}
+
+.invisible {
+  opacity: 0;
+}
+
+.visible {
+  transition: opacity 0.5s linear;
+  transition-delay: 0.8s;
+  opacity: 1;
+}
+
+.page-enter-active, .page-leave-active {
+  transition: opacity .5s;
+}
+.page-enter, .page-leave-to {
+  opacity: 0;
+}

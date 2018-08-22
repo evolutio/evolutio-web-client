@@ -33,7 +33,7 @@ module.exports = {
   ],
   css: [
     { src: join(__dirname, 'css/app.styl'), lang: 'styl' },
-    'assets/main.css'
+    { src: '~/css/main.scss', lang: 'sass' }
   ],
   head: {
     script: [

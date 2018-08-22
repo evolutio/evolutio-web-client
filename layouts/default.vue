@@ -1,11 +1,14 @@
 <template>
   <v-app class="app">
-    <v-toolbar>
-      <v-toolbar-title ><router-link class="toolbar-title" to="/">evolutio</router-link></v-toolbar-title>
+    <v-toolbar color="white" height="80px">
+      <v-toolbar-title>
+        <router-link class="toolbar-title" to="/">
+          <img height="36px" src="~/assets/images/evolutio.svg">
+        </router-link>
+      </v-toolbar-title>
       <v-spacer></v-spacer>
       <v-toolbar-items>
-
-        <v-btn flat ripple v-if="!logged_user" @click="open_login_dialog($event)">Login</v-btn>
+        <v-btn flat ripple v-if="!logged_user" @click="open_login_dialog($event)">Entrar</v-btn>
         <v-menu v-if="logged_user" bottom left offset-y origin="top right" transition="v-slide-y-transition">
           <v-btn flat dark ripple slot="activator">
             <v-avatar v-if="logged_user.img" size="36px">
@@ -90,13 +93,6 @@ export default {
 </script>
 
 <style scoped lanc="scss">
-  .toolbar-title {
-    font-family: arial;
-    font-size: 28px;
-    font-weight: bold;
-    color: #006fcf;
-    text-decoration: initial;
-  }
   .app {
     /*max-width: 900px;*/
   }
