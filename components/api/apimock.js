@@ -46,14 +46,14 @@ function _coursedb(){
             owned: false,
             notify_email: false,
             contents: [
-                { kind: 'youtube', ref: '-gL0Hbk74i4', name: 'Step 1', md: A_MD_DESCRIPTION, duration: 200},
-                { kind: 'youtube', ref: 'CqUkoLKQ0dY', name: 'Steps 2 e 3', duration: 200},
-                { kind: 'youtube', ref: 'iPtSNdriyM4', name: 'Step 4', duration: 200},
-                { kind: 'youtube', ref: 'dp_k331UwPg', name: 'Step 5', duration: 200},
-                { kind: 'vimeo', ref: '235220559', name: 'Step 6', duration: 200},
-                { kind: 'RESTRICTED', name: 'Step 7', duration: 200},
-                { kind: 'RESTRICTED', name: 'Step 8', duration: 200},
-                { kind: 'SOON', name: 'Step 9', duration: 200},
+                { kind: 'youtube', ref: '-gL0Hbk74i4', name: '001 - Apresentação - o que vamos aprender neste curso', md: A_MD_DESCRIPTION, duration: 3601.92},
+                { kind: 'youtube', ref: 'CqUkoLKQ0dY', name: '002 - npm, nvm, nodejs e vue-cli', duration: 39},
+                { kind: 'youtube', ref: 'iPtSNdriyM4', name: '003 - Apresentando o D-jà vue - template de projeto Django + Vue', duration: 287},
+                { kind: 'youtube', ref: 'dp_k331UwPg', name: '004 - Exercício: Screenshot do seu projeto djavue rodando', duration: 415},
+                { kind: 'vimeo', ref: '235220559', name: '005 - Como vai ser o ambiente de produção', duration: 817},
+                { kind: 'RESTRICTED', name: '006 - Deploy do Jabuticaba em produção na AWS', duration: 176},
+                { kind: 'RESTRICTED', name: '007 - NUXT - Roteamento simples', duration: 981},
+                { kind: 'SOON', name: '008 - Vuetify: Recheando nossa timeline com alguns tweets', duration: 8765},
             ],
         },
         {
@@ -260,20 +260,28 @@ function _mockasync(f){
 
 const fotozuck = 'https://graph.facebook.com/4/picture?width=300&height=300';
 const fotogates = 'https://graph.facebook.com/216311481960/picture?width=300&height=300';
-const yadayada = 'Ao contrário da crença popular, Lipsum (Lorem Ipsum abreviado) não é simplesmente um texto qualquer com um monte de letras. Ela tem raízes numa peça clássica da literatura latina de 45 A.C., fazendo com que este famoso texto tenha mais de 2000 anos de idade.\n\n Richard McClintock, um professor de Latim na Hampden-Sydney College na Virginia, pesquisou uma das mais obscuras palavras em Latim, "consectetur", da passagem de Lipsum, e indo a fundo nas citações da literatura clássica descobriu de uma fonte segura que Lipsum vem das seções 1.10.32 e 1.10.33 do "de Finibus Bonorum et Malorum" (Os Extremos do Bem e do Mal) escrito por Cícero em 45 A.C.. Este livro trata da teoria de ética, muito popular durante a Renascença. A primeira linha de Lipsum, "Lorem ipsum dolor sit amet...", pode ser lida na seção 1.10.32.[1]';
+const comm = 'Ao contrário da crença popular, Lipsum (Lorem Ipsum abreviado) não é simplesmente um texto qualquer com um monte de letras. Ela tem raízes numa peça clássica da literatura latina de 45 A.C., fazendo com que este famoso texto tenha mais de 2000 anos de idade.\n\n Richard McClintock, um professor de Latim na Hampden-Sydney College na Virginia, pesquisou uma das mais obscuras palavras em Latim, "consectetur", da passagem de Lipsum, e indo a fundo nas citações da literatura clássica descobriu de uma fonte segura que Lipsum vem das seções 1.10.32 e 1.10.33 do "de Finibus Bonorum et Malorum" (Os Extremos do Bem e do Mal) escrito por Cícero em 45 A.C.. Este livro trata da teoria de ética, muito popular durante a Renascença. A primeira linha de Lipsum, "Lorem ipsum dolor sit amet...", pode ser lida na seção 1.10.32.[1]';
+const rep = 'Ela tem raízes numa peça clássica da literatura latina de 45 A.C., fazendo com que este famoso texto tenha mais de 2000 anos de idade.\n\n Richard McClintock, um professor de Latim na Hampden-Sydney College na Virginia, pesquisou uma das mais obscuras palavras em Latim, "consectetur", da passagem de Lipsum, e indo a fundo nas citações da literatura clássica descobriu de uma fonte segura que Lipsum vem das seções 1.10.32 e 1.10.33 do "de Finibus Bonorum et Malorum" (Os Extremos do Bem e do Mal) escrito por Cícero em 45 A.C.. Este livro trata da teoria de ética, muito popular durante a Renascença. A primeira linha de Lipsum, "Lorem ipsum dolor sit amet...", pode ser lida na seção 1.10.32.[1]';
 const commentZuck = {
   author_id: 1,
   author: 'Mark Zuckerberg',
   author_img: fotozuck,
-  created_at: '2018-03-26T19:40:46.480877',
-  text: yadayada,
+  created_at: '2018-08-22T19:40:46.480877',
+  text: comm,
+}
+const commentGates = {
+  author_id: 2,
+  author: 'Bill Gates',
+  author_img: fotogates,
+  created_at: '2017-02-02T19:40:46.480877',
+  text: rep,
 }
 
 const comments = [
     {
         ...commentZuck, 
         id: ++_ID,
-        replies: [{...commentZuck, id: ++_ID}, {...commentZuck, id: ++_ID}]
+        replies: [{...commentGates, id: ++_ID}, {...commentZuck, id: ++_ID}]
     },
-    {...commentZuck, id: ++_ID},
+    {...commentGates, id: ++_ID},
 ]

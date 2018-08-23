@@ -1,153 +1,79 @@
-<script>
-
-import AppApi from '~apijs'
-import Vuex from 'vuex'
-import VideoDialog from '~/components/VideoDialog.vue'
-import Comments from '~/components/Comments.vue'
-import Toasts from '~/components/Toasts.js'
-import moment from 'moment'
-
-export default {
-  props: ['course'],
-  data () {
-    return {
-      active: 'material',
-      dialog_precompra: false,
-      dialog_poscompra: false,
-      dialog_breve: false,
-      loading_pagseguro: false,
-    };
-  },
-  computed: {
-    ...Vuex.mapGetters([
-      'logged_user',
-    ]),
-    bannersrc(){
-      return this.course.banner || '/images/desert.jpg';
-    }
-  },
-  mounted () {
-    window.moment = moment
-  },
-  methods: {
-    open_content(content, evt){
-      if(content.kind == 'RESTRICTED'){
-        this.iniciar_compra(evt);
-      } else if(content.kind == 'SOON'){
-        this.dialog_breve = true;
-      } else {
-        this.$refs.video_dialog.open(content)
-      }
-      evt.stopPropagation();
-    },
-    iniciar_compra(evt){
-      this.dialog_precompra = true;
-      evt.stopPropagation();
-    },
-    compra_pagseguro(){
-      if(!this.$store.state.logged_user){
-        Toasts.show('Você precisa fazer login antes!', {timeout: 3000});
-        return;
-      }
-      if(!this.$store.state.logged_user.last_name){
-        Toasts.show('Antes de fazer esta compra, você precisa completar as informações do seu perfil', {timeout: 5000});
-        return;
-      }
-      this.loading_pagseguro = true;
-      AppApi.get_paycode(this.course.code).then((response) => {
-        this.loading_pagseguro = false;
-        this.dialog_precompra = false;
-        var code = response.data.checkout.code;
-        var suporta_lightbox = PagSeguroLightbox({code: code}, {success : onsuccess, abort : onabort});
-        function onsuccess(transactionCode) {
-          this.dialog_poscompra = true;
-          console.log('pagseguro success');
-        }
-        function onabort(){
-          Toasts.show('Compra cancelada', {timeout: 3000});
-        }
-        if (!suporta_lightbox){
-          throw new Error('nao suporta light box do pagseguro')
-        }
-      });
-    }
-  },
-  components: {VideoDialog, Comments},
-}
-</script>
-
-<style scoped >
-  .main-content{
-    max-width: 900px
-  }
-  .tabs-bar{
-    background-color: white;
-  }
-  .video-link{
-    color: #1976d2
-  }
-  .video-link:hover{
-    cursor: pointer;
-    text-decoration: underline;
-  }
-
-</style>
-
 <template>
   <main>
-    <v-container fluid class="main-content">
-      <v-card>
-        <v-card-media :src="bannersrc" height="200px">
-        </v-card-media>
-        <v-card-title primary-title>
+    <section class="banner-section" :style="{ backgroundImage: `url('${bannersrc}')` }">
+      <v-container class="py-5">
+        <v-layout class="py-5" justify-center column>
+          <h1 class="text-white">{{course.name}}</h1>
+          <div class="mt-2 fs-m fw-light text-light" style="opacity: 0.8">{{ course.description}}</div>
+        </v-layout>
+      </v-container>
+    </section>
+    <section class="bg-super-light">
+      <v-container>
+        <v-layout row align-center>
           <div>
-            <h3 class="headline mb-0">{{course.name}}</h3>
-            <div>{{course.description}}</div>
-            <div v-if="course.price > 0 && !course.owned">
-              <v-chip small class="orange white--text" >
-                Conteúdo exclusivo
-                <v-icon right>star</v-icon>
-              </v-chip>
-              <v-btn round small primary color="primary" @click.native="iniciar_compra($event)">Acesso completo ({{course.price | currency('R$')}})</v-btn>
-            </div>
-            <div v-if="course.price > 0 && course.owned">
-              <v-chip small dark class="green white--text" >
-                Conteúdo exclusivo
-                <v-icon right>star</v-icon>
-              </v-chip>
-            </div>
+            <v-avatar size="42">
+              <img :src="course.teacher_avatar" alt="alt">
+            </v-avatar>
+            <span class="fw-bold ml-2 fs-sm text-dark">{{ course.teachers }}</span>
           </div>
-        </v-card-title>
-      </v-card>
-
-      <v-tabs v-model="active" slider-color="red" class="my-3">
-        <v-tab key="material" href="#material" ripple>
-          Material
-        </v-tab>
-        <v-tab key="discussao" href="#discussao" ripple>
-          Discussão ({{course.comments.length}})
-        </v-tab>
-        <v-tab-item key="material" id="material">
-          <v-list two-line subheader>
-            <v-list-tile v-for="content in course.contents" :key="content.id">
-              <v-list-tile-avatar>
-                <v-icon v-if="content.kind == 'youtube' || content.kind == 'vimeo'" class="blue white--text" >ondemand_video</v-icon>
-                <v-icon v-if="content.kind == 'RESTRICTED'" class="grey white--text">https</v-icon>
-                <v-icon v-if="content.kind == 'SOON'" class="blue white--text">personal_video</v-icon>
-              </v-list-tile-avatar>
-              <v-list-tile-content>
-                <v-list-tile-title :class="{'video-link': content.kind != 'RESTRICTED'}" @click="open_content(content, $event)">{{ content.name }}</v-list-tile-title>
-                <v-list-tile-sub-title v-if="content.duration">{{ content.duration | seconds2minutes }} min</v-list-tile-sub-title>
-              </v-list-tile-content>
-            </v-list-tile>
-          </v-list>
-        </v-tab-item>
-        <v-tab-item key="discussao" id="discussao">
-          <Comments :forum="course"></Comments>
-        </v-tab-item>
-      </v-tabs>
-
-    </v-container>
+<!--           <div v-if="course.price > 0">
+            <v-chip small class="orange white--text" >
+              Conteúdo exclusivo
+              <v-icon right>star</v-icon>
+            </v-chip>
+          </div> -->
+          <v-spacer />
+          <div v-if="course.price > 0 && !course.owned">
+            <v-layout column align-center>
+              <v-btn primary color="secondary" @click.native="iniciar_compra($event)">Comprar agora</v-btn>
+              <v-layout class="ma-0" row align-center>
+                <div v-if="course.old_price" class="crossed pr-2">{{course.old_price | reais}}</div>
+                <div v-if="course.price" class="text-secondary fw-bold">{{course.price | reais}}</div>
+              </v-layout>
+            </v-layout>
+          </div>
+        </v-layout>
+      </v-container>
+    </section>
+    <section class="bg-white">
+      <v-container>
+        <v-layout row>
+          <v-flex xs9>
+            <h2 class="my-4">Material do curso</h2>
+            <v-list two-line>
+              <template v-for="(content, index) in course.contents">
+                <v-divider v-if="index > 0" :key="index" />
+                <v-list-tile :key="content.id" @click="open_content(content, $event)">
+                  <v-list-tile-avatar>
+                    <v-icon :color="content_icon(content).color">{{content_icon(content).icon}}</v-icon>
+                  </v-list-tile-avatar>
+                  <v-list-tile-content>
+                    <v-list-tile-title
+                      class="fw-bold"
+                      :class="content.kind === 'RESTRICTED' ? 'text-inactive' : 'text-primary'"
+                    >
+                      {{ content.name }}
+                    </v-list-tile-title>
+                    <v-list-tile-sub-title v-if="content.duration">{{ content.duration | time }}</v-list-tile-sub-title>
+                  </v-list-tile-content>
+                  <v-list-tile-action v-if="content.kind === 'RESTRICTED'">
+                    <v-btn icon ripple>
+                      <v-icon color="orange lighten-1">star</v-icon>
+                    </v-btn>
+                  </v-list-tile-action>
+                </v-list-tile>
+              </template>
+            </v-list>
+          </v-flex>
+          <div class="mx-3" hidden-xs></div>
+          <v-flex xs3>
+            <h2 class="my-4">Discussão</h2>
+            <CommentsSmall :forum="course" />
+          </v-flex>
+        </v-layout>
+      </v-container>
+    </section>
     <v-dialog v-model="dialog_precompra" lazy absolute max-width="500px">
       <v-card>
         <v-card-title>
@@ -197,3 +123,113 @@ export default {
     <VideoDialog :course="course" ref="video_dialog"></VideoDialog>
   </main>
 </template>
+
+
+<script>
+import AppApi from '~apijs'
+import Vuex from 'vuex'
+import VideoDialog from '~/components/VideoDialog'
+import CommentsSmall from '~/components/CommentsSmall'
+import Toasts from '~/components/Toasts.js'
+import moment from 'moment'
+
+export default {
+  props: ['course'],
+  data () {
+    return {
+      active: 'material',
+      dialog_precompra: false,
+      dialog_poscompra: false,
+      dialog_breve: false,
+      loading_pagseguro: false,
+    };
+  },
+  computed: {
+    ...Vuex.mapGetters([
+      'logged_user',
+    ]),
+    bannersrc(){
+      return this.course.banner || '/images/desert.jpg';
+    }
+  },
+  mounted () {
+    window.moment = moment
+  },
+  methods: {
+    open_content (content, evt){
+      if(content.kind == 'RESTRICTED'){
+        this.iniciar_compra(evt);
+      } else if(content.kind == 'SOON'){
+        this.dialog_breve = true;
+      } else {
+        this.$refs.video_dialog.open(content)
+      }
+      evt.stopPropagation();
+    },
+    iniciar_compra (evt){
+      this.dialog_precompra = true;
+      evt.stopPropagation();
+    },
+    content_icon (content) {
+      if (content.kind in {youtube: 1, vimeo: 1}) {
+        return { color: 'blue', icon: 'ondemand_video' }
+      }
+      if (content.kind === 'RESTRICTED') {
+        return { color: 'grey', icon: 'https' }
+      }
+      if (content.kind === 'SOON') {
+        return { color: 'blue', icon: 'personal_video' }
+      }
+      return { color: 'grey', icon: 'note' }
+    },
+    compra_pagseguro (){
+      if(!this.$store.state.logged_user){
+        Toasts.show('Você precisa fazer login antes!', {timeout: 3000});
+        return;
+      }
+      if(!this.$store.state.logged_user.last_name){
+        Toasts.show('Antes de fazer esta compra, você precisa completar as informações do seu perfil', {timeout: 5000});
+        return;
+      }
+      this.loading_pagseguro = true;
+      AppApi.get_paycode(this.course.code).then((response) => {
+        this.loading_pagseguro = false;
+        this.dialog_precompra = false;
+        var code = response.data.checkout.code;
+        var suporta_lightbox = PagSeguroLightbox({code: code}, {success : onsuccess, abort : onabort});
+        function onsuccess(transactionCode) {
+          this.dialog_poscompra = true;
+          console.log('pagseguro success');
+        }
+        function onabort(){
+          Toasts.show('Compra cancelada', {timeout: 3000});
+        }
+        if (!suporta_lightbox){
+          throw new Error('nao suporta light box do pagseguro')
+        }
+      });
+    }
+  },
+  components: {VideoDialog, CommentsSmall},
+}
+</script>
+
+<style lang="scss" scoped >
+  .banner-section {
+    background-size: cover;
+  }
+  .main-content{
+    max-width: 900px
+  }
+  .tabs-bar{
+    background-color: white;
+  }
+  .video-link{
+    color: #1976d2
+  }
+  .video-link:hover{
+    cursor: pointer;
+    text-decoration: underline;
+  }
+</style>
+

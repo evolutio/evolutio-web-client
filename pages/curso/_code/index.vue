@@ -1,5 +1,8 @@
-<script>
+<template>
+  <Course :course="course"></Course>
+</template>
 
+<script>
 import AppApi from '~apijs'
 import Course from '~/components/Course.vue'
 
@@ -36,10 +39,5 @@ export default {
 
 <style scoped >
 </style>
-
-
-<template>
-  <Course :course="course"></Course>
-</template>
 
 
