@@ -14,7 +14,7 @@
         <v-btn primary block @click="gocomment($event)">Adicione um comentário</v-btn>
       </v-flex>
     </template>
-    <template v-if="!loading" v-for="comment in forum.comments">
+    <div v-if="!loading" v-for="comment in forum.comments" :key="comment.id">
       <v-flex xs2 sm1 class="mt-3">
         <v-avatar size="48px">
           <img :src="comment.author_img" alt="">
@@ -35,7 +35,7 @@
           <a class="link" v-if="logged_user && comment.author_id == logged_user.id" @click="goedit(comment, $event)"> Editar</a>
         </p>
       </v-flex>
-      <template v-for="(reply, rindex) in comment.replies">
+      <div v-for="(reply, rindex) in comment.replies" :key="reply.id">
         <v-flex xs1></v-flex>
         <v-flex xs2 sm1 class="mt-3">
           <v-avatar size="36px">
@@ -56,9 +56,9 @@
             <a class="link" v-if="logged_user && reply.author_id == logged_user.id" @click="goedit(reply, $event)"> Editar</a>
           </p>
         </v-flex>
-      </template>
+      </div>
       <div :ref="'end_'+comment.id"></div>
-    </template>
+    </div>
     <template v-if="logged_user && forum.comments.length > 0">
       <v-flex xs2 sm1 class="mt">
         <v-avatar size="48px">
@@ -74,7 +74,6 @@
     <textarea-dialog ref="commentdialog"></textarea-dialog>
   </v-layout>
 </template>
-
 <script>
 
 import Vue from 'vue'
@@ -84,13 +83,18 @@ import Toasts from '~/components/Toasts.js'
 import TextareaDialog from '~/components/TextareaDialog.vue'
 import moment from 'moment'
 import VueMarkdown from 'vue-markdown'
+import forumhelper from '~/helpers/forumhelper.js'
+
 
 export default {
-  components: {VueMarkdown, TextareaDialog},
   props: ['forum'],
+  components: {
+    VueMarkdown,
+    TextareaDialog
+  },
   data: function () {
     return {
-      loading: false,
+      loading: false
     }
   },
   computed: {
@@ -100,81 +104,16 @@ export default {
   },
   methods: {
     gocomment (evt) {
-      if (this.logged_user) {
-        this.$refs.commentdialog.open({
-          title: 'Adicione um comentário',
-          label: 'Comentário',
-          value: '',
-          action: 'Enviar',
-          actionFunc: value => {
-            return AppApi.send_comment(this.forum.id, null, value).then(response => {
-              const newcomment = {...response.data, replies: []};
-              this.forum.comments.push(newcomment);
-              setTimeout(()=>{
-                this.$refs.end.scrollIntoView()
-              }, 1)
-            })
-          }
-        })
-        if (evt) {
-          evt.stopPropagation()
-        }
-      } else {
-        Toasts.show('Faça login para comentar', {timeout: 3000});
-      }
+      forumhelper.gocomment(this, evt)
     },
     goreply (comment, evt) {
-      if (this.logged_user) {
-        this.$refs.commentdialog.open({
-          title: 'Responder',
-          label: 'Resposta',
-          value: '',
-          action: 'Enviar',
-          actionFunc: value => {
-            return AppApi.send_comment(this.forum.id, comment.id, value).then(response => {
-              comment.replies.push(response.data)
-              setTimeout(()=>{
-                this.$refs['end_'+comment.id][0].scrollIntoView()
-              }, 1)
-            })
-          }
-        })
-        if (evt) {
-          evt.stopPropagation()
-        }
-      } else {
-        Toasts.show('Faça login para responder', {timeout: 3000});
-      }
+      forumhelper.goreply(this, comment, evt)
     },
     goedit (comment, evt) {
-      this.$refs.commentdialog.open({
-        title: 'Editar resposta',
-        label: 'Resposta',
-        value: comment.text,
-        action: 'Enviar',
-        actionFunc: value => {
-          return AppApi.edit_comment(comment.id, value).then(response => {
-            comment.text = response.data.text
-          })
-        }
-      })
-      if (evt) {
-        evt.stopPropagation()
-      }
+      forumhelper.goedit(this, comment, evt)
     },
     toggle_follow () {
-      if (this.logged_user) {
-        AppApi.follow_course_by_email(this.forum.id, this.forum.notify_email).then(() => {
-          if(this.forum.notify_email){
-            Toasts.show('Você vai receber emails sempre que alguém adicionar um comentário', {timeout: 3000});
-          } else {
-            Toasts.show('Você não vai mais receber emails com comentários nesta conversa', {timeout: 3000});
-          }
-        })
-      } else {
-        Toasts.show('Você precisa fazer login primeiro!', {timeout: 3000});
-        this.forum.notify_email = false
-      }
+      forumhelper.toggle_follow(this)
     },
     asdatetime (d) {
       if (!d) return

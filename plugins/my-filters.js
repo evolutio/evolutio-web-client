@@ -8,6 +8,16 @@ Vue.filter('fromnow', value => {
   return moment(value).fromNow()
 })
 
+Vue.filter('plural', (value, singular, plural) => {
+  if (value === null || value === undefined) {
+    return null
+  } else if (value === 1) {
+    return `1 ${singular}`
+  } else {
+    return `${value} ${plural}`
+  }
+})
+
 Vue.filter('fromnowshort', value => {
   if (!value) return
   const date = moment(value)

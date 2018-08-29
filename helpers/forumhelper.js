@@ -1,17 +1,17 @@
 export default {
-  gocomment (evt) {
-    if (this.logged_user) {
-      this.$refs.commentdialog.open({
+  gocomment (ctx, evt) {
+    if (ctx.logged_user) {
+      ctx.$refs.commentdialog.open({
         title: 'Adicione um comentário',
         label: 'Comentário',
         value: '',
         action: 'Enviar',
         actionFunc: value => {
-          return AppApi.send_comment(this.forum.id, null, value).then(response => {
+          return AppApi.send_comment(ctx.forum.id, null, value).then(response => {
             const newcomment = {...response.data, replies: []};
-            this.forum.comments.push(newcomment);
+            ctx.forum.comments.push(newcomment);
             setTimeout(()=>{
-              this.$refs.end.scrollIntoView()
+              ctx.$refs.end.scrollIntoView()
             }, 1)
           })
         }
@@ -23,18 +23,18 @@ export default {
       Toasts.show('Faça login para comentar', {timeout: 3000});
     }
   },
-  goreply (comment, evt) {
-    if (this.logged_user) {
-      this.$refs.commentdialog.open({
+  goreply (ctx, comment, evt) {
+    if (ctx.logged_user) {
+      ctx.$refs.commentdialog.open({
         title: 'Responder',
         label: 'Resposta',
         value: '',
         action: 'Enviar',
         actionFunc: value => {
-          return AppApi.send_comment(this.forum.id, comment.id, value).then(response => {
+          return AppApi.send_comment(ctx.forum.id, comment.id, value).then(response => {
             comment.replies.push(response.data)
             setTimeout(()=>{
-              this.$refs['end_'+comment.id][0].scrollIntoView()
+              ctx.$refs['end_'+comment.id][0].scrollIntoView()
             }, 1)
           })
         }
@@ -46,8 +46,8 @@ export default {
       Toasts.show('Faça login para responder', {timeout: 3000});
     }
   },
-  goedit (comment, evt) {
-    this.$refs.commentdialog.open({
+  goedit (ctx, comment, evt) {
+    ctx.$refs.commentdialog.open({
       title: 'Editar resposta',
       label: 'Resposta',
       value: comment.text,
@@ -62,10 +62,10 @@ export default {
       evt.stopPropagation()
     }
   },
-  toggle_follow () {
-    if (this.logged_user) {
-      AppApi.follow_course_by_email(this.forum.id, this.forum.notify_email).then(() => {
-        if(this.forum.notify_email){
+  toggle_follow (ctx, ) {
+    if (ctx.logged_user) {
+      AppApi.follow_course_by_email(ctx.forum.id, ctx.forum.notify_email).then(() => {
+        if(ctx.forum.notify_email){
           Toasts.show('Você vai receber emails sempre que alguém adicionar um comentário', {timeout: 3000});
         } else {
           Toasts.show('Você não vai mais receber emails com comentários nesta conversa', {timeout: 3000});
@@ -73,7 +73,7 @@ export default {
       })
     } else {
       Toasts.show('Você precisa fazer login primeiro!', {timeout: 3000});
-      this.forum.notify_email = false
+      ctx.forum.notify_email = false
     }
   }
 }

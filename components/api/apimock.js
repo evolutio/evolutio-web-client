@@ -268,6 +268,7 @@ const commentZuck = {
   author_img: fotozuck,
   created_at: '2018-08-22T19:40:46.480877',
   text: comm,
+  replies: []
 }
 const commentGates = {
   author_id: 2,
@@ -275,13 +276,17 @@ const commentGates = {
   author_img: fotogates,
   created_at: '2017-02-02T19:40:46.480877',
   text: rep,
+  replies: []
 }
 
 const comments = [
     {
         ...commentZuck, 
         id: ++_ID,
-        replies: [{...commentGates, id: ++_ID}, {...commentZuck, id: ++_ID}]
+        replies: [{...commentGates, id: ++_ID}, {...commentZuck, id: ++_ID}, {...commentGates, id: ++_ID}, {...commentZuck, id: ++_ID}, {...commentGates, id: ++_ID}, {...commentZuck, id: ++_ID}, {...commentGates, id: ++_ID}, {...commentZuck, id: ++_ID}]
     },
     {...commentGates, id: ++_ID},
+    {...commentZuck, id: ++_ID},
+    {...commentGates, id: ++_ID},
+    {...commentZuck, id: ++_ID}
 ]

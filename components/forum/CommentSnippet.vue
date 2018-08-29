@@ -1,7 +1,7 @@
 <template>
   <v-layout class="mb-2" row>
     <v-flex>
-      <div>
+      <div class="clickable" @click="viewComment">
         <v-avatar size="20px" class="mr-1">
           <img :src="comment.author_img">
         </v-avatar>
@@ -13,8 +13,8 @@
           <span class="fs-xs text-gray mr-2" slot="activator">{{comment.created_at | fromnowshort }} </span>
           <span>{{comment.created_at | datetime}}</span>
         </v-tooltip>
-        <a class="link" @click="goreply(replyTo || comment, $event)">Responder</a>
-        <a class="link" v-if="logged_user && comment.author_id == logged_user.id" @click="goedit(comment, $event)"> Editar</a>
+        <a class="link" @click="replyComment">Responder</a>
+        <a class="link ml-2" v-if="logged_user && comment.author_id == logged_user.id" @click="editComment"> Editar</a>
       </p>
     </v-flex>
   </v-layout>
@@ -29,6 +29,20 @@ export default {
     ...Vuex.mapGetters([
       'logged_user',
     ]),
+  },
+  methods: {
+    viewComment () {
+      this.$emit('viewComment', this.comment)
+      console.log('abre')
+    },
+    replyComment () {
+      this.$emit('viewComment', this.comment)
+      console.log('responde')
+    },
+    editComment () {
+      this.$emit('viewComment', this.comment)
+      console.log('edita')
+    },
   }
 }
 </script>
