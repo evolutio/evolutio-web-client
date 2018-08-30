@@ -5,17 +5,7 @@
       <v-switch label="Acompanhar por email" v-model="forum.notify_email" @change="toggle_follow()"/>
     </v-flex>
 
-    <template v-if="logged_user">
-      <v-flex xs2 sm1 class="mt">
-        <v-avatar size="48px">
-          <img v-if="logged_user.img" :src="logged_user.img">
-          <v-icon v-else x-large>account_circle</v-icon>
-        </v-avatar>
-      </v-flex>
-      <v-flex xs10 sm11>
-        <v-btn primary block @click="gocomment($event)">Adicione um comentário</v-btn>
-      </v-flex>
-    </template>
+    <CommentTextBox @send="addComment" />
 
     <div v-if="!loading" v-for="comment in forum.comments" :key="comment.id" class="comment-box pt-3 full-width">
       <v-layout row align-center class="my-2">
@@ -58,39 +48,7 @@
               Ver todas {{comment.replies.length}} respostas
             </v-btn>
           </v-layout>
-          <v-layout v-if="!comment.replying" row align-center>
-            <v-avatar size="22px" class="mr-2 mb-3">
-              <img v-if="logged_user && logged_user.img" :src="logged_user.img">
-              <v-icon v-else>account_circle</v-icon>
-            </v-avatar>
-            <v-flex>
-              <v-text-field
-                @click="startWriting(comment)"
-                :placeholder="logged_user ? 'Escreva aqui sua resposta' : 'Faça login para responder'"
-                class="ma-0 py-0"
-                :disabled="!logged_user"
-              />
-            </v-flex>
-          </v-layout>
-          <v-layout v-else column>
-            <v-layout row wrap class="ma-0">
-              <v-avatar size="22px" class="mr-2 mb-3">
-                <img v-if="logged_user && logged_user.img" :src="logged_user.img">
-                <v-icon v-else>account_circle</v-icon>
-              </v-avatar>
-              <v-text-field
-                v-model="comment.replyText"
-                @click="reply(comment)"
-                placeholder="Escreva aqui sua resposta"
-                class="ma-0 py-0"
-                textarea
-              />
-            </v-layout>
-            <v-layout row justify-end class="mb-4">
-              <v-btn class="text-inactive" @click="comment.replying = false" flat>Cancelar</v-btn>
-              <v-btn color="primary">Enviar</v-btn>
-            </v-layout>
-          </v-layout>
+          <CommentTextBox @send="text => replyComment(comment, text)" replyMode />
         </v-layout>
       </v-layout>
     </div>
@@ -104,6 +62,7 @@ import Vuex from 'vuex'
 import AppApi from '~apijs'
 import TextareaDialog from '~/components/TextareaDialog'
 import AuthorSnippet from '~/components/forum/AuthorSnippet'
+import CommentTextBox from '~/components/forum/CommentTextBox'
 import AuthorSnippetSimple from '~/components/forum/AuthorSnippetSimple'
 import moment from 'moment'
 import VueMarkdown from 'vue-markdown'
@@ -116,7 +75,8 @@ export default {
     VueMarkdown,
     TextareaDialog,
     AuthorSnippet,
-    AuthorSnippetSimple
+    AuthorSnippetSimple,
+    CommentTextBox
   },
   data: function () {
     return {
@@ -154,12 +114,13 @@ export default {
     showAllReplies (comment) {
       Vue.set(comment, 'showAllReplies', true)
     },
-    startWriting (comment) {
-      Vue.set(comment, 'replying', true)
-      Vue.set(comment, 'replyText', '')
+    replyComment (comment, text) {
+      console.log(comment)
+      console.log(text)
     },
-    reply (comment) {
-      console.log(comment.replyText)
+    addComment (text) {
+      console.log('addComment')
+      console.log(text)
     }
   }
 }
