@@ -45,6 +45,7 @@ $colours:
 --------------------*/
 $fs-xxs: 10px;
 $fs-xs:  12px;
+$fs-ls:  13px;
 $fs-s:   14px;
 $fs-sm:  16px;
 $fs-m:   18px;
@@ -56,6 +57,7 @@ $fs-xxl: 48px;
 $font-sizes:
   "xxs" $fs-xxs,
   "xs" $fs-xs,
+  "ls" $fs-ls,
   "s" $fs-s,
   "sm" $fs-sm,
   "m" $fs-m,
@@ -173,7 +175,11 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 p, div, span {
-  // color: $color-dark;
+  color: $color-dark;
+}
+
+p {
+  margin-bottom: 8px;
 }
 
 h1, .h1 {
