@@ -34,7 +34,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import AppApi from '~apijs'
-import Toasts from '~/components/Toasts.js'
 import TextareaDialog from '~/components/TextareaDialog'
 import CommentSnippet from '~/components/forum/CommentSnippet'
 import moment from 'moment'
@@ -55,9 +54,9 @@ export default {
     }
   },
   computed: {
-    ...Vuex.mapGetters([
-      'logged_user',
-    ]),
+    ...Vuex.mapGetters({
+      logged_user: 'auth/logged_user',
+    }),
   },
   methods: {
     gocomment (evt) {

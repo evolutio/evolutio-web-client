@@ -14,7 +14,6 @@
 <script>
 
 import AppApi from '~apijs'
-import Toasts from '~/components/Toasts.js'
 
 export default {
   data () {
@@ -29,7 +28,7 @@ export default {
       console.log('sending')
       AppApi.admin_send_mail(this.to, this.subject, this.body).then((result)=>{
         console.log('sent')
-        Toasts.show('Emails enfileirados com sucesso', {timeout: 3000});
+        this.$store.commit('toast/open', {message: 'Emails enfileirados com sucesso', color: 'success'})
       });
     }
   }

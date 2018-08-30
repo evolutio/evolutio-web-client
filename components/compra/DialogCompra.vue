@@ -36,12 +36,8 @@
 
 <script>
 import Vuex from 'vuex'
-import Toasts from '~/components/Toasts.js'
 
 export default {
-  components: {
-    Toasts
-  },
   data () {
     return {
       course: null,
@@ -51,9 +47,9 @@ export default {
     }
   },
   computed: {
-    ...Vuex.mapGetters([
-      'logged_user',
-    ])
+    ...Vuex.mapGetters({
+      logged_user: 'auth/logged_user',
+    }),
   },
   methods: {
     show (course) {
@@ -61,12 +57,12 @@ export default {
       this.dialog_precompra = true;
     },
     compra_pagseguro (){
-      if(!this.$store.state.logged_user){
-        Toasts.show('Você precisa fazer login antes!', {timeout: 3000});
+      if(!this.$store.state.auth.logged_user){
+        this.$store.commit('toast/open', {message: 'Você precisa fazer login antes!'})
         return;
       }
-      if(!this.$store.state.logged_user.last_name){
-        Toasts.show('Antes de fazer esta compra, você precisa completar as informações do seu perfil', {timeout: 5000});
+      if(!this.$store.state.auth.logged_user.last_name){
+          this.$store.commit('toast/open', {message: 'Antes de fazer esta compra, você precisa completar as informações do seu perfil'})
         return;
       }
       this.loading_pagseguro = true;
@@ -80,7 +76,7 @@ export default {
           console.log('pagseguro success');
         }
         function onabort(){
-          Toasts.show('Compra cancelada', {timeout: 3000});
+          this.$store.commit('toast/open', {message: 'Compra cancelada', color: 'success'})
         }
         if (!suporta_lightbox){
           throw new Error('nao suporta light box do pagseguro')

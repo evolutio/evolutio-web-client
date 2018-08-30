@@ -47,7 +47,7 @@ export default {
       AppApi.login(this.username, this.password).then((result)=>{
         var user = result.data;
         if(user){
-          this.$store.commit('SET_LOGGED_USER', user);
+          this.$store.commit('auth/SET_LOGGED_USER', user);
           this.visible = false;
           console.log('logged')
         } else {

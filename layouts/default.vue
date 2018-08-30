@@ -1,5 +1,6 @@
 <template>
   <v-app class="app">
+    <toast />
     <v-toolbar color="white" height="80px">
       <v-toolbar-title>
         <router-link class="toolbar-title" to="/">
@@ -41,15 +42,16 @@ import AppApi from '~apijs'
 import LoginDialogSocial from '~/components/LoginDialogSocial.vue'
 import LoginDialog from '~/components/LoginDialog.vue'
 import Events from '~/components/Events.js'
+import toast from '~/components/toast'
 
 export default {
   computed: Object.assign(
     {},
-    Vuex.mapGetters([
-      'logged_user'
-    ])
+    Vuex.mapGetters({
+      logged_user: 'auth/logged_user',
+    }),
   ),
-  components: {LoginDialogSocial, LoginDialog},
+  components: {LoginDialogSocial, LoginDialog, toast},
   data(){
     return {
       toasts_model: {
@@ -79,7 +81,7 @@ export default {
     },
     logoff(){
       AppApi.logout().then(()=>{
-        this.$store.commit('SET_LOGGED_USER', null);
+        this.$store.commit('auth/SET_LOGGED_USER', null);
       });
     },
     show_toast(data){

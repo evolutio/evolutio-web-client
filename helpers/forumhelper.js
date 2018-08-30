@@ -20,7 +20,7 @@ export default {
         evt.stopPropagation()
       }
     } else {
-      Toasts.show('Faça login para comentar', {timeout: 3000});
+      ctx.$store.commit('toast/open', {message: 'Faça login para comentar', color: 'warning'})
     }
   },
   goreply (ctx, comment, evt) {
@@ -33,9 +33,6 @@ export default {
         actionFunc: value => {
           return AppApi.send_comment(ctx.forum.id, comment.id, value).then(response => {
             comment.replies.push(response.data)
-            setTimeout(()=>{
-              ctx.$refs['end_'+comment.id][0].scrollIntoView()
-            }, 1)
           })
         }
       })
@@ -43,7 +40,7 @@ export default {
         evt.stopPropagation()
       }
     } else {
-      Toasts.show('Faça login para responder', {timeout: 3000});
+      ctx.$store.commit('toast/open', {message: 'Faça login para responder', color: 'warning'})
     }
   },
   goedit (ctx, comment, evt) {
@@ -66,13 +63,13 @@ export default {
     if (ctx.logged_user) {
       AppApi.follow_course_by_email(ctx.forum.id, ctx.forum.notify_email).then(() => {
         if(ctx.forum.notify_email){
-          Toasts.show('Você vai receber emails sempre que alguém adicionar um comentário', {timeout: 3000});
+          ctx.$store.commit('toast/open', {message: 'Você vai receber emails sempre que alguém adicionar um comentário', color: 'success'})
         } else {
-          Toasts.show('Você não vai mais receber emails com comentários nesta conversa', {timeout: 3000});
+          ctx.$store.commit('toast/open', {message: 'Você não vai mais receber emails com comentários nesta conversa'})
         }
       })
     } else {
-      Toasts.show('Você precisa fazer login primeiro!', {timeout: 3000});
+      ctx.$store.commit('toast/open', {message: 'Você precisa fazer login primeiro!'})
       ctx.forum.notify_email = false
     }
   }

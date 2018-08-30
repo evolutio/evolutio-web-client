@@ -17,14 +17,10 @@
       </v-flex>
     </template>
 
-    <div v-if="!loading" v-for="comment in forum.comments" :key="comment.id" class="comment-box py-3 full-width">
+    <div v-if="!loading" v-for="comment in forum.comments" :key="comment.id" class="comment-box pt-3 full-width">
       <v-layout row align-center class="my-2">
         <AuthorSnippet :comment="comment"/>
         <div>
-          <v-btn color="secondary" @click="goreply(comment, $event)" flat small>
-            <v-icon class="mr-2 fs-sm">reply</v-icon>
-            Responder
-          </v-btn>
           <v-btn color="secondary" v-if="logged_user && comment.author_id == logged_user.id" @click="goedit(comment, $event)" flat small>
             <v-icon class="mr-2 fs-sm">edit</v-icon>
             Editar
@@ -35,9 +31,14 @@
         <v-flex>
           <vue-markdown class="comment-text" :source="comment.text"/>
         </v-flex>
-        <v-layout column>
-          <div v-for="reply in comment.replies" :key="reply.id" class="ml-5 py-2 reply-box">
-            <v-layout row wrap align-center class="my-2">
+
+        <v-layout class="ml-5" column>
+          <div 
+            v-for="reply in (comment.showAllReplies ? comment.replies : comment.replies.slice(0, 2))"
+            :key="reply.id" class="reply-box"
+            :class="reply.expanded ? 'my-2' : 'my-0'"
+          >
+            <v-layout row wrap align-center :class="reply.expanded ? 'my-2' : 'mt-1'">
               <AuthorSnippetSimple :comment="reply" class="py-1" />
               <v-btn small flat color="grey" class="fs-xs" v-if="logged_user && reply.author_id == logged_user.id" @click="goedit(reply, $event)"> <v-icon class="fs-ls mr-2">edit</v-icon>Editar</v-btn>
             </v-layout>
@@ -47,26 +48,52 @@
                 <a v-if="reply.expanded" class="fs-ls" @click="hideComment(reply)">Ler menos</a>
               </div>
               <span v-else @click="expandComment(reply)" class="clickable">
-                {{comment.text | trim(size || 250)}}
+                {{comment.text | trim(250)}}
                 <a class="fs-ls" @click="expandComment(reply)">Ler tudo</a>
               </span>
             </v-layout>
           </div>
+          <v-layout row wrap class="mb-2" justify-center>
+            <v-btn color="secondary" v-if="comment.replies.length > 2 && !comment.showAllReplies" @click="showAllReplies(comment)" flat small>
+              Ver todas {{comment.replies.length}} respostas
+            </v-btn>
+          </v-layout>
+          <v-layout v-if="!comment.replying" row align-center>
+            <v-avatar size="22px" class="mr-2 mb-3">
+              <img v-if="logged_user && logged_user.img" :src="logged_user.img">
+              <v-icon v-else>account_circle</v-icon>
+            </v-avatar>
+            <v-flex>
+              <v-text-field
+                @click="startWriting(comment)"
+                :placeholder="logged_user ? 'Escreva aqui sua resposta' : 'Faça login para responder'"
+                class="ma-0 py-0"
+                :disabled="!logged_user"
+              />
+            </v-flex>
+          </v-layout>
+          <v-layout v-else column>
+            <v-layout row wrap class="ma-0">
+              <v-avatar size="22px" class="mr-2 mb-3">
+                <img v-if="logged_user && logged_user.img" :src="logged_user.img">
+                <v-icon v-else>account_circle</v-icon>
+              </v-avatar>
+              <v-text-field
+                v-model="comment.replyText"
+                @click="reply(comment)"
+                placeholder="Escreva aqui sua resposta"
+                class="ma-0 py-0"
+                textarea
+              />
+            </v-layout>
+            <v-layout row justify-end class="mb-4">
+              <v-btn class="text-inactive" @click="comment.replying = false" flat>Cancelar</v-btn>
+              <v-btn color="primary">Enviar</v-btn>
+            </v-layout>
+          </v-layout>
         </v-layout>
       </v-layout>
     </div>
-    <template v-if="logged_user && forum.comments.length > 0">
-      <v-flex xs2 sm1 class="mt">
-        <v-avatar size="48px">
-          <img v-if="logged_user.img" :src="logged_user.img">
-          <v-icon v-else x-large>account_circle</v-icon>
-        </v-avatar>
-      </v-flex>
-      <v-flex xs10 sm11>
-        <v-btn primary block @click="gocomment($event)">Adicione um comentário</v-btn>
-      </v-flex>
-    </template>
-    <div ref="end"></div>
     <textarea-dialog ref="commentdialog"></textarea-dialog>
   </v-layout>
 </template>
@@ -75,7 +102,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import AppApi from '~apijs'
-import Toasts from '~/components/Toasts.js'
 import TextareaDialog from '~/components/TextareaDialog'
 import AuthorSnippet from '~/components/forum/AuthorSnippet'
 import AuthorSnippetSimple from '~/components/forum/AuthorSnippetSimple'
@@ -98,9 +124,9 @@ export default {
     }
   },
   computed: {
-    ...Vuex.mapGetters([
-      'logged_user',
-    ]),
+    ...Vuex.mapGetters({
+      logged_user: 'auth/logged_user',
+    }),
   },
   methods: {
     gocomment (evt) {
@@ -124,6 +150,16 @@ export default {
     },
     hideComment (comment) {
       Vue.set(comment, 'expanded', false)
+    },
+    showAllReplies (comment) {
+      Vue.set(comment, 'showAllReplies', true)
+    },
+    startWriting (comment) {
+      Vue.set(comment, 'replying', true)
+      Vue.set(comment, 'replyText', '')
+    },
+    reply (comment) {
+      console.log(comment.replyText)
     }
   }
 }
@@ -141,11 +177,17 @@ export default {
 
 <style lang="scss">
 .comment-box {
-  border-bottom: 1px solid #CCC;
+  border-top: 2px solid #DDD;
+  &:last-child {
+    border-bottom: 2px solid #DDD;
+  }
 }
 
 .reply-box {
-  border-top: 1px solid #CCC;
+  border-top: 1px solid #DDD;
+  &:last-child {
+    border-bottom: 1px solid #DDD;
+  }
 }
 
 .comment-text {

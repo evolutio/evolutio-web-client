@@ -26,9 +26,9 @@ import Vuex from 'vuex'
 export default {
   props: ['comment', 'replyTo', 'size'],
   computed: {
-    ...Vuex.mapGetters([
-      'logged_user',
-    ]),
+    ...Vuex.mapGetters({
+      logged_user: 'auth/logged_user',
+    }),
   },
   methods: {
     viewComment () {

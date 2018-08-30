@@ -26,7 +26,6 @@
 import axios from 'axios';
 import Vuex from 'vuex';
 import AppApi from '~apijs'
-import Toasts from '~/components/Toasts.js'
 
 export default {
   data () {
@@ -52,15 +51,15 @@ export default {
       AppApi.save_perfil(user2save).then((result)=>{
         var user = result.data;
         if(user){
-          this.$store.commit('SET_LOGGED_USER', user);
+          this.$store.commit('auth/SET_LOGGED_USER', user);
         }
         this.saving = false;
-        Toasts.show('Perfil salvo com sucesso', {timeout: 3000});
+        this.$store.commit('toast/open', {message: 'Perfil salvo com sucesso', color: 'success'})
       });
     }
   },
   mounted(){
-    this.user = Object.assign({}, this.$store.getters.logged_user)
+    this.user = Object.assign({}, Vuex.mapGetters({ logged_user: 'auth/logged_user' }))
   }
 }
 </script>

@@ -92,9 +92,9 @@ export default {
     }
   },
   computed: {
-    ...Vuex.mapGetters([
-      'logged_user',
-    ]),
+    ...Vuex.mapGetters({
+      logged_user: 'auth/logged_user',
+    }),
     bannersrc(){
       return this.course.banner || '/images/desert.jpg';
     }
