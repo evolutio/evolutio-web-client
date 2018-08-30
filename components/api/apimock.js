@@ -283,9 +283,9 @@ const comments = [
     {
         ...commentZuck, 
         id: ++_ID,
-        replies: [{...commentGates, id: ++_ID}, {...commentZuck, id: ++_ID}, {...commentGates, id: ++_ID}, {...commentZuck, id: ++_ID}, {...commentGates, id: ++_ID}, {...commentZuck, id: ++_ID}, {...commentGates, id: ++_ID}, {...commentZuck, id: ++_ID}]
+        replies: [{...commentGates, id: ++_ID}, {...commentZuck, id: ++_ID}, {...commentGates, text: commentGates.text.slice(50, 150), id: ++_ID}, {...commentZuck, id: ++_ID}, {...commentGates, id: ++_ID}, {...commentZuck, id: ++_ID}, {...commentGates, id: ++_ID}, {...commentZuck, id: ++_ID}]
     },
-    {...commentGates, id: ++_ID},
+    {...commentGates, text: commentGates.text.slice(50, 150), id: ++_ID},
     {...commentZuck, id: ++_ID},
     {...commentGates, id: ++_ID},
     {...commentZuck, id: ++_ID}

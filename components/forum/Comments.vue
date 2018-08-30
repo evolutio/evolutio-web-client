@@ -17,7 +17,7 @@
       </v-flex>
     </template>
 
-    <div v-if="!loading" v-for="comment in forum.comments" :key="comment.id" class="comment-box py-3">
+    <div v-if="!loading" v-for="comment in forum.comments" :key="comment.id" class="comment-box py-3 full-width">
       <v-layout row align-center class="my-2">
         <AuthorSnippet :comment="comment"/>
         <div>
@@ -38,11 +38,18 @@
         <v-layout column>
           <div v-for="reply in comment.replies" :key="reply.id" class="ml-5 py-2 reply-box">
             <v-layout row wrap align-center class="my-2">
-              <AuthorSnippetSimple :comment="reply" class="py-2" />
+              <AuthorSnippetSimple :comment="reply" class="py-1" />
               <v-btn small flat color="grey" class="fs-xs" v-if="logged_user && reply.author_id == logged_user.id" @click="goedit(reply, $event)"> <v-icon class="fs-ls mr-2">edit</v-icon>Editar</v-btn>
             </v-layout>
             <v-layout column>
-              <vue-markdown class="comment-text fs-ls" :source="reply.text"/>
+              <div v-if="reply.expanded || reply.text.length < 250">
+                <vue-markdown class="comment-text fs-ls" :source="reply.text"/>
+                <a v-if="reply.expanded" class="fs-ls" @click="hideComment(reply)">Ler menos</a>
+              </div>
+              <span v-else @click="expandComment(reply)" class="clickable">
+                {{comment.text | trim(size || 250)}}
+                <a class="fs-ls" @click="expandComment(reply)">Ler tudo</a>
+              </span>
             </v-layout>
           </div>
         </v-layout>
@@ -111,6 +118,12 @@ export default {
     asdatetime (d) {
       if (!d) return
       return moment(d).format('DD/MM/YYYY HH:mm')
+    },
+    expandComment (comment) {
+      Vue.set(comment, 'expanded', true)
+    },
+    hideComment (comment) {
+      Vue.set(comment, 'expanded', false)
     }
   }
 }

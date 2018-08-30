@@ -6,7 +6,7 @@
           <img :src="comment.author_img">
         </v-avatar>
         <strong class="mr-2">{{comment.author.split(' ')[0]}}</strong>
-        <span>{{comment.text | trim(100)}}</span>
+        <span>{{comment.text | trim(size || 100)}}</span>
       </div>
       <p class="mb-1">
         <v-tooltip top>
@@ -24,7 +24,7 @@
 import Vuex from 'vuex'
 
 export default {
-  props: ['comment', 'replyTo'],
+  props: ['comment', 'replyTo', 'size'],
   computed: {
     ...Vuex.mapGetters([
       'logged_user',
