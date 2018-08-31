@@ -2,7 +2,7 @@
   <v-layout row wrap class="my-2">
     
     <v-flex xs12>
-      <v-switch label="Acompanhar por email" v-model="forum.notify_email" @change="toggle_follow()"/>
+      <v-switch label="Acompanhar por email" color="success" v-model="forum.notify_email" @change="toggle_follow()"/>
     </v-flex>
 
     <CommentTextBox @send="addComment" ref="addComment" />
@@ -12,14 +12,33 @@
         <v-layout row align-center class="my-2">
           <AuthorSnippet :comment="comment"/>
           <div>
-            <v-btn color="secondary" v-if="logged_user && comment.author_id == logged_user.id" @click="goedit(comment, $event)" flat small>
+            <v-btn color="secondary" v-if="logged_user && comment.author_id == logged_user.id" @click="edit(comment)" flat small>
               <v-icon class="mr-2 fs-sm">edit</v-icon>
               Editar
             </v-btn>
           </div>
         </v-layout>
         <v-layout wrap full-width>
-          <vue-markdown class="comment-text" :source="comment.text"/>
+          <vue-markdown v-if="!comment.editing" class="comment-text" :source="comment.text"/>
+          <v-layout column v-else>
+            <div>
+              <v-text-field 
+                v-model="comment.text"
+                placeholder="Editar comentário"
+                class="ma-0 py-0"
+                multi-line
+                @keyup.ctrl.enter="save(comment)"
+                @keyup.esc="close(comment)"
+                hint="Ctrl+Enter envia a parada"
+                auto-grow
+                autofocus
+              />
+            </div>
+            <v-layout row justify-end class="mb-4">
+              <v-btn class="text-inactive" :loading="sending" @click="cancel(comment)" flat>Cancelar</v-btn>
+              <v-btn color="primary" :loading="sending" @click="save(comment)">Enviar</v-btn>
+            </v-layout>
+          </v-layout>
         </v-layout>
       </v-layout>
       <v-layout column>
@@ -37,9 +56,9 @@
             >
               <v-layout row wrap align-center :class="reply.expanded ? 'my-2' : 'mt-1'">
                 <AuthorSnippetSimple :comment="reply" class="py-1" />
-                <v-btn small flat color="grey" class="fs-xs" v-if="logged_user && reply.author_id == logged_user.id" @click="goedit(reply, $event)"> <v-icon class="fs-ls mr-2">edit</v-icon>Editar</v-btn>
+                <v-btn small flat color="grey" class="fs-xs" v-if="logged_user && reply.author_id == logged_user.id" @click="edit(reply)"> <v-icon class="fs-ls mr-2">edit</v-icon>Editar</v-btn>
               </v-layout>
-              <v-layout column>
+              <v-layout v-if="!reply.editing" column>
                 <div v-if="reply.expanded || reply.text.length < 250">
                   <vue-markdown class="comment-text fs-ls" :source="reply.text"/>
                   <a v-if="reply.expanded" class="fs-ls" @click="hideComment(reply)">Ler menos</a>
@@ -48,6 +67,25 @@
                   {{comment.text | trim(250)}}
                   <a class="fs-ls" @click="expandComment(reply)">Ler tudo</a>
                 </span>
+              </v-layout>
+              <v-layout column v-else>
+                <div>
+                  <v-text-field 
+                    v-model="reply.text"
+                    placeholder="Editar comentário"
+                    class="ma-0 py-0"
+                    multi-line
+                    @keyup.ctrl.enter="save(reply)"
+                    @keyup.esc="close(reply)"
+                    hint="Ctrl+Enter envia a parada"
+                    auto-grow
+                    autofocus
+                  />
+                </div>
+                <v-layout row justify-end class="mb-4">
+                  <v-btn class="text-inactive" :loading="sending" @click="cancel(reply)" flat>Cancelar</v-btn>
+                  <v-btn color="primary" :loading="sending" @click="save(reply)">Enviar</v-btn>
+                </v-layout>
               </v-layout>
             </div>
           </div>
@@ -72,7 +110,6 @@ import CommentTextBox from '~/components/forum/CommentTextBox'
 import AuthorSnippetSimple from '~/components/forum/AuthorSnippetSimple'
 import moment from 'moment'
 import VueMarkdown from 'vue-markdown'
-import forumhelper from '~/helpers/forumhelper.js'
 
 
 export default {
@@ -129,17 +166,28 @@ export default {
         }, 3000)
       }
     },
-    gocomment (evt) {
-      forumhelper.gocomment(this, evt)
-    },
-    goreply (comment, evt) {
-      forumhelper.goreply(this, comment, evt)
-    },
-    goedit (comment, evt) {
-      forumhelper.goedit(this, comment, evt)
+    edit (comment) {
+      comment.oldText = comment.text
+      Vue.set(comment, 'editing', true)
     },
     toggle_follow () {
-      forumhelper.toggle_follow(this)
+      AppApi.follow_course_by_email(this.forum.id, this.forum.notify_email).then(() => {
+        if(this.forum.notify_email){
+          this.$store.commit('toast/open', {message: 'Você vai receber emails sempre que alguém adicionar um comentário', color: 'success'})
+        } else {
+          this.$store.commit('toast/open', {message: 'Você não vai mais receber emails com comentários nesta conversa'})
+        }
+      })
+    },
+    cancel (comment) {
+      comment.text = comment.oldText
+      Vue.set(comment, 'editing', false)
+    },
+    save (comment) {
+      Vue.set(comment, 'editing', false)
+      AppApi.edit_comment(comment.id, comment.text).then(response => {
+        comment.text = response.data.text
+      })
     },
     asdatetime (d) {
       if (!d) return

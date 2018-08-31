@@ -31,7 +31,6 @@ import AppApi from '~apijs'
 import CommentSnippet from '~/components/forum/CommentSnippet'
 import moment from 'moment'
 import VueMarkdown from 'vue-markdown'
-import forumhelper from '~/helpers/forumhelper.js'
 import CommentTextBox from '~/components/forum/CommentTextBox'
 
 
