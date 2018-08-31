@@ -25,17 +25,17 @@
       </template>
     </v-list>
     <v-dialog v-model="dialog_breve" lazy absolute max-width="500px">
-      <v-card>
+      <v-card class="pa-4">
         <v-card-title>
-          <div class="headline">Em breve!</div>
+          <div class="headline fw-bold">Em breve!</div>
         </v-card-title>
         <v-card-text>
-          <p>Esse conteúdo ainda não está disponível.</p>
-          <p>Faça login pra receber nossas atualizações de conteúdo.</p>
+          <p class="fs-sm">Esse conteúdo ainda não está disponível.</p>
+          <p class="fs-sm">Faça login pra receber nossas atualizações de conteúdo.</p>
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn normal dark @click.native="dialog_breve = false">Fechar</v-btn>
+          <v-btn color="primary" @click.native="dialog_breve = false">Fechar</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>

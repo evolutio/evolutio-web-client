@@ -1,12 +1,14 @@
 <template>
   <main>
     <section class="banner-section" :style="{ backgroundImage: `url('${bannersrc}')` }">
-      <v-container class="py-5">
-        <v-layout class="py-5" justify-center column>
-          <h1 class="text-white">{{course.name}}</h1>
-          <div class="mt-2 fs-m fw-light text-light" style="opacity: 0.8">{{ course.description}}</div>
-        </v-layout>
-      </v-container>
+      <div class="banner-wrapper full-height full-width">
+        <v-container class="py-5">
+          <v-layout class="py-5 banner-text" justify-center column>
+            <h1 class="text-white">{{course.name}}</h1>
+            <div class="mt-2 fs-m fw-light text-light" style="opacity: 0.8">{{ course.description}}</div>
+          </v-layout>
+        </v-container>
+      </div>
     </section>
     <section class="bg-super-light">
       <v-container>
@@ -118,6 +120,9 @@ export default {
   .banner-section {
     background-size: cover;
   }
+  .banner-wrapper {
+    background-color: #00000077;
+  }
   .main-content{
     max-width: 900px
   }
@@ -128,6 +133,9 @@ export default {
   }
   .show-tabs {
     display: block;
+  }
+  .banner-text {
+    text-shadow: 0px 1px #00000033;
   }
 </style>
 

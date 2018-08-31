@@ -1,18 +1,18 @@
 <template>
   <div>
     <v-dialog v-model="dialog_precompra" lazy absolute max-width="500px">
-      <v-card>
+      <v-card class="pa-4">
         <v-card-title>
-          <div class="headline">Comprar acesso completo</div>
+          <div class="fw-bold headline">Comprar acesso completo</div>
         </v-card-title>
         <v-card-text>
-          <p>Comprando o acesso completo a este curso, você terá acesso ao conteúdo exclusivo por pelo menos 6 meses.</p>
-          <p>Vamos te direcionar para o PagSeguro e logo que a transação for confirmada o conteúdo fica liberado pra você.</p>
+          <p class="fs-sm">Comprando o acesso completo a este curso, você terá acesso ao conteúdo exclusivo por pelo menos 6 meses.</p>
+          <p class="fs-sm">Vamos te direcionar para o PagSeguro e logo que a transação for confirmada o conteúdo fica liberado pra você.</p>
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn primary dark @click.native="compra_pagseguro()" :loading="loading_pagseguro">Vamos nessa</v-btn>
-          <v-btn normal dark @click.native="dialog_precompra = false">Agora não</v-btn>
+          <v-btn normal flat @click.native="dialog_precompra = false">Agora não</v-btn>
+          <v-btn color="primary" @click.native="compra_pagseguro()" :loading="loading_pagseguro">Vamos nessa</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
