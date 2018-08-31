@@ -5,7 +5,7 @@
       <v-switch label="Acompanhar por email" v-model="forum.notify_email" @change="toggle_follow()"/>
     </v-flex>
 
-    <CommentTextBox @send="addComment" />
+    <CommentTextBox @send="addComment" ref="addComment" />
 
     <div v-if="!loading" v-for="comment in forum.comments" :key="comment.id" class="comment-box pt-3 full-width" :id="`comment-${comment.id}`">
       <v-layout column class="focusable" :class="{focused: comment.focused}">
@@ -56,7 +56,7 @@
               Ver todas {{comment.replies.length}} respostas
             </v-btn>
           </v-layout>
-          <CommentTextBox :ref="`comment-${comment.id}-reply`" @send="text => replyComment(comment, text)" replyMode />
+          <CommentTextBox :ref="`comment-${comment.id}-reply`" :loading="sending" @send="text => replyComment(comment, text)" replyMode />
         </v-layout>
       </v-layout>
     </div>
@@ -85,7 +85,8 @@ export default {
   },
   data: function () {
     return {
-      loading: false
+      loading: false,
+      sending: false
     }
   },
   computed: {
@@ -154,12 +155,25 @@ export default {
       Vue.set(comment, 'showAllReplies', true)
     },
     replyComment (comment, text) {
-      console.log(comment)
-      console.log(text)
+      const replyComponent = this.$refs[`comment-${comment.id}-reply`]
+      if (replyComponent) {
+        AppApi.send_comment(this.forum.id, comment.id, text).then(response => {
+          comment.replies.push(response.data)
+          this.showAllReplies(comment)
+          replyComponent[0].reset()
+        }).finally(() => {
+          replyComponent[0].stop()
+        })
+      }
     },
     addComment (text) {
-      console.log('addComment')
-      console.log(text)
+      AppApi.send_comment(this.forum.id, null, text).then(response => {
+        this.$refs.addComment.reset()
+        const newcomment = {...response.data, replies: []}
+        this.forum.comments.unshift(newcomment)
+      }).finally(() => {
+        this.$refs.addComment.stop()
+      })
     }
   }
 }

@@ -33,8 +33,8 @@
         />
       </v-layout>
       <v-layout row justify-end class="mb-4">
-        <v-btn class="text-inactive" @click="close" flat>Cancelar</v-btn>
-        <v-btn color="primary" @click="send">Enviar</v-btn>
+        <v-btn class="text-inactive" :loading="loading" @click="close" flat>Cancelar</v-btn>
+        <v-btn color="primary" :loading="loading" @click="send">Enviar</v-btn>
       </v-layout>
     </v-layout>
   </v-layout>
@@ -51,6 +51,7 @@ export default {
   data () {
     return {
       writing: false,
+      loading: false,
       text: ''
     }
   },
@@ -66,10 +67,17 @@ export default {
     close () {
       this.writing = false
     },
-    send () {
-      this.$emit('send', this.text)
+    reset () {
+      this.loading = false
       this.writing = false
       this.text = ''
+    },
+    stop () {
+      this.loading = false
+    },
+    send () {
+      this.$emit('send', this.text)
+      this.loading = true
     },
     placeholder () {
       return this.logged_user ? (this.replyMode ? 'Escreva aqui sua resposta' : 'Escreva aqui seu comentário') : 'Faça login para comentar'
