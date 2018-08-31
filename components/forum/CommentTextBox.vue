@@ -24,11 +24,16 @@
           v-model="text"
           :placeholder="placeholder()"
           class="ma-0 py-0"
-          textarea
+          multi-line
+          @keyup.ctrl.enter="send()"
+          @keyup.esc="close()"
+          hint="Ctrl+Enter envia a parada"
+          auto-grow
+          autofocus
         />
       </v-layout>
       <v-layout row justify-end class="mb-4">
-        <v-btn class="text-inactive" @click="writing = false" flat>Cancelar</v-btn>
+        <v-btn class="text-inactive" @click="close" flat>Cancelar</v-btn>
         <v-btn color="primary" @click="send">Enviar</v-btn>
       </v-layout>
     </v-layout>
@@ -58,13 +63,16 @@ export default {
     startWriting () {
       this.writing = true
     },
+    close () {
+      this.writing = false
+    },
     send () {
       this.$emit('send', this.text)
       this.writing = false
       this.text = ''
     },
     placeholder () {
-      return this.logged_user ? (this.replyMode ? 'Escreva aqui sua resposta' : 'Escreva aqui seu comentário') : 'Faça login para responder'
+      return this.logged_user ? (this.replyMode ? 'Escreva aqui sua resposta' : 'Escreva aqui seu comentário') : 'Faça login para comentar'
     }
   }
 }

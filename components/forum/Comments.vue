@@ -1,58 +1,65 @@
 <template>
   <v-layout row wrap class="my-2">
     
-    <v-flex xs12 class="ml-3">
+    <v-flex xs12>
       <v-switch label="Acompanhar por email" v-model="forum.notify_email" @change="toggle_follow()"/>
     </v-flex>
 
     <CommentTextBox @send="addComment" />
 
-    <div v-if="!loading" v-for="comment in forum.comments" :key="comment.id" class="comment-box pt-3 full-width">
-      <v-layout row align-center class="my-2">
-        <AuthorSnippet :comment="comment"/>
-        <div>
-          <v-btn color="secondary" v-if="logged_user && comment.author_id == logged_user.id" @click="goedit(comment, $event)" flat small>
-            <v-icon class="mr-2 fs-sm">edit</v-icon>
-            Editar
-          </v-btn>
-        </div>
+    <div v-if="!loading" v-for="comment in forum.comments" :key="comment.id" class="comment-box pt-3 full-width" :id="`comment-${comment.id}`">
+      <v-layout column class="focusable" :class="{focused: comment.focused}">
+        <v-layout row align-center class="my-2">
+          <AuthorSnippet :comment="comment"/>
+          <div>
+            <v-btn color="secondary" v-if="logged_user && comment.author_id == logged_user.id" @click="goedit(comment, $event)" flat small>
+              <v-icon class="mr-2 fs-sm">edit</v-icon>
+              Editar
+            </v-btn>
+          </div>
+        </v-layout>
+        <v-layout wrap full-width>
+          <vue-markdown class="comment-text" :source="comment.text"/>
+        </v-layout>
       </v-layout>
       <v-layout column>
-        <v-flex>
-          <vue-markdown class="comment-text" :source="comment.text"/>
-        </v-flex>
-
         <v-layout class="ml-5" column>
-          <div 
-            v-for="reply in (comment.showAllReplies ? comment.replies : comment.replies.slice(0, 2))"
-            :key="reply.id" class="reply-box"
-            :class="reply.expanded ? 'my-2' : 'my-0'"
-          >
-            <v-layout row wrap align-center :class="reply.expanded ? 'my-2' : 'mt-1'">
-              <AuthorSnippetSimple :comment="reply" class="py-1" />
-              <v-btn small flat color="grey" class="fs-xs" v-if="logged_user && reply.author_id == logged_user.id" @click="goedit(reply, $event)"> <v-icon class="fs-ls mr-2">edit</v-icon>Editar</v-btn>
-            </v-layout>
-            <v-layout column>
-              <div v-if="reply.expanded || reply.text.length < 250">
-                <vue-markdown class="comment-text fs-ls" :source="reply.text"/>
-                <a v-if="reply.expanded" class="fs-ls" @click="hideComment(reply)">Ler menos</a>
-              </div>
-              <span v-else @click="expandComment(reply)" class="clickable">
-                {{comment.text | trim(250)}}
-                <a class="fs-ls" @click="expandComment(reply)">Ler tudo</a>
-              </span>
-            </v-layout>
+          <div class="mb-2">
+            <div
+              v-for="reply in (comment.showAllReplies ? comment.replies : comment.replies.slice(0, 2))"
+              :key="reply.id"
+              class="reply-box my-0 focusable"
+              :id="`comment-${reply.id}`"
+              :class="{
+                'my-2': reply.expanded,
+                focused: reply.focused
+              }"
+            >
+              <v-layout row wrap align-center :class="reply.expanded ? 'my-2' : 'mt-1'">
+                <AuthorSnippetSimple :comment="reply" class="py-1" />
+                <v-btn small flat color="grey" class="fs-xs" v-if="logged_user && reply.author_id == logged_user.id" @click="goedit(reply, $event)"> <v-icon class="fs-ls mr-2">edit</v-icon>Editar</v-btn>
+              </v-layout>
+              <v-layout column>
+                <div v-if="reply.expanded || reply.text.length < 250">
+                  <vue-markdown class="comment-text fs-ls" :source="reply.text"/>
+                  <a v-if="reply.expanded" class="fs-ls" @click="hideComment(reply)">Ler menos</a>
+                </div>
+                <span v-else @click="expandComment(reply)" class="clickable">
+                  {{comment.text | trim(250)}}
+                  <a class="fs-ls" @click="expandComment(reply)">Ler tudo</a>
+                </span>
+              </v-layout>
+            </div>
           </div>
           <v-layout row wrap class="mb-2" justify-center>
             <v-btn color="secondary" v-if="comment.replies.length > 2 && !comment.showAllReplies" @click="showAllReplies(comment)" flat small>
               Ver todas {{comment.replies.length}} respostas
             </v-btn>
           </v-layout>
-          <CommentTextBox @send="text => replyComment(comment, text)" replyMode />
+          <CommentTextBox :ref="`comment-${comment.id}-reply`" @send="text => replyComment(comment, text)" replyMode />
         </v-layout>
       </v-layout>
     </div>
-    <textarea-dialog ref="commentdialog"></textarea-dialog>
   </v-layout>
 </template>
 <script>
@@ -60,7 +67,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import AppApi from '~apijs'
-import TextareaDialog from '~/components/TextareaDialog'
 import AuthorSnippet from '~/components/forum/AuthorSnippet'
 import CommentTextBox from '~/components/forum/CommentTextBox'
 import AuthorSnippetSimple from '~/components/forum/AuthorSnippetSimple'
@@ -73,7 +79,6 @@ export default {
   props: ['forum'],
   components: {
     VueMarkdown,
-    TextareaDialog,
     AuthorSnippet,
     AuthorSnippetSimple,
     CommentTextBox
@@ -89,6 +94,40 @@ export default {
     }),
   },
   methods: {
+    open (params) {
+      const comment = params.comment || {}
+      let commentFound = null
+      this.forum.comments.forEach(c => {
+        if (c.id === comment.id) {
+          commentFound = c
+        }
+        c.replies.forEach(r => {
+          if (r.id === comment.id) {
+            commentFound = r
+            this.showAllReplies(c)
+            this.expandComment(r)
+          }
+        })
+      })
+      if (commentFound) {
+        if (params.showAllReplies) {
+          this.showAllReplies(commentFound)
+        }
+        if (params.reply) {
+          const replyComponent = this.$refs[`comment-${commentFound.id}-reply`]
+          if (replyComponent) {
+            replyComponent[0].startWriting()
+          }
+        }
+        setTimeout(() => {
+          this.$vuetify.goTo(`#comment-${comment.id}`, { offset: 300 })
+          Vue.set(commentFound, 'focused', true)
+        }, 660)
+        setTimeout(() => {
+          Vue.set(commentFound, 'focused', false)
+        }, 3000)
+      }
+    },
     gocomment (evt) {
       forumhelper.gocomment(this, evt)
     },
@@ -143,12 +182,23 @@ export default {
     border-bottom: 2px solid #DDD;
   }
 }
-
 .reply-box {
   border-top: 1px solid #DDD;
   &:last-child {
     border-bottom: 1px solid #DDD;
   }
+}
+
+.focusable {
+  transition-duration: 3s;
+}
+
+.focused {
+  -webkit-box-shadow: 0px 0px 10px 1px rgba(0, 171, 192, 0.7);
+  -moz-box-shadow: 0px 0px 10px 1px rgba(0, 171, 192, 0.7);
+  box-shadow: 0px 0px 10px 1px rgba(0, 171, 192, 0.7);
+  transition-delay: 0.5s;
+  transition-duration: 1s;
 }
 
 .comment-text {

@@ -30,7 +30,7 @@
         </v-layout>
       </v-container>
     </section>
-    <v-tabs :style="{display: activeTab !== 'tab-contents' ? 'block' : 'none'}" v-model="activeTab" class="bg-super-light" color="transparent" centered fixed-tabs slider-color="secondary">
+    <v-tabs :class="activeTab === 'tab-contents' ? 'hide-tabs' : 'show-tabs'" v-model="activeTab" class="bg-super-light" color="transparent" centered fixed-tabs slider-color="secondary">
       <v-tab class="fs-sm fw-bold" href="#tab-contents" ripple>Materiais</v-tab>
       <v-tab class="fs-sm fw-bold" href="#tab-comments" ripple>Discussão</v-tab>
     </v-tabs>
@@ -39,14 +39,14 @@
         <section class="bg-white">
           <v-container>
             <v-layout row>
-              <v-flex xs8>
+              <v-flex xs12 md8>
                 <h2 class="my-4 clickable" @click="activeTab = 'tab-contents'">Material do curso</h2>
                 <Contents :course="course" @iniciarCompra="iniciar_compra" />
               </v-flex>
               <div class="mx-3" hidden-xs></div>
-              <v-flex xs4>
+              <v-flex md4 hidden-sm-and-down>
                 <h2 class="my-4 clickable" @click="activeTab = 'tab-comments'">Discussão</h2>
-                <CommentsSmall :forum="course" />
+                <CommentsSmall :forum="course" @open="openComment" />
               </v-flex>
             </v-layout>
           </v-container>
@@ -57,7 +57,7 @@
           <v-container>
             <v-layout row>
               <v-flex xs12>
-                <Comments :forum="course" />
+                <Comments :forum="course" ref="comments" />
               </v-flex>
             </v-layout>
           </v-container>
@@ -103,10 +103,14 @@ export default {
     window.moment = moment
   },
   methods: {
-    iniciar_compra (evt){
+    iniciar_compra (evt) {
       this.$refs.dialog_compra.show(this.course);
+    },
+    openComment (params) {
+      this.activeTab = 'tab-comments'
+      this.$refs.comments.open(params)
     }
-  },
+  }
 }
 </script>
 
@@ -116,6 +120,14 @@ export default {
   }
   .main-content{
     max-width: 900px
+  }
+  .hide-tabs {
+    @media screen and (min-width: 960px) {
+      display: none;
+    }
+  }
+  .show-tabs {
+    display: block;
   }
 </style>
 
