@@ -36,6 +36,7 @@
 
 <script>
 import Vuex from 'vuex'
+import AppApi from '~apijs'
 
 export default {
   data () {
