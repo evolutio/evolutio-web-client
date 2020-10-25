@@ -77,7 +77,7 @@
           <v-btn icon @click.native="close()" dark>
             <v-icon>close</v-icon>
           </v-btn>
-          <v-toolbar-title>{{content.name}}</v-toolbar-title>
+          <v-toolbar-title class="text-light">{{content.name}}</v-toolbar-title>
         </v-toolbar>
         <v-card-text>
           <v-layout row wrap>
