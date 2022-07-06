@@ -2,7 +2,7 @@
   "name": "with-vuetify",
   "dependencies": {
     "axios": "^0.16.1",
-    "moment": "^2.21.0",
+    "moment": "^2.29.4",
     "nuxt": "^1.4.0",
     "raven-js": "^3.20.1",
     "vue-markdown": "^2.2.4",
