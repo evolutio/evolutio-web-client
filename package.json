@@ -3,7 +3,7 @@
   "dependencies": {
     "axios": "^0.16.1",
     "moment": "^2.21.0",
-    "nuxt": "^1.4.0",
+    "nuxt": "^3.0.0",
     "raven-js": "^3.20.1",
     "vue-markdown": "^2.2.4",
     "vue2-filters": "0.1.9",
